@@ -10,10 +10,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <Link href="/" className="flex items-center gap-3 group">
-                <div className="relative w-48 h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                  <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd." className="object-contain w-full h-full drop-shadow-sm" />
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center group">
+                <div className="relative h-24 w-56 flex items-center justify-center transition-all duration-500 group-hover:scale-110 drop-shadow-[0_0_15px_rgba(var(--brand-600-rgb),0.2)]">
+                  <img 
+                    src="/logo.png" 
+                    alt="Resonara Publishers Pvt. Ltd." 
+                    className="object-contain w-full h-full p-2 filter drop-shadow-sm" 
+                  />
                 </div>
               </Link>
             </div>
@@ -57,9 +61,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
             <div className="md:col-span-4 space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="relative w-48 h-20 flex items-center justify-center bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
-                  <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-sm brightness-0 invert" />
+              <div className="flex items-center">
+                <div className="relative w-64 h-32 flex items-center justify-center bg-white/5 rounded-3xl p-6 backdrop-blur-xl border border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)] hover:bg-white/10 transition-all duration-500 group overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50"></div>
+                  <img 
+                    src="/logo.png" 
+                    alt="Resonara Logo" 
+                    className="object-contain w-full h-full drop-shadow-2xl brightness-0 invert opacity-90 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500 relative z-10" 
+                  />
                 </div>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
