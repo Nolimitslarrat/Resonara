@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   LayoutDashboard, FileText, BookOpen, Users, BarChart3,
   Settings, Bell, Star, ClipboardList, Layers, Printer,
@@ -56,7 +56,7 @@ const ROLE_COLORS: Record<Role, string> = {
   PRODUCTION: "bg-cyan-600",
 };
 
-export function Sidebar() {
+export function Sidebar({ mobileOpen, setMobileOpen }: { mobileOpen?: boolean, setMobileOpen?: (open: boolean) => void }) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -67,8 +67,9 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "relative flex flex-col h-full bg-[var(--surface-elevated)] border-r border-[var(--border)] sidebar-transition flex-shrink-0",
-        collapsed ? "w-[68px]" : "w-[256px]"
+        "fixed lg:relative inset-y-0 left-0 z-50 flex flex-col h-full bg-[var(--surface-elevated)] border-r border-[var(--border)] transition-all duration-300 ease-in-out flex-shrink-0",
+        collapsed ? "w-[68px]" : "w-[256px]",
+        mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}
     >
       {/* Logo */}
@@ -135,7 +136,7 @@ export function Sidebar() {
       {/* Collapse toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-[72px] w-6 h-6 rounded-full bg-[var(--surface-elevated)] border border-[var(--border)] shadow-md flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] transition-colors z-10"
+        className="absolute -right-3 top-[72px] w-6 h-6 rounded-full bg-[var(--surface-elevated)] border border-[var(--border)] shadow-md hidden lg:flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] transition-colors z-10"
       >
         {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
       </button>

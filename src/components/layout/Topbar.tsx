@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Search, Bell, Sun, Moon, ChevronRight } from "lucide-react";
+import { Search, Bell, Sun, Moon, ChevronRight, Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
@@ -14,7 +14,7 @@ function Breadcrumb() {
     href: "/" + parts.slice(0, i + 1).join("/"),
   }));
   return (
-    <nav className="flex items-center gap-1 text-sm">
+    <nav className="hidden md:flex items-center gap-1 text-sm">
       {crumbs.map((crumb, i) => (
         <span key={crumb.href} className="flex items-center gap-1">
           {i > 0 && <ChevronRight className="w-3 h-3 text-[var(--muted-foreground)]" />}
@@ -31,14 +31,31 @@ function Breadcrumb() {
   );
 }
 
-export function Topbar({ unreadCount = 0 }: { unreadCount?: number }) {
+export function Topbar({ 
+  unreadCount = 0,
+  onMenuClick 
+}: { 
+  unreadCount?: number,
+  onMenuClick?: () => void 
+}) {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
 
   return (
-    <header className="h-14 flex items-center justify-between px-6 border-b border-[var(--border)] bg-[var(--surface-elevated)] flex-shrink-0">
-      {/* Breadcrumb */}
-      <Breadcrumb />
+    <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[var(--border)] bg-[var(--surface-elevated)] flex-shrink-0 z-30">
+      <div className="flex items-center gap-3">
+        <button 
+          onClick={onMenuClick}
+          className="lg:hidden p-2 -ml-2 rounded-lg text-[var(--muted)] hover:bg-[var(--surface)] transition-colors"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        {/* Breadcrumb */}
+        <Breadcrumb />
+        <div className="lg:hidden font-editorial font-bold text-lg text-[var(--brand-900)]">
+          Resonara
+        </div>
+      </div>
 
       {/* Right */}
       <div className="flex items-center gap-2">

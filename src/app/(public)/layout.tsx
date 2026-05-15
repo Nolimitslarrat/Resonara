@@ -1,22 +1,25 @@
+import React from "react";
 import Link from "next/link";
 import { Search, Menu, User, BookOpen, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)] font-sans">
       {/* Modern Floating Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-[var(--border)] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-28">
+          <div className="flex items-center justify-between h-20 md:h-28">
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center group">
-                <div className="relative h-24 w-64 flex items-center justify-center transition-all duration-500 group-hover:scale-110">
+                <div className="relative h-16 w-40 md:h-24 md:w-64 flex items-center justify-center transition-all duration-500 group-hover:scale-110">
                   <img 
                     src="/logo.png" 
                     alt="Resonara Publishers Pvt. Ltd." 
-                    className="object-contain w-full h-full filter drop-shadow-md scale-125" 
+                    className="object-contain w-full h-full filter drop-shadow-md scale-125 md:scale-125" 
                   />
                 </div>
               </Link>
@@ -30,7 +33,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             </nav>
 
             {/* Right side actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               <Link href="/login" className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors">
                 <User className="w-4 h-4" /> Sign In
               </Link>
@@ -38,17 +41,44 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                 Register
               </Link>
               <div className="w-px h-6 bg-slate-200 hidden sm:block mx-1"></div>
-              <Link href="/dashboard/manuscripts/submit">
-                <Button className="bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-full h-10 px-6 font-semibold shadow-md hover:shadow-lg transition-all duration-300">
+              <Link href="/dashboard/manuscripts/submit" className="hidden xs:block">
+                <Button className="bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-full h-9 md:h-10 px-4 md:px-6 text-xs md:text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300">
                   Submit Manuscript
                 </Button>
               </Link>
-              <button className="md:hidden p-2 text-slate-600">
+              <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
+              >
                 <Menu className="w-6 h-6" />
               </button>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-t border-[var(--border)] animate-in slide-in-from-top duration-300">
+            <nav className="flex flex-col p-4 space-y-4">
+              <Link href="/journals" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Journals</Link>
+              <Link href="/articles" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Articles</Link>
+              <Link href="/guidelines" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Information</Link>
+              <div className="pt-4 flex flex-col gap-3">
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full justify-start gap-2 text-slate-600">
+                    <User className="w-4 h-4" /> Sign In
+                  </Button>
+                </Link>
+                <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full justify-start text-[var(--brand-600)]">Register</Button>
+                </Link>
+                <Link href="/dashboard/manuscripts/submit" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full bg-[var(--brand-900)] text-white">Submit Manuscript</Button>
+                </Link>
+              </div>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
