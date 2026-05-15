@@ -11,6 +11,15 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
   const [comment, setComment] = useState("");
   const [showDecision, setShowDecision] = useState(false);
 
+  const handlePublish = async () => {
+    if (!confirm("Are you sure you want to publish this article officially? This will make it public and indexable.")) return;
+    setLoading(true);
+    const { publishArticle } = await import("@/app/actions/publish");
+    const result = await publishArticle(manuscriptId);
+    if (!result.success) alert(result.error);
+    setLoading(false);
+  };
+
   const handleAssign = async () => {
     if (!selectedReviewer) return;
     setLoading(true);
@@ -68,6 +77,11 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
         ) : (
           <Button onClick={() => setShowDecision(true)} disabled={loading} variant="outline" className="border-[var(--brand-300)] text-[var(--brand-700)]">
             Record Decision
+          </Button>
+        )}
+        {currentStatus === "ACCEPTED" && (
+          <Button onClick={handlePublish} disabled={loading} className="bg-blue-700 hover:bg-blue-800 text-white gap-2">
+            <CheckCircle2 className="w-4 h-4" /> Publish Article
           </Button>
         )}
       </div>

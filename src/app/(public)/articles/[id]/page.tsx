@@ -6,6 +6,49 @@ import Link from "next/link";
 import { ChevronLeft, Download, FileText, Share2, Quote, BookOpen } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  props: { params: Promise<{ id: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const params = await props.params;
+  const article = await prisma.manuscript.findUnique({
+    where: { id: params.id },
+    include: {
+      journal: true,
+      author: true,
+      coAuthors: true,
+      article: { include: { issue: true } }
+    },
+  });
+
+  if (!article) return { title: "Article Not Found" };
+
+  const allAuthors = [
+    article.author.name,
+    ...article.coAuthors.map((ca) => ca.name),
+  ];
+
+  const publishDate = article.article?.publishedAt || article.submittedAt || article.createdAt;
+
+  return {
+    title: article.title,
+    description: article.abstract.substring(0, 160),
+    other: {
+      "citation_title": article.title,
+      ...Object.fromEntries(allAuthors.map(name => ["citation_author", name])),
+      "citation_publication_date": publishDate.toISOString().split('T')[0],
+      "citation_journal_title": article.journal.title,
+      "citation_volume": article.article?.issue?.volume?.toString() || "",
+      "citation_issue": article.article?.issue?.issue?.toString() || "",
+      "citation_issn": article.journal.issnOnline || article.journal.issnPrint || "",
+      "citation_pdf_url": `${process.env.NEXT_PUBLIC_APP_URL || ''}/api/articles/${article.id}/pdf`,
+      "citation_abstract_html_url": `${process.env.NEXT_PUBLIC_APP_URL || ''}/articles/${article.id}`,
+      "citation_language": "en",
+    },
+  };
+}
 
 export default async function ArticlePage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -75,9 +118,11 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <Button className="bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-full px-8 py-6 font-bold shadow-lg">
-              <Download className="w-5 h-5 mr-2" /> Download PDF
-            </Button>
+            <Link href={`/api/articles/${article.id}/pdf`} target="_blank">
+              <Button className="bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-full px-8 py-6 font-bold shadow-lg">
+                <Download className="w-5 h-5 mr-2" /> Download PDF
+              </Button>
+            </Link>
             <Button variant="outline" className="border-[var(--border)] text-[var(--brand-700)] hover:bg-[var(--brand-50)] rounded-full px-6 py-6 font-semibold shadow-sm">
               <Quote className="w-5 h-5 mr-2" /> Cite
             </Button>
@@ -119,9 +164,11 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
               <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
               <h3 className="text-lg font-bold text-slate-700 mb-2">Full Text Available in PDF</h3>
               <p className="text-sm mb-6 max-w-md mx-auto">The full text of this article is currently available exclusively in PDF format. A web-native HTML reader is in development.</p>
-              <Button className="bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white shadow-md">
-                <Download className="w-4 h-4 mr-2" /> View PDF version
-              </Button>
+              <Link href={`/api/articles/${article.id}/pdf`} target="_blank">
+                <Button className="bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white shadow-md">
+                  <Download className="w-4 h-4 mr-2" /> View PDF version
+                </Button>
+              </Link>
             </div>
           </div>
           
