@@ -25,13 +25,27 @@ export async function submitManuscript(formData: FormData) {
     .filter((k) => k.length > 0);
 
   // Process Co-authors (from hidden inputs added by JS)
-  const coAuthorsJson = formData.get("coAuthors") as string;
+  const caJson = formData.get("coAuthors") as string;
   let coAuthors = [];
-  if (coAuthorsJson) {
+  if (caJson) {
     try {
-      coAuthors = JSON.parse(coAuthorsJson);
+      coAuthors = JSON.parse(caJson);
     } catch (e) {
       console.error("Failed to parse co-authors", e);
+    }
+  }
+
+  // Handle File Upload
+  const file = formData.get("file") as File | null;
+  let uploadedFileInfo = null;
+  
+  if (file && file.size > 0) {
+    try {
+      const { saveFileLocally } = await import("@/lib/storage");
+      uploadedFileInfo = await saveFileLocally(file);
+    } catch (e) {
+      console.error("File upload error", e);
+      return { success: false, error: "Failed to upload manuscript file" };
     }
   }
 
@@ -56,6 +70,25 @@ export async function submitManuscript(formData: FormData) {
             isCorresponding: ca.isCorresponding || false,
           })),
         },
+        ...(uploadedFileInfo && {
+          files: {
+            create: {
+              url: uploadedFileInfo.url,
+              name: uploadedFileInfo.name,
+              size: uploadedFileInfo.size,
+              mimeType: uploadedFileInfo.mimeType,
+              uploadedById: session.user.id,
+            }
+          },
+          versions: {
+            create: {
+              version: 1,
+              fileUrl: uploadedFileInfo.url,
+              fileName: uploadedFileInfo.name,
+              fileSize: uploadedFileInfo.size,
+            }
+          }
+        }),
         activityLogs: {
           create: {
             userId: session.user.id,

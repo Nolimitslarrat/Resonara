@@ -29,11 +29,25 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
   const [caName, setCaName] = useState("");
   const [caEmail, setCaEmail] = useState("");
   const [caAffiliation, setCaAffiliation] = useState("");
+  
+  const [file, setFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const addCoAuthor = () => {
     if (!caName || !caEmail) return;
     setCoAuthors([...coAuthors, { name: caName, email: caEmail, affiliation: caAffiliation }]);
     setCaName(""); setCaEmail(""); setCaAffiliation("");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      if (selectedFile.size > 50 * 1024 * 1024) {
+        alert("File is too large. Max 50MB allowed.");
+        return;
+      }
+      setFile(selectedFile);
+    }
   };
 
   const removeCoAuthor = (index: number) => {
@@ -52,6 +66,10 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
     formData.append("journalId", journalId);
     if (categoryId) formData.append("categoryId", categoryId);
     formData.append("coAuthors", JSON.stringify(coAuthors));
+    
+    if (file) {
+      formData.append("file", file);
+    }
     
     const result = await submitManuscript(formData);
     
@@ -211,15 +229,36 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
             </div>
             <h3 className="text-lg font-bold text-slate-700">Upload Manuscript Files</h3>
             <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
-              (Simulation) In a real environment, you would upload your PDF, Word document, and supplementary data files here.
+              Please upload your main manuscript file (PDF or DOCX). You can also include supplementary files in a ZIP archive.
             </p>
-            <div className="border-2 border-dashed border-slate-300 p-8 rounded-sm bg-slate-50 max-w-lg mx-auto">
-              <Button type="button" variant="outline" className="bg-white">Browse Files</Button>
+            <div 
+              className={`border-2 border-dashed p-8 rounded-sm transition-colors max-w-lg mx-auto ${
+                file ? "border-emerald-500 bg-emerald-50" : "border-slate-300 bg-slate-50 hover:border-[var(--brand-400)]"
+              }`}
+            >
+              <input 
+                type="file" 
+                id="manuscript-file" 
+                className="hidden" 
+                onChange={handleFileChange}
+                accept=".pdf,.docx,.doc,.zip"
+              />
+              <label htmlFor="manuscript-file" className="cursor-pointer">
+                <Button type="button" variant="outline" className="bg-white pointer-events-none">
+                  {file ? "Change File" : "Browse Files"}
+                </Button>
+              </label>
               <p className="text-xs text-slate-400 mt-2">PDF, DOCX, ZIP allowed. Max 50MB.</p>
             </div>
-            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-emerald-600 font-medium">
-              <Check className="w-4 h-4" /> Files successfully attached (Simulated)
-            </div>
+            
+            {file && (
+              <div className="mt-4 flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2 text-sm text-emerald-600 font-bold bg-white px-4 py-2 rounded-full border border-emerald-100 shadow-sm">
+                  <Check className="w-4 h-4" /> {file.name} ({(file.size / (1024 * 1024)).toFixed(2)} MB)
+                </div>
+                <p className="text-[10px] text-slate-400">File attached and ready for submission</p>
+              </div>
+            )}
           </div>
         )}
 
