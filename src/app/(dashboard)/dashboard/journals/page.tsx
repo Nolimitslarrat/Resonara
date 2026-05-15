@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Manage Journals | NexScholar",
+  title: "Manage Journals | Resonara",
 };
 
 export default async function JournalsManagerPage() {

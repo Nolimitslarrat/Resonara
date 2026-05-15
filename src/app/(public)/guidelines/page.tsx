@@ -2,15 +2,15 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 export const metadata = {
-  title: "Author & Submission Guidelines | NexScholar",
-  description: "Comprehensive submission guidelines, review policies, ethics standards, and formatting requirements for NexScholar.",
+  title: "Author & Submission Guidelines | Resonara",
+  description: "Comprehensive submission guidelines, review policies, ethics standards, and formatting requirements for Resonara.",
 };
 
 const sections = [
   {
     id: "scope",
     title: "Scope & Aims",
-    content: `NexScholar publishes original research articles, systematic reviews, meta-analyses, and methodological papers across a broad range of academic disciplines. We accept submissions in English only. Submitted manuscripts must represent original work not published or under consideration elsewhere.`,
+    content: `Resonara publishes original research articles, systematic reviews, meta-analyses, and methodological papers across a broad range of academic disciplines. We accept submissions in English only. Submitted manuscripts must represent original work not published or under consideration elsewhere.`,
   },
   {
     id: "formatting",
@@ -25,7 +25,7 @@ const sections = [
   {
     id: "peer-review",
     title: "Peer Review Policy",
-    content: `NexScholar operates a double-blind peer review process. Author identities are withheld from reviewers, and reviewer identities are withheld from authors. Manuscripts are assigned to a minimum of two independent expert reviewers. The Managing Editor makes all final decisions.`,
+    content: `Resonara operates a double-blind peer review process. Author identities are withheld from reviewers, and reviewer identities are withheld from authors. Manuscripts are assigned to a minimum of two independent expert reviewers. The Managing Editor makes all final decisions.`,
   },
   {
     id: "ethics",
@@ -40,7 +40,7 @@ const sections = [
   {
     id: "apc",
     title: "Article Processing Charges",
-    content: `NexScholar is an open-access publisher. An Article Processing Charge (APC) may apply upon acceptance. Authors in low-income countries may be eligible for a full or partial fee waiver. Contact the editorial office before submission to discuss waiver eligibility.`,
+    content: `Resonara is an open-access publisher. An Article Processing Charge (APC) may apply upon acceptance. Authors in low-income countries may be eligible for a full or partial fee waiver. Contact the editorial office before submission to discuss waiver eligibility.`,
   },
 ];
 

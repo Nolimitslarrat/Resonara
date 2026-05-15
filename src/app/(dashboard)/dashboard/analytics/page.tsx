@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { BarChart3, TrendingUp, Users, FileText, BookOpen, CheckCircle2 } from "lucide-react";
 
-export const metadata = { title: "Analytics | NexScholar" };
+export const metadata = { title: "Analytics | Resonara" };
 
 export default async function AnalyticsPage() {
   const session = await auth();

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Activity Logs | NexScholar",
+  title: "Activity Logs | Resonara",
 };
 
 export default async function ActivityLogsPage() {

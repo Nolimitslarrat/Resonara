@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export const metadata = {
-  title: "Contact Us | NexScholar",
-  description: "Get in touch with the NexScholar editorial and support team.",
+  title: "Contact Us | Resonara",
+  description: "Get in touch with the Resonara editorial and support team.",
 };
 
 const contacts = [

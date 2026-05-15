@@ -13,22 +13,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "NexScholar — Academic Publication Platform",
-    template: "%s | NexScholar",
+    default: "Resonara Publishers Pvt. Ltd. — Academic Publication Platform",
+    template: "%s | Resonara Publishers",
   },
   description:
-    "NexScholar is an enterprise-grade academic publication management platform. Submit manuscripts, manage peer review, and publish world-class research.",
+    "Resonara Publishers is an enterprise-grade academic publication management platform. Submit manuscripts, manage peer review, and publish world-class research.",
   keywords: ["academic publishing", "peer review", "manuscript submission", "journal management", "research"],
-  authors: [{ name: "NexScholar" }],
+  authors: [{ name: "Resonara Publishers" }],
   openGraph: {
     type: "website",
-    siteName: "NexScholar",
-    title: "NexScholar — Academic Publication Platform",
+    siteName: "Resonara Publishers",
+    title: "Resonara Publishers — Academic Publication Platform",
     description: "Enterprise-grade academic publication management platform",
   },
   twitter: {
     card: "summary_large_image",
-    title: "NexScholar — Academic Publication Platform",
+    title: "Resonara Publishers — Academic Publication Platform",
   },
   robots: { index: true, follow: true },
 };

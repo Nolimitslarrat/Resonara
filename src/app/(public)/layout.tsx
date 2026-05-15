@@ -12,12 +12,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             {/* Logo */}
             <div className="flex items-center gap-2">
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-[var(--brand-600)] to-[#8b5cf6] flex items-center justify-center rounded-xl shadow-[var(--shadow-glass)] group-hover:scale-105 transition-transform duration-300">
-                  <BookOpen className="w-5 h-5 text-white" />
+                <div className="relative w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                  <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd." className="object-contain w-full h-full drop-shadow-sm" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-2xl font-editorial font-bold text-[var(--brand-900)] leading-none tracking-tight">NexScholar</span>
-                  <span className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-[var(--brand-500)] mt-1">Publishing</span>
+                  <span className="text-xl font-editorial font-bold text-[var(--brand-900)] leading-none tracking-tight">Resonara Publishers <span className="text-xs font-semibold uppercase tracking-widest text-[var(--brand-500)]">Pvt. Ltd.</span></span>
                 </div>
               </Link>
             </div>
@@ -31,6 +30,34 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
             {/* Right side actions */}
             <div className="flex items-center gap-4">
+              
+              {/* Developer Credit Hover */}
+              <div className="relative group hidden xl:flex items-center mr-2">
+                <span className="text-[11px] text-slate-500 font-medium cursor-help flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-full border border-slate-100 hover:border-slate-200 transition-colors">
+                  Made with ❤️ by <span className="text-[var(--brand-600)] font-semibold">nolimitslarrat</span>
+                </span>
+                
+                <div className="absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-[var(--border)] p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  <div className="flex items-center gap-3 mb-3">
+                    <img src="https://github.com/nolimitslarrat.png" alt="nolimitslarrat" className="w-12 h-12 rounded-full border border-slate-200 shadow-sm" />
+                    <div>
+                      <div className="font-semibold text-slate-800 text-sm">Shubham</div>
+                      <div className="text-[11px] text-slate-500 uppercase tracking-wider font-semibold mt-0.5">Full-Stack Developer</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2 mt-4 pt-4 border-t border-slate-100">
+                    <a href="mailto:shubham.stmj@gmail.com" className="text-sm text-slate-600 hover:text-[var(--brand-600)] transition-colors flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      shubham.stmj@gmail.com
+                    </a>
+                    <a href="https://github.com/nolimitslarrat" target="_blank" rel="noreferrer" className="text-sm text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-2">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                      github.com/nolimitslarrat
+                    </a>
+                  </div>
+                </div>
+              </div>
+
               <Link href="/login" className="hidden sm:flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors">
                 <User className="w-4 h-4" /> Sign In
               </Link>
@@ -62,10 +89,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
             <div className="md:col-span-4 space-y-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/10 flex items-center justify-center rounded-xl backdrop-blur-sm border border-white/10">
-                  <BookOpen className="w-5 h-5 text-white" />
+                <div className="relative w-12 h-12 flex items-center justify-center bg-white/10 rounded-xl p-1 backdrop-blur-sm border border-white/10">
+                  <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-sm brightness-0 invert" />
                 </div>
-                <span className="text-2xl font-editorial font-bold text-white tracking-tight">NexScholar</span>
+                <span className="text-2xl font-editorial font-bold text-white tracking-tight">Resonara</span>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
                 Redefining the future of open-access academic publishing. Accelerating global research dissemination through beautiful technology.
@@ -101,7 +128,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </div>
           
           <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-medium tracking-wide">
-            <p>© {new Date().getFullYear()} NexScholar Publishing. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Resonara Publishing. All rights reserved.</p>
             <div className="flex gap-6">
               <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
               <a href="#" className="hover:text-white transition-colors">Twitter</a>

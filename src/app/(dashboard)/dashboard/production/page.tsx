@@ -6,7 +6,7 @@ import { Printer, ArrowRight, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Production Queue | NexScholar" };
+export const metadata = { title: "Production Queue | Resonara" };
 
 export default async function ProductionQueuePage() {
   const session = await auth();

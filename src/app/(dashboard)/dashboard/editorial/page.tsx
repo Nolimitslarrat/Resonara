@@ -6,7 +6,7 @@ import { ClipboardList, ArrowRight, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Editorial Queue | NexScholar" };
+export const metadata = { title: "Editorial Queue | Resonara" };
 
 export default async function EditorialPage() {
   const session = await auth();

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { SubmissionWizard } from "./SubmissionWizard";
 
 export const metadata = {
-  title: "Submit Manuscript | NexScholar",
+  title: "Submit Manuscript | Resonara",
 };
 
 export default async function SubmitManuscriptPage(props: { searchParams: Promise<{ journal?: string }> }) {

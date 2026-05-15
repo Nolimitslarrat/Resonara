@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Manuscripts | NexScholar",
+  title: "Manuscripts | Resonara",
 };
 
 export default async function ManuscriptsPage() {

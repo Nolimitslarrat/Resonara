@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your NexScholar account",
+  description: "Sign in to your Resonara account",
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -25,7 +25,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">NexScholar</span>
+            <span className="text-white font-bold text-xl tracking-tight">Resonara</span>
           </div>
         </div>
 
@@ -58,7 +58,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {/* Testimonial */}
           <div className="glass rounded-2xl p-6 space-y-3">
             <p className="text-slate-200 text-sm leading-relaxed italic">
-              &ldquo;NexScholar transformed how we manage our journal submissions. The workflow is seamless and the interface is unlike anything else in academic publishing.&rdquo;
+              &ldquo;Resonara transformed how we manage our journal submissions. The workflow is seamless and the interface is unlike anything else in academic publishing.&rdquo;
             </p>
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--brand-400)] to-[var(--brand-700)] flex items-center justify-center text-white text-xs font-bold">
@@ -74,7 +74,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         {/* Footer */}
         <div className="relative z-10 text-slate-500 text-xs">
-          © {new Date().getFullYear()} NexScholar. All rights reserved.
+          © {new Date().getFullYear()} Resonara. All rights reserved.
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <span className="font-bold text-lg tracking-tight text-[var(--foreground)]">NexScholar</span>
+            <span className="font-bold text-lg tracking-tight text-[var(--foreground)]">Resonara</span>
           </div>
           {children}
         </div>

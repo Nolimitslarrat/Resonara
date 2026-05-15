@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "Author Guidelines | NexScholar",
-  description: "Submission guidelines, formatting requirements, and editorial policies for authors submitting to NexScholar journals.",
+  title: "Author Guidelines | Resonara",
+  description: "Submission guidelines, formatting requirements, and editorial policies for authors submitting to Resonara journals.",
 };
 
 const steps = [
@@ -20,7 +20,7 @@ const steps = [
     title: "Register & Log In",
     icon: CheckCircle2,
     description:
-      "Create a free NexScholar account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be linked in your profile settings.",
+      "Create a free Resonara account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be linked in your profile settings.",
   },
   {
     number: "03",
@@ -43,7 +43,7 @@ const policies = [
   { title: "Authorship", body: "All listed authors must have made a substantial contribution and approved the final manuscript." },
   { title: "Conflict of Interest", body: "Authors must disclose any financial or personal relationships that could influence the work." },
   { title: "Ethics", body: "Research involving human subjects or animals must have appropriate ethics committee approval." },
-  { title: "Open Access", body: "All articles published on NexScholar are made freely available under a Creative Commons licence." },
+  { title: "Open Access", body: "All articles published on Resonara are made freely available under a Creative Commons licence." },
   { title: "Peer Review", body: "All submissions undergo double-blind peer review. Typically 2–3 reviewers are assigned per manuscript." },
 ];
 
@@ -59,7 +59,7 @@ export default function AuthorsPage() {
           Author Guidelines
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Everything you need to know about submitting and publishing your research on NexScholar.
+          Everything you need to know about submitting and publishing your research on Resonara.
         </p>
         <Link href="/dashboard/manuscripts/submit">
           <Button className="rounded-full h-11 px-8 gap-2 bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white shadow-md">

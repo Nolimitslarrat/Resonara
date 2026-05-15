@@ -18,7 +18,7 @@ export default async function ArticlesIndexPage() {
       <div className="flex justify-between items-end mb-6 pb-4 border-b border-slate-200">
         <div>
           <h1 className="text-3xl font-editorial font-bold text-[var(--brand-800)] mb-2">Article Database</h1>
-          <p className="text-sm text-slate-600">Browse all published articles across NexScholar journals.</p>
+          <p className="text-sm text-slate-600">Browse all published articles across Resonara journals.</p>
         </div>
         <div className="relative hidden sm:block">
           <input 

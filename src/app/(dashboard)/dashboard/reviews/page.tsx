@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import type { ReviewStatus } from "@prisma/client";
 
-export const metadata = { title: "My Reviews | NexScholar" };
+export const metadata = { title: "My Reviews | Resonara" };
 
 const STATUS_CONFIG: Record<ReviewStatus, { label: string; classes: string }> = {
   PENDING: { label: "Invitation Pending", classes: "bg-amber-100 text-amber-700" },

@@ -190,7 +190,7 @@ export default async function PublicHomePage() {
               <div className="relative z-10">
                 <h3 className="text-3xl font-editorial font-bold mb-4">Publish With Us</h3>
                 <p className="text-white/80 mb-8 max-w-md text-lg leading-relaxed">
-                  Join thousands of researchers who trust NexScholar for rigorous peer review, rapid publication, and maximum global visibility.
+                  Join thousands of researchers who trust Resonara for rigorous peer review, rapid publication, and maximum global visibility.
                 </p>
                 <Link href="/dashboard/manuscripts/submit">
                   <Button className="bg-white text-[var(--brand-900)] hover:bg-[var(--brand-50)] rounded-full px-8 py-6 text-base font-bold shadow-lg transition-transform hover:scale-105">

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "Reviewer Guidelines | NexScholar",
-  description: "Guidance for peer reviewers on how to evaluate manuscripts submitted to NexScholar journals.",
+  title: "Reviewer Guidelines | Resonara",
+  description: "Guidance for peer reviewers on how to evaluate manuscripts submitted to Resonara journals.",
 };
 
 const principles = [

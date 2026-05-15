@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "User Management | NexScholar",
+  title: "User Management | Resonara",
 };
 
 export default async function UsersManagerPage() {

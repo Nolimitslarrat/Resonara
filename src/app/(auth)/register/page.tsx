@@ -48,7 +48,7 @@ export default function RegisterPage() {
           <BookOpen className="w-6 h-6 text-white" />
         </div>
         <h1 className="text-3xl font-editorial font-bold tracking-tight text-[var(--brand-900)]">Create an Account</h1>
-        <p className="text-[var(--muted)] text-sm">Join the NexScholar academic publishing platform.</p>
+        <p className="text-[var(--muted)] text-sm">Join the Resonara academic publishing platform.</p>
       </div>
 
       {/* Form */}

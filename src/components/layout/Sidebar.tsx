@@ -73,13 +73,11 @@ export function Sidebar() {
     >
       {/* Logo */}
       <div className={cn("flex items-center gap-3 px-4 py-5 border-b border-[var(--border)]", collapsed && "justify-center px-0")}>
-        <div className="w-8 h-8 rounded-xl bg-[var(--brand-600)] flex items-center justify-center shadow-md flex-shrink-0">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div className="relative w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0">
+          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full" />
         </div>
         {!collapsed && (
-          <span className="font-bold text-base tracking-tight text-[var(--foreground)]">NexScholar</span>
+          <span className="font-bold text-sm tracking-tight text-[var(--foreground)]">Resonara Publishers</span>
         )}
       </div>
 

@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | NexScholar",
-  description: "How NexScholar collects, uses, and protects your personal data.",
+  title: "Privacy Policy | Resonara",
+  description: "How Resonara collects, uses, and protects your personal data.",
 };
 
 const lastUpdated = "10 May 2026";
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
             1. Who We Are
           </h2>
           <p className="text-sm">
-            NexScholar (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) operates the academic publication
+            Resonara (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) operates the academic publication
             management platform available at nexschoolar.com. This Privacy Policy explains how we
             collect, use, disclose, and protect information about you when you use our services.
           </p>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
             3. How We Use Your Information
           </h2>
           <ul className="list-disc list-inside space-y-2 text-sm pl-2">
-            <li>To operate and maintain your NexScholar account.</li>
+            <li>To operate and maintain your Resonara account.</li>
             <li>To manage the manuscript submission and peer review workflow.</li>
             <li>To send transactional notifications about your submissions and reviews.</li>
             <li>To improve platform performance and user experience.</li>

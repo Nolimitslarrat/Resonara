@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Reviewers | NexScholar" };
+export const metadata = { title: "Reviewers | Resonara" };
 
 export default async function ReviewersPage() {
   const session = await auth();
