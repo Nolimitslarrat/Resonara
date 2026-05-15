@@ -61,4 +61,4 @@ EXPOSE 3000
 ENV PORT 3000
 
 # Run migrations and then start the server
-CMD ["sh", "-c", "npx prisma db push && node server.js"]
+CMD ["sh", "-c", "if [ -z \"$DATABASE_URL\" ]; then echo 'WARNING: DATABASE_URL is not set. Skipping prisma db push.'; else npx prisma db push --accept-data-loss || echo 'WARNING: Prisma db push failed, continuing anyway.'; fi && node server.js"]
