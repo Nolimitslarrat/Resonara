@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+export const dynamic = 'force-dynamic';
+
 import Link from "next/link";
 import { BookOpen, Users, Info, ArrowRight, FileText, ChevronLeft } from "lucide-react";
 import { formatDate } from "@/lib/utils";

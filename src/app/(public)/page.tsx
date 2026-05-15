@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+export const dynamic = 'force-dynamic';
+
 import { Search, ArrowRight, BookOpen, FileText, Users, Globe, ChevronRight } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
