@@ -1,7 +1,7 @@
 import { auth } from "../../lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "../../lib/prisma";
-import DashboardClientLayout from "./DashboardClientLayout";
+import ClientLayout from "./ClientLayout";
 import React from "react";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -13,8 +13,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   });
 
   return (
-    <DashboardClientLayout unreadCount={unreadCount}>
+    <ClientLayout unreadCount={unreadCount}>
       {children}
-    </DashboardClientLayout>
+    </ClientLayout>
   );
 }
