@@ -1,0 +1,432 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  MANAGING_EDITOR
+  REVIEWER
+  AUTHOR
+  PRODUCTION
+}
+
+enum ManuscriptStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_SCREENING
+  DESK_REJECTED
+  UNDER_REVIEW
+  MINOR_REVISION
+  MAJOR_REVISION
+  ACCEPTED
+  REJECTED
+  COPYEDITING
+  PROOFREADING
+  TYPESETTING
+  READY_TO_PUBLISH
+  PUBLISHED
+}
+
+enum ReviewRecommendation {
+  ACCEPT
+  MINOR_REVISION
+  MAJOR_REVISION
+  REJECT
+}
+
+enum ReviewStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+  OVERDUE
+}
+
+enum EditorialDecisionType {
+  ACCEPT
+  MINOR_REVISION
+  MAJOR_REVISION
+  REJECT
+  DESK_REJECT
+}
+
+enum NotificationType {
+  SUBMISSION_RECEIVED
+  REVIEW_INVITED
+  REVIEW_ACCEPTED
+  REVIEW_DECLINED
+  REVIEW_COMPLETED
+  DECISION_MADE
+  REVISION_REQUESTED
+  REVISION_SUBMITTED
+  ARTICLE_PUBLISHED
+  GENERAL
+}
+
+enum IssueStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum ProductionStage {
+  COPYEDITING
+  PROOFREADING
+  TYPESETTING
+  METADATA
+  READY
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          Role      @default(AUTHOR)
+  orcid         String?
+  affiliation   String?
+  bio           String?
+  expertise     String[]
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts             Account[]
+  sessions             Session[]
+  manuscripts          Manuscript[]          @relation("AuthorManuscripts")
+  reviewerAssignments  ReviewerAssignment[]  @relation("ReviewerAssignments")
+  editorialDecisions   EditorialDecision[]   @relation("EditorDecisions")
+  notifications        Notification[]
+  activityLogs         ActivityLog[]
+  uploadedFiles        File[]
+  managedJournals      Journal[]             @relation("EditorInChief")
+  editorialBoardMember EditorialBoard[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Journal {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  issnPrint       String?
+  issnOnline      String?
+  description     String?  @db.Text
+  scope           String?  @db.Text
+  coverImage      String?
+  website         String?
+  isActive        Boolean  @default(true)
+  reviewType      String   @default("DOUBLE_BLIND")
+  editorInChiefId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  editorInChief    User?            @relation("EditorInChief", fields: [editorInChiefId], references: [id])
+  categories       Category[]       @relation("JournalCategories")
+  manuscripts      Manuscript[]
+  issues           PublicationIssue[]
+  editorialBoard   EditorialBoard[]
+
+  @@map("journals")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  journals    Journal[]    @relation("JournalCategories")
+  manuscripts Manuscript[]
+
+  @@map("categories")
+}
+
+model Manuscript {
+  id              String           @id @default(cuid())
+  title           String
+  abstract        String           @db.Text
+  keywords        String[]
+  status          ManuscriptStatus @default(DRAFT)
+  coverLetter     String?          @db.Text
+  conflictOfInterest String?       @db.Text
+  fundingInfo     String?
+  ethicsStatement String?
+  suggestedReviewers Json?
+  authorId        String
+  journalId       String
+  categoryId      String?
+  submittedAt     DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  author             User                @relation("AuthorManuscripts", fields: [authorId], references: [id])
+  journal            Journal             @relation(fields: [journalId], references: [id])
+  category           Category?           @relation(fields: [categoryId], references: [id])
+  versions           ManuscriptVersion[]
+  coAuthors          CoAuthor[]
+  reviewerAssignments ReviewerAssignment[]
+  editorialDecisions EditorialDecision[]
+  article            Article?
+  activityLogs       ActivityLog[]
+  files              File[]
+
+  @@map("manuscripts")
+}
+
+model ManuscriptVersion {
+  id           String   @id @default(cuid())
+  manuscriptId String
+  version      Int      @default(1)
+  fileUrl      String
+  fileName     String
+  fileSize     Int?
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+
+  @@map("manuscript_versions")
+}
+
+model CoAuthor {
+  id           String  @id @default(cuid())
+  manuscriptId String
+  name         String
+  email        String
+  orcid        String?
+  affiliation  String?
+  order        Int     @default(0)
+  isCorresponding Boolean @default(false)
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+
+  @@map("co_authors")
+}
+
+model ReviewerAssignment {
+  id           String       @id @default(cuid())
+  manuscriptId String
+  reviewerId   String
+  status       ReviewStatus @default(PENDING)
+  dueDate      DateTime?
+  invitedAt    DateTime     @default(now())
+  acceptedAt   DateTime?
+  declinedAt   DateTime?
+  completedAt  DateTime?
+  declineReason String?
+  personalNote  String?
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  reviewer   User       @relation("ReviewerAssignments", fields: [reviewerId], references: [id])
+  review     Review?
+
+  @@map("reviewer_assignments")
+}
+
+model Review {
+  id                   String               @id @default(cuid())
+  assignmentId         String               @unique
+  confidentialComments String?              @db.Text
+  authorComments       String?              @db.Text
+  recommendation       ReviewRecommendation
+  qualityOriginality   Int?
+  qualityMethodology   Int?
+  qualityClarity       Int?
+  qualityReferences    Int?
+  score                Int?
+  annotatedFileUrl     String?
+  isDraft              Boolean              @default(true)
+  submittedAt          DateTime?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+
+  assignment ReviewerAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model EditorialDecision {
+  id           String                @id @default(cuid())
+  manuscriptId String
+  editorId     String
+  decision     EditorialDecisionType
+  comments     String?               @db.Text
+  createdAt    DateTime              @default(now())
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  editor     User       @relation("EditorDecisions", fields: [editorId], references: [id])
+
+  @@map("editorial_decisions")
+}
+
+model PublicationIssue {
+  id          String      @id @default(cuid())
+  journalId   String
+  volume      Int
+  issue       Int
+  year        Int
+  title       String?
+  coverImage  String?
+  status      IssueStatus @default(DRAFT)
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  journal  Journal   @relation(fields: [journalId], references: [id])
+  articles Article[]
+
+  @@map("publication_issues")
+}
+
+model Article {
+  id           String   @id @default(cuid())
+  manuscriptId String   @unique
+  issueId      String?
+  doi          String?  @unique
+  pdfUrl       String?
+  htmlUrl      String?
+  views        Int      @default(0)
+  downloads    Int      @default(0)
+  license      String?
+  metaTitle    String?
+  metaDesc     String?
+  ogImage      String?
+  jsonLd       Json?
+  publishedAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  manuscript Manuscript       @relation(fields: [manuscriptId], references: [id])
+  issue      PublicationIssue? @relation(fields: [issueId], references: [id])
+  production ProductionRecord?
+
+  @@map("articles")
+}
+
+model ProductionRecord {
+  id                  String          @id @default(cuid())
+  articleId           String          @unique
+  stage               ProductionStage @default(COPYEDITING)
+  copyeditedFileUrl   String?
+  proofreadFileUrl    String?
+  typsetFileUrl       String?
+  authorProofSent     Boolean         @default(false)
+  copyeditNotes       String?
+  proofreadNotes      String?
+  typsetNotes         String?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@map("production_records")
+}
+
+model EditorialBoard {
+  id        String   @id @default(cuid())
+  journalId String
+  userId    String
+  role      String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  journal Journal @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([journalId, userId])
+  @@map("editorial_board")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  link      String?
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model ActivityLog {
+  id           String   @id @default(cuid())
+  userId       String
+  action       String
+  entity       String
+  entityId     String?
+  manuscriptId String?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  manuscript Manuscript? @relation(fields: [manuscriptId], references: [id], onDelete: SetNull)
+
+  @@map("activity_logs")
+}
+
+model File {
+  id           String   @id @default(cuid())
+  url          String
+  name         String
+  size         Int?
+  mimeType     String?
+  uploadedById String
+  manuscriptId String?
+  createdAt    DateTime @default(now())
+
+  uploadedBy User        @relation(fields: [uploadedById], references: [id])
+  manuscript Manuscript? @relation(fields: [manuscriptId], references: [id], onDelete: SetNull)
+
+  @@map("files")
+}

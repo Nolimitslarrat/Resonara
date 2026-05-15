@@ -1,0 +1,175 @@
+"use client";
+
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { User, Mail, Building2, BookOpen, Save, KeyRound, Fingerprint } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast";
+
+export const dynamic = "force-dynamic";
+
+export default function SettingsPage() {
+  const { data: session } = useSession();
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    name: session?.user?.name ?? "",
+    affiliation: "",
+    bio: "",
+    orcid: "",
+  });
+
+  async function handleSave(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    await new Promise((r) => setTimeout(r, 800));
+    setSaving(false);
+    toast({ title: "Settings saved", description: "Your profile has been updated." });
+  }
+
+  const role = session?.user?.role ?? "";
+
+  const ROLE_LABELS: Record<string, string> = {
+    SUPER_ADMIN: "Super Administrator",
+    MANAGING_EDITOR: "Managing Editor",
+    REVIEWER: "Peer Reviewer",
+    AUTHOR: "Author",
+    PRODUCTION: "Production Staff",
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto space-y-10 animate-fade-in-up pb-12">
+      <div>
+        <h1 className="text-2xl font-bold text-[var(--foreground)]">Account Settings</h1>
+        <p className="text-[var(--muted)] text-sm mt-1">
+          Manage your profile, credentials, and preferences.
+        </p>
+      </div>
+
+      {/* Profile card */}
+      <div className="bg-white rounded-2xl border border-[var(--border)] shadow-sm overflow-hidden">
+        <div className="bg-gradient-to-r from-[var(--brand-900)] to-[var(--brand-700)] p-6 flex items-center gap-5">
+          <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center text-3xl font-bold text-white shadow-lg">
+            {session?.user?.name?.[0]?.toUpperCase() ?? "U"}
+          </div>
+          <div>
+            <p className="text-white font-bold text-lg">{session?.user?.name}</p>
+            <p className="text-[var(--brand-300)] text-sm">{session?.user?.email}</p>
+            <span className="mt-1 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur">
+              {ROLE_LABELS[role] ?? role}
+            </span>
+          </div>
+        </div>
+
+        <form onSubmit={handleSave} className="p-6 sm:p-8 space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="flex items-center gap-2">
+                <User className="w-3.5 h-3.5" /> Full Name
+              </Label>
+              <Input
+                id="name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Dr. Jane Smith"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5" /> Email (read-only)
+              </Label>
+              <Input
+                id="email"
+                value={session?.user?.email ?? ""}
+                disabled
+                className="bg-slate-50 cursor-not-allowed"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="affiliation" className="flex items-center gap-2">
+                <Building2 className="w-3.5 h-3.5" /> Institution / Affiliation
+              </Label>
+              <Input
+                id="affiliation"
+                value={form.affiliation}
+                onChange={(e) => setForm({ ...form, affiliation: e.target.value })}
+                placeholder="University of Science"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="orcid" className="flex items-center gap-2">
+                <Fingerprint className="w-3.5 h-3.5" /> ORCID iD
+              </Label>
+              <Input
+                id="orcid"
+                value={form.orcid}
+                onChange={(e) => setForm({ ...form, orcid: e.target.value })}
+                placeholder="0000-0000-0000-0000"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="bio" className="flex items-center gap-2">
+              <BookOpen className="w-3.5 h-3.5" /> Short Bio
+            </Label>
+            <textarea
+              id="bio"
+              value={form.bio}
+              onChange={(e) => setForm({ ...form, bio: e.target.value })}
+              placeholder="Brief biography for your public profile..."
+              rows={4}
+              className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)] resize-none"
+            />
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <Button type="submit" className="gap-2" disabled={saving}>
+              <Save className="w-4 h-4" />
+              {saving ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </form>
+      </div>
+
+      {/* Password section */}
+      <div className="bg-white rounded-2xl border border-[var(--border)] shadow-sm p-6 sm:p-8">
+        <h2 className="text-base font-bold text-[var(--foreground)] mb-1 flex items-center gap-2">
+          <KeyRound className="w-4 h-4" /> Change Password
+        </h2>
+        <p className="text-sm text-[var(--muted)] mb-6">
+          Use a strong password with at least 8 characters.
+        </p>
+        <div className="space-y-4 max-w-md">
+          <div className="space-y-2">
+            <Label htmlFor="current-password">Current Password</Label>
+            <Input id="current-password" type="password" placeholder="••••••••" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="new-password">New Password</Label>
+            <Input id="new-password" type="password" placeholder="••••••••" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirm-password">Confirm New Password</Label>
+            <Input id="confirm-password" type="password" placeholder="••••••••" />
+          </div>
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={() =>
+              toast({
+                title: "Password update",
+                description: "Password change is not yet connected to the backend.",
+                variant: "destructive",
+              })
+            }
+          >
+            <KeyRound className="w-4 h-4" />
+            Update Password
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
