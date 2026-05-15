@@ -1,10 +1,17 @@
 # Stage 1: Build
 FROM node:20-alpine AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
 RUN npm ci
+
+# Set dummy database URL for build time to prevent failures during static optimization
+ARG DATABASE_URL="postgresql://postgres:postgrespassword@localhost:5432/resonara"
+ENV DATABASE_URL=$DATABASE_URL
+
 
 # Copy the rest of the application code
 COPY . .
@@ -18,7 +25,9 @@ RUN npm run build
 
 # Stage 2: Runner
 FROM node:20-alpine AS runner
+RUN apk add --no-cache openssl
 WORKDIR /app
+
 
 ENV NODE_ENV=production
 
