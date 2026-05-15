@@ -26,6 +26,23 @@ export async function updateManuscriptStatus(manuscriptId: string, status: any, 
       }
     });
 
+    // Notify Author of status change
+    const manuscript = await prisma.manuscript.findUnique({
+      where: { id: manuscriptId },
+      select: { authorId: true, title: true }
+    });
+
+    if (manuscript) {
+      const { createNotification } = await import("@/lib/notifications");
+      await createNotification({
+        userId: manuscript.authorId,
+        type: "GENERAL",
+        title: "Manuscript Status Updated",
+        message: `The status of your manuscript "${manuscript.title}" has been updated to: ${status.replace(/_/g, ' ')}.`,
+        link: `/dashboard/manuscripts/${manuscriptId}`
+      });
+    }
+
     revalidatePath("/dashboard");
     revalidatePath(`/dashboard/manuscripts/${manuscriptId}`);
     return { success: true };
@@ -68,6 +85,16 @@ export async function assignReviewer(manuscriptId: string, reviewerId: string) {
           }
         }
       }
+    });
+
+    // Notify Reviewer
+    const { createNotification } = await import("@/lib/notifications");
+    await createNotification({
+      userId: reviewerId,
+      type: "REVIEW_INVITED",
+      title: "New Review Invitation",
+      message: `You have been invited to review a manuscript. Please accept or decline the invitation.`,
+      link: `/dashboard/reviewer`
     });
 
     revalidatePath("/dashboard");

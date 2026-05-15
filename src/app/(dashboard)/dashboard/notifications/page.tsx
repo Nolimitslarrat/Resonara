@@ -43,8 +43,12 @@ export default async function NotificationsPage() {
           </p>
         </div>
         {unreadCount > 0 && (
-          <form>
-            <Button variant="outline" size="sm" className="gap-2">
+          <form action={async () => {
+            "use server";
+            const { markAllAsRead } = await import("@/app/actions/notifications");
+            await markAllAsRead();
+          }}>
+            <Button type="submit" variant="outline" size="sm" className="gap-2">
               <CheckCheck className="w-4 h-4" />
               Mark all read
             </Button>

@@ -31,7 +31,7 @@ function Breadcrumb() {
   );
 }
 
-export function Topbar() {
+export function Topbar({ unreadCount = 0 }: { unreadCount?: number }) {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
 
@@ -52,7 +52,9 @@ export function Topbar() {
         {/* Notifications */}
         <Link href="/dashboard/notifications" className="relative w-9 h-9 rounded-lg flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)] transition-colors">
           <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[var(--brand-600)]" />
+          {unreadCount > 0 && (
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[var(--brand-600)]" />
+          )}
         </Link>
 
         {/* Theme */}

@@ -97,7 +97,24 @@ export async function submitManuscript(formData: FormData) {
             metadata: "Initial submission"
           }
         }
-      },
+    });
+    
+    // Notify the author
+    const { createNotification, notifyAdmins } = await import("@/lib/notifications");
+    await createNotification({
+      userId: session.user.id,
+      type: "SUBMISSION_RECEIVED",
+      title: "Manuscript Submitted",
+      message: `Your manuscript "${title}" has been successfully submitted and is now under screening.`,
+      link: `/dashboard/manuscripts/${manuscript.id}`
+    });
+
+    // Notify Admins/Editors
+    await notifyAdmins({
+      type: "SUBMISSION_RECEIVED",
+      title: "New Submission",
+      message: `A new manuscript "${title}" has been submitted to your journal.`,
+      link: `/dashboard/manuscripts/${manuscript.id}`
     });
 
     revalidatePath("/dashboard");

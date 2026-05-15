@@ -13,6 +13,23 @@ export async function acceptReview(assignmentId: string) {
       where: { id: assignmentId, reviewerId: session.user.id },
       data: { status: "ACCEPTED" }
     });
+
+    // Notify Editors
+    const assignment = await prisma.reviewerAssignment.findUnique({
+      where: { id: assignmentId },
+      include: { manuscript: true, reviewer: true }
+    });
+
+    if (assignment) {
+      const { notifyAdmins } = await import("@/lib/notifications");
+      await notifyAdmins({
+        type: "REVIEW_ACCEPTED",
+        title: "Review Invitation Accepted",
+        message: `${assignment.reviewer.name} has accepted the invitation to review "${assignment.manuscript.title}".`,
+        link: `/dashboard/manuscripts/${assignment.manuscriptId}`
+      });
+    }
+
     revalidatePath("/dashboard");
     return { success: true };
   } catch (error) {
@@ -29,6 +46,23 @@ export async function declineReview(assignmentId: string) {
       where: { id: assignmentId, reviewerId: session.user.id },
       data: { status: "DECLINED" }
     });
+
+    // Notify Editors
+    const assignment = await prisma.reviewerAssignment.findUnique({
+      where: { id: assignmentId },
+      include: { manuscript: true, reviewer: true }
+    });
+
+    if (assignment) {
+      const { notifyAdmins } = await import("@/lib/notifications");
+      await notifyAdmins({
+        type: "REVIEW_DECLINED",
+        title: "Review Invitation Declined",
+        message: `${assignment.reviewer.name} has declined the invitation to review "${assignment.manuscript.title}".`,
+        link: `/dashboard/manuscripts/${assignment.manuscriptId}`
+      });
+    }
+
     revalidatePath("/dashboard");
     return { success: true };
   } catch (error) {
@@ -86,6 +120,22 @@ export async function submitReview(formData: FormData) {
         }
       });
     });
+
+    // Notify Editors
+    const fullAssignment = await prisma.reviewerAssignment.findUnique({
+      where: { id: assignmentId },
+      include: { manuscript: true, reviewer: true }
+    });
+
+    if (fullAssignment) {
+      const { notifyAdmins } = await import("@/lib/notifications");
+      await notifyAdmins({
+        type: "REVIEW_COMPLETED",
+        title: "Review Submitted",
+        message: `${fullAssignment.reviewer.name} has submitted their review for "${fullAssignment.manuscript.title}".`,
+        link: `/dashboard/manuscripts/${fullAssignment.manuscriptId}`
+      });
+    }
 
     revalidatePath("/dashboard");
     return { success: true };
