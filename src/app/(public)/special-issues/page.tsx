@@ -3,6 +3,8 @@ import { BookOpen, Layers, Calendar } from "lucide-react";
 import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Special Issues | NexScholar",
   description: "Browse special thematic issues and curated collections from NexScholar journals.",
