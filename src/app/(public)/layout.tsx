@@ -12,11 +12,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             {/* Logo */}
             <div className="flex items-center gap-2">
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="relative w-12 h-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                <div className="relative w-48 h-16 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
                   <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd." className="object-contain w-full h-full drop-shadow-sm" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-editorial font-bold text-[var(--brand-900)] leading-none tracking-tight">Resonara Publishers <span className="text-xs font-semibold uppercase tracking-widest text-[var(--brand-500)]">Pvt. Ltd.</span></span>
                 </div>
               </Link>
             </div>
@@ -61,10 +58,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
             <div className="md:col-span-4 space-y-6">
               <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 flex items-center justify-center bg-white/10 rounded-xl p-1 backdrop-blur-sm border border-white/10">
+                <div className="relative w-48 h-20 flex items-center justify-center bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10">
                   <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-sm brightness-0 invert" />
                 </div>
-                <span className="text-2xl font-editorial font-bold text-white tracking-tight">Resonara</span>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
                 Redefining the future of open-access academic publishing. Accelerating global research dissemination through beautiful technology.

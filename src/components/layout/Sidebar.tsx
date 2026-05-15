@@ -73,12 +73,9 @@ export function Sidebar() {
     >
       {/* Logo */}
       <div className={cn("flex items-center gap-3 px-4 py-5 border-b border-[var(--border)]", collapsed && "justify-center px-0")}>
-        <div className="relative w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0">
-          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full" />
+        <div className={cn("relative flex items-center justify-center flex-shrink-0 transition-all", collapsed ? "w-8 h-8" : "w-full h-12")}>
+          <img src="/logo.png" alt="Resonara Logo" className={cn("object-contain", collapsed ? "w-8 h-8" : "w-full h-full")} />
         </div>
-        {!collapsed && (
-          <span className="font-bold text-sm tracking-tight text-[var(--foreground)]">Resonara Publishers</span>
-        )}
       </div>
 
       {/* Nav */}
