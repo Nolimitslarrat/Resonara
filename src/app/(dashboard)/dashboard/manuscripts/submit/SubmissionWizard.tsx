@@ -312,7 +312,12 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
           <Button 
             type="button" 
             onClick={() => setStep(step + 1)}
-            className="bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white gap-2"
+            disabled={
+              (step === 1 && (!title || !abstract)) ||
+              (step === 2 && !journalId) ||
+              (step === 4 && !file)
+            }
+            className="bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Continue <ChevronRight className="w-4 h-4" />
           </Button>
@@ -320,8 +325,8 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
           <Button 
             type="button" 
             onClick={handleSubmit}
-            disabled={isSubmitting || !title || !abstract || !journalId}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8"
+            disabled={isSubmitting || !title || !abstract || !journalId || !file}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-8 disabled:opacity-50"
           >
             {isSubmitting ? "Submitting..." : "Submit Manuscript"}
           </Button>

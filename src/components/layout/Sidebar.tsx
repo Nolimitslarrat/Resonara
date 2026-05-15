@@ -72,9 +72,9 @@ export function Sidebar() {
       )}
     >
       {/* Logo */}
-      <div className={cn("flex items-center justify-center py-8 border-b border-[var(--border)] transition-all duration-300", collapsed ? "px-2" : "px-6")}>
-        <div className={cn("relative flex items-center justify-center transition-all duration-500 hover:scale-110", collapsed ? "w-10 h-10" : "w-full h-32")}>
-          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-md" />
+      <div className={cn("flex items-center justify-center py-10 border-b border-[var(--border)] transition-all duration-300", collapsed ? "px-2" : "px-4")}>
+        <div className={cn("relative flex items-center justify-center transition-all duration-500 hover:scale-110", collapsed ? "w-12 h-12" : "w-full h-40")}>
+          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-lg scale-150" />
         </div>
       </div>
 

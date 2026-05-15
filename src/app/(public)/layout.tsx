@@ -8,15 +8,15 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       {/* Modern Floating Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-[var(--border)] shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-28">
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center group">
-                <div className="relative h-24 w-56 flex items-center justify-center transition-all duration-500 group-hover:scale-110 drop-shadow-[0_0_15px_rgba(var(--brand-600-rgb),0.2)]">
+                <div className="relative h-24 w-64 flex items-center justify-center transition-all duration-500 group-hover:scale-110">
                   <img 
                     src="/logo.png" 
                     alt="Resonara Publishers Pvt. Ltd." 
-                    className="object-contain w-full h-full p-2 filter drop-shadow-sm" 
+                    className="object-contain w-full h-full filter drop-shadow-md scale-125" 
                   />
                 </div>
               </Link>
