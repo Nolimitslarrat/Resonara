@@ -1,8 +1,12 @@
 # Stage 1: Build
 FROM node:20-slim AS builder
 # Install system dependencies
-RUN apt-get update && apt-get install -y openssl libssl-dev libc6
+RUN apt-get update && apt-get install -y openssl libssl-dev libc6 python3 make g++
 WORKDIR /app
+
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NEXT_TELEMETRY_DISABLED=1
+
 
 
 # Install dependencies based on the preferred package manager
