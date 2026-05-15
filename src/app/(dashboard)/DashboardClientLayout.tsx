@@ -1,10 +1,10 @@
 "use client";
 
-import { Sidebar } from "@/components/layout/Sidebar";
-import { Topbar } from "@/components/layout/Topbar";
+import { Sidebar } from "../../components/layout/Sidebar";
+import { Topbar } from "../../components/layout/Topbar";
 import React, { useState } from "react";
 
-export function DashboardClientLayout({ 
+export default function DashboardClientLayout({ 
   children,
   unreadCount = 0 
 }: { 

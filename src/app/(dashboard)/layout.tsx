@@ -1,8 +1,8 @@
-import React from "react";
-import { auth } from "@/lib/auth";
+import { auth } from "../../lib/auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
-import { DashboardClientLayout } from "./DashboardClientLayout";
+import { prisma } from "../../lib/prisma";
+import DashboardClientLayout from "./DashboardClientLayout";
+import React from "react";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
