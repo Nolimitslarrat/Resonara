@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen, Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
+import { AddJournalModal } from "./AddJournalModal";
 
 export const metadata = {
   title: "Manage Journals | Resonara",
@@ -34,10 +35,7 @@ export default async function JournalsManagerPage() {
           <h1 className="text-2xl font-bold text-[var(--foreground)]">Journals</h1>
           <p className="text-[var(--muted)] text-sm mt-1">Manage platform journals and their metadata.</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="w-4 h-4" />
-          Add Journal
-        </Button>
+        <AddJournalModal />
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,7 +85,7 @@ export default async function JournalsManagerPage() {
             <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-3" />
             <h3 className="font-semibold text-slate-700 mb-1">No journals yet</h3>
             <p className="text-sm text-slate-500 mb-4">Create your first journal to start accepting manuscripts.</p>
-            <Button>Create Journal</Button>
+            <AddJournalModal />
           </div>
         )}
       </div>
