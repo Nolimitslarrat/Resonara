@@ -97,6 +97,7 @@ export async function submitManuscript(formData: FormData) {
             metadata: "Initial submission"
           }
         }
+      }
     });
     
     // Notify the author
