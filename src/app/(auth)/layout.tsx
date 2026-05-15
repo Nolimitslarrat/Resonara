@@ -20,12 +20,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         {/* Logo */}
         <div className="relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[var(--brand-600)] flex items-center justify-center shadow-lg">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+            <div className="w-24 h-24 flex items-center justify-center transition-all duration-500 hover:scale-110">
+              <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-2xl scale-150" />
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">Resonara</span>
           </div>
         </div>
 
@@ -82,13 +79,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="flex-1 flex items-center justify-center p-8 bg-[var(--background)]">
         <div className="w-full max-w-md">
           {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-8 h-8 rounded-xl bg-[var(--brand-600)] flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+          <div className="flex items-center justify-center mb-8 lg:hidden">
+            <div className="w-20 h-20 flex items-center justify-center">
+              <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-xl scale-125" />
             </div>
-            <span className="font-bold text-lg tracking-tight text-[var(--foreground)]">Resonara</span>
           </div>
           {children}
         </div>
