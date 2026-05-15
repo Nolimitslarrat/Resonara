@@ -44,8 +44,9 @@ RUN groupadd -g 1001 nodejs
 RUN useradd -u 1001 -g nodejs -s /bin/sh -m nextjs
 
 
-# Install prisma to run migrations
-RUN npm install prisma
+# Install prisma and dotenv to run migrations
+RUN npm install prisma dotenv
+
 
 
 # Copy only the necessary files for standalone output
@@ -53,6 +54,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/prisma.config.ts ./prisma.config.ts
 
 USER nextjs
 
