@@ -7,7 +7,7 @@ import { assignReviewer, updateManuscriptStatus } from "@/app/actions/editor";
 
 export function EditorActions({ manuscriptId, currentStatus, reviewers, assignments }: any) {
   const [loading, setLoading] = useState(false);
-  const [selectedReviewer, setSelectedReviewer] = useState("");
+  const [selectedReviewers, setSelectedReviewers] = useState<string[]>([]);
   const [comment, setComment] = useState("");
   const [showDecision, setShowDecision] = useState(false);
 
@@ -20,12 +20,20 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
     setLoading(false);
   };
 
-  const handleAssign = async () => {
-    if (!selectedReviewer) return;
+  const handleBulkAssign = async () => {
+    if (selectedReviewers.length === 0) return;
     setLoading(true);
-    await assignReviewer(manuscriptId, selectedReviewer);
-    setSelectedReviewer("");
+    for (const rid of selectedReviewers) {
+      await assignReviewer(manuscriptId, rid);
+    }
+    setSelectedReviewers([]);
     setLoading(false);
+  };
+
+  const toggleReviewer = (rid: string) => {
+    setSelectedReviewers(prev => 
+      prev.includes(rid) ? prev.filter(id => id !== rid) : [...prev, rid]
+    );
   };
 
   const handleDecision = async (status: string) => {
@@ -37,21 +45,34 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
 
   return (
     <div className="space-y-4 text-right">
-      <div className="flex gap-2 justify-end">
-        <select 
-          className="border border-slate-300 rounded-md px-3 text-sm focus:outline-none focus:border-[var(--brand-500)]"
-          value={selectedReviewer}
-          onChange={e => setSelectedReviewer(e.target.value)}
+      <div className="flex flex-col gap-3 items-end">
+        <div className="flex flex-wrap gap-2 justify-end max-w-md">
+          {reviewers.map((r: any) => {
+            const isAssigned = assignments.some((a: any) => a.reviewerId === r.id);
+            const isSelected = selectedReviewers.includes(r.id);
+            return (
+              <button
+                key={r.id}
+                disabled={isAssigned || loading}
+                onClick={() => toggleReviewer(r.id)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                  isAssigned ? "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed" :
+                  isSelected ? "bg-[var(--brand-600)] text-white border-[var(--brand-600)]" :
+                  "bg-white text-slate-600 border-slate-300 hover:border-[var(--brand-500)]"
+                }`}
+              >
+                {r.name} {isAssigned && "✓"}
+              </button>
+            );
+          })}
+        </div>
+        <Button 
+          onClick={handleBulkAssign} 
+          disabled={selectedReviewers.length === 0 || loading} 
+          className="gap-2 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white shadow-sm"
         >
-          <option value="">-- Select Reviewer to Assign --</option>
-          {reviewers.map((r: any) => (
-            <option key={r.id} value={r.id} disabled={assignments.some((a: any) => a.reviewerId === r.id)}>
-              {r.name} {assignments.some((a: any) => a.reviewerId === r.id) ? "(Already Assigned)" : ""}
-            </option>
-          ))}
-        </select>
-        <Button onClick={handleAssign} disabled={!selectedReviewer || loading} className="gap-2 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white">
-          <UserPlus className="w-4 h-4" /> Assign
+          <UserPlus className="w-4 h-4" /> 
+          {selectedReviewers.length > 1 ? `Assign ${selectedReviewers.length} Reviewers` : "Assign Reviewer"}
         </Button>
       </div>
 
