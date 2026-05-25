@@ -4,8 +4,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { BookOpen, Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatDate } from "@/lib/utils";
-import { EditJournalModal } from "./EditJournalModal";
 import { SearchInput } from "@/components/ui/SearchInput";
 
 export const metadata = {
@@ -57,17 +55,22 @@ export default async function JournalsManagerPage({ searchParams }: { searchPara
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {journals.map((journal) => (
           <div key={journal.id} className="bg-white rounded-xl shadow-sm border border-[var(--border)] p-6 hover:shadow-md transition-shadow relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-              <EditJournalModal journal={journal} />
-            </div>
-            
+            {/* Edit button — links to full edit page */}
+            <Link
+              href={`/dashboard/journals/${journal.id}/edit`}
+              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg text-slate-400 hover:text-[var(--brand-600)] hover:bg-[var(--brand-50)]"
+              title="Edit journal"
+            >
+              <Edit className="w-4 h-4" />
+            </Link>
+
             <div className="w-12 h-12 rounded-xl bg-[var(--brand-50)] flex items-center justify-center mb-4">
               <BookOpen className="w-6 h-6 text-[var(--brand-600)]" />
             </div>
-            
-            <h3 className="text-lg font-editorial font-bold text-[var(--foreground)] mb-1 leading-tight">{journal.title}</h3>
+
+            <h3 className="text-lg font-editorial font-bold text-[var(--foreground)] mb-1 leading-tight pr-8">{journal.title}</h3>
             <p className="text-sm text-[var(--muted)] mb-4 line-clamp-2">{journal.scope || "No scope provided."}</p>
-            
+
             <div className="space-y-2 mb-6">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-[var(--muted)]">ISSN (Print)</span>
@@ -78,7 +81,7 @@ export default async function JournalsManagerPage({ searchParams }: { searchPara
                 <span className="font-mono text-slate-700">{journal.issnOnline || "N/A"}</span>
               </div>
             </div>
-            
+
             <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
               <div className="flex flex-col">
                 <span className="text-[10px] uppercase tracking-wider font-semibold text-[var(--muted)]">Status</span>

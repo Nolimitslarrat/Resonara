@@ -125,14 +125,51 @@ export async function updateJournal(id: string, formData: FormData) {
   const issnOnline = formData.get("issnOnline") as string;
   const description = formData.get("description") as string;
   const scope = formData.get("scope") as string;
+  const website = formData.get("website") as string;
+  const reviewType = (formData.get("reviewType") as string) || "DOUBLE_BLIND";
+  const editorInChiefId = formData.get("editorInChiefId") as string;
+  // isActive is explicitly sent as the string "true" or "false" from our toggle
   const isActive = formData.get("isActive") === "true";
   const indexingServicesRaw = formData.get("indexingServices") as string;
-  
-  const indexingServices = indexingServicesRaw 
-    ? indexingServicesRaw.split(",").map(s => s.trim()).filter(Boolean)
+  const editorialBoardRaw = formData.get("editorialBoard") as string;
+
+  const indexingServices = indexingServicesRaw
+    ? indexingServicesRaw.split(",").map((s) => s.trim()).filter(Boolean)
     : [];
 
+  type EditorialBoardInput = {
+    userId: unknown;
+    role?: unknown;
+    order?: unknown;
+  };
+
+  const isBoardInput = (val: unknown): val is EditorialBoardInput => {
+    return typeof val === "object" && val !== null && "userId" in val;
+  };
+
+  const editorialBoard = (() => {
+    if (!editorialBoardRaw) return [];
+    try {
+      const parsed: unknown = JSON.parse(editorialBoardRaw);
+      if (!Array.isArray(parsed)) return [];
+      return parsed
+        .filter(isBoardInput)
+        .map((x) => ({
+          userId: typeof x.userId === "string" ? x.userId : String(x.userId || ""),
+          role:
+            typeof x.role === "string" && x.role.trim().length
+              ? x.role
+              : "Editorial Board Member",
+          order: Number.isFinite(Number(x.order)) ? Number(x.order) : 0,
+        }))
+        .filter((x) => x.userId.length > 0);
+    } catch {
+      return [];
+    }
+  })();
+
   try {
+    // Update core journal fields
     await prisma.journal.update({
       where: { id },
       data: {
@@ -141,12 +178,32 @@ export async function updateJournal(id: string, formData: FormData) {
         issnOnline: issnOnline || null,
         description: description || null,
         scope: scope || null,
+        website: website || null,
+        reviewType,
+        editorInChiefId: editorInChiefId || null,
         isActive,
         indexingServices,
-      }
+      },
     });
 
+    // Sync editorial board: delete all existing, then recreate from form data
+    // This is the simplest correct approach for a replace-all board update
+    await prisma.editorialBoard.deleteMany({ where: { journalId: id } });
+
+    if (editorialBoard.length > 0) {
+      await prisma.editorialBoard.createMany({
+        data: editorialBoard.map((m) => ({
+          journalId: id,
+          userId: m.userId,
+          role: m.role,
+          order: m.order,
+        })),
+        skipDuplicates: true,
+      });
+    }
+
     revalidatePath("/dashboard/journals");
+    revalidatePath(`/dashboard/journals/${id}/edit`);
     revalidatePath("/journals");
     return { success: true };
   } catch (error) {
