@@ -30,15 +30,15 @@ export default function TermsPage() {
           },
           {
             title: "3. Author Responsibilities",
-            body: `Authors warrant that submitted manuscripts are original, have not been published elsewhere, and are not under consideration by another publication. Authors accept responsibility for the accuracy of reported data and all ethical declarations made during submission. Plagiarism, data fabrication, or falsification will result in immediate rejection and possible account suspension.`,
+            body: `Authors are responsible for submitting original work and for the accuracy of reported data and ethical declarations made during submission. Plagiarism, data fabrication, or falsification may result in rejection, correction, removal, or account action.`,
           },
           {
             title: "4. Peer Review Confidentiality",
-            body: `Reviewers agree to treat all manuscripts assigned to them as confidential. Manuscripts must not be shared, discussed with third parties, or used to advance the reviewer's own research before publication. Violations of this obligation may result in permanent exclusion from the reviewer pool.`,
+            body: `Reviewers agree to treat manuscripts assigned to them as confidential. Manuscripts must not be shared, discussed with third parties, or used for personal advantage. Violations may result in removal from review assignments or other account action.`,
           },
           {
             title: "5. Intellectual Property",
-            body: `Authors retain copyright of their work. Upon acceptance, authors grant Resonara a non-exclusive, worldwide licence to publish, reproduce, and distribute the article under a Creative Commons Attribution 4.0 International (CC BY 4.0) licence. Platform software, branding, and design are the exclusive property of Resonara.`,
+            body: `Publication licence terms may vary by journal, article type, and author agreement. Platform software, branding, and design remain the property of their respective owners.`,
           },
           {
             title: "6. Prohibited Conduct",

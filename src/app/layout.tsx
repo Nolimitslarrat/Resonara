@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     template: "%s | Resonara Publishers",
   },
   description:
-    "Resonara Publishers is an enterprise-grade academic publication management platform. Submit manuscripts, manage peer review, and publish world-class research.",
+    "Resonara Publishers provides tools for manuscript submission, peer review, editorial workflows, and publication management.",
   keywords: ["academic publishing", "peer review", "manuscript submission", "journal management", "research"],
   authors: [{ name: "Resonara Publishers" }],
   openGraph: {
     type: "website",
     siteName: "Resonara Publishers",
     title: "Resonara Publishers — Academic Publication Platform",
-    description: "Enterprise-grade academic publication management platform",
+    description: "Academic publication management platform",
   },
   twitter: {
     card: "summary_large_image",

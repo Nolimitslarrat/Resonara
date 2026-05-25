@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Star, ArrowRight, Clock, CheckCircle2, XCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { formatDate } from "@/lib/utils";
 import type { ReviewStatus } from "@prisma/client";
 
@@ -17,13 +18,23 @@ const STATUS_CONFIG: Record<ReviewStatus, { label: string; classes: string }> = 
   OVERDUE: { label: "Overdue", classes: "bg-red-200 text-red-800" },
 };
 
-export default async function ReviewsListPage() {
+export default async function ReviewsListPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
   if (session.user.role !== "REVIEWER") redirect("/dashboard");
 
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
+
   const assignments = await prisma.reviewerAssignment.findMany({
-    where: { reviewerId: session.user.id },
+    where: { 
+      reviewerId: session.user.id,
+      ...(q ? {
+        manuscript: {
+          title: { contains: q, mode: "insensitive" as const }
+        }
+      } : {})
+    },
     include: {
       manuscript: {
         select: {
@@ -80,6 +91,9 @@ export default async function ReviewsListPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-[var(--border)] shadow-sm overflow-hidden">
+          <div className="p-4 border-b border-[var(--border)] bg-slate-50">
+            <SearchInput placeholder="Search reviews by manuscript title..." />
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>

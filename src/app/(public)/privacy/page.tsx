@@ -62,10 +62,10 @@ export default function PrivacyPage() {
             4. Data Sharing
           </h2>
           <p className="text-sm">
-            We do not sell your personal data. We may share data with trusted service providers
-            (e.g. cloud hosting, email delivery) under strict data processing agreements. Reviewer
-            identities are withheld from authors throughout the double-blind review process.
-            Published author names and affiliations are made public as part of the article record.
+            We do not sell your personal data. We may share data with service providers
+            used to operate the platform, such as hosting or email delivery. Reviewer
+            identity handling depends on the review model configured for the journal or workflow.
+            Published article records may display author names and affiliations.
           </p>
         </section>
 
@@ -74,10 +74,10 @@ export default function PrivacyPage() {
             5. Data Retention
           </h2>
           <p className="text-sm">
-            We retain account data for as long as your account is active. Published article data
-            is retained indefinitely as part of the scholarly record. Unpublished manuscript data
-            is retained for 5 years after final editorial decision. You may request deletion of
-            your account data by contacting us, subject to our legal obligations.
+            We retain account, manuscript, and workflow data as needed to operate the platform,
+            maintain editorial records, and meet applicable legal or administrative requirements.
+            You may request deletion of your account data by contacting us, subject to those
+            requirements.
           </p>
         </section>
 
@@ -118,8 +118,8 @@ export default function PrivacyPage() {
             8. Security
           </h2>
           <p className="text-sm">
-            We implement industry-standard security measures including TLS encryption in transit,
-            bcrypt password hashing, and access control by role. No system is completely secure;
+            We use security controls such as password hashing and role-based access within the platform.
+            No system is completely secure;
             please contact us immediately if you suspect unauthorised access to your account.
           </p>
         </section>

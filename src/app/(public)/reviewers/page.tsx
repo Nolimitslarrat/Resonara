@@ -21,7 +21,7 @@ const principles = [
   {
     icon: Clock,
     title: "Timeliness",
-    body: "Accept invitations only when you can meet the deadline — typically 14 days. Contact the editor promptly if you cannot complete the review on time.",
+    body: "Accept invitations only when you can give the manuscript careful attention. Contact the editor promptly if you cannot complete the review on time.",
   },
   {
     icon: Star,
@@ -51,7 +51,7 @@ export default function ReviewersPage() {
           Reviewer Guidelines
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Peer review is at the heart of academic publishing. Thank you for supporting scientific integrity.
+          Peer review helps editors evaluate manuscripts with care and context.
         </p>
         <Link href="/register">
           <Button className="rounded-full h-11 px-8 gap-2 bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white shadow-md">
@@ -92,7 +92,7 @@ export default function ReviewersPage() {
           Evaluation Criteria
         </h2>
         <p className="text-center text-slate-600 text-sm mb-10">
-          Score each manuscript on the following dimensions in your review form.
+          Consider each manuscript through the following editorial lenses.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {criteria.map((c, i) => (
@@ -117,9 +117,9 @@ export default function ReviewersPage() {
         <div className="space-y-5">
           {[
             { step: "Invitation received", note: "You receive an email with manuscript title and abstract." },
-            { step: "Accept or decline", note: "Respond within 3 days. If you have a conflict of interest, please decline." },
+            { step: "Accept or decline", note: "Respond promptly. If you have a conflict of interest, please decline." },
             { step: "Access manuscript", note: "After accepting, download the blinded manuscript via your dashboard." },
-            { step: "Submit review", note: "Complete your structured review form within 14 days of accepting." },
+            { step: "Submit review", note: "Complete your structured review form within the agreed review window." },
             { step: "Decision communicated", note: "The editor considers all reviews and notifies the author." },
           ].map((item, i) => (
             <div key={item.step} className="flex items-start gap-4">
@@ -150,3 +150,4 @@ export default function ReviewersPage() {
     </div>
   );
 }
+

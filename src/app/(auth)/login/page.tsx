@@ -64,7 +64,7 @@ function LoginForm() {
           <Input
             id="email"
             type="email"
-            placeholder="you@university.edu"
+            placeholder="you@example.com"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             required
@@ -108,29 +108,6 @@ function LoginForm() {
           Sign in
         </Button>
       </form>
-
-      {/* Demo credentials */}
-      <div className="rounded-xl border border-[var(--border-subtle)] bg-[var(--surface)] p-4 space-y-3">
-        <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">Demo Accounts</p>
-        <div className="grid grid-cols-1 gap-2">
-          {[
-            { role: "Super Admin", email: "admin@nexschoolar.com", color: "text-[var(--brand-600)]" },
-            { role: "Editor", email: "editor@nexschoolar.com", color: "text-purple-600" },
-            { role: "Reviewer", email: "reviewer@nexschoolar.com", color: "text-amber-600" },
-            { role: "Author", email: "author@nexschoolar.com", color: "text-emerald-600" },
-          ].map((demo) => (
-            <button
-              key={demo.role}
-              type="button"
-              onClick={() => setForm({ email: demo.email, password: "password123" })}
-              className="flex items-center justify-between text-xs px-3 py-2 rounded-lg hover:bg-[var(--border-subtle)] transition-colors text-left"
-            >
-              <span className={`font-semibold ${demo.color}`}>{demo.role}</span>
-              <span className="text-[var(--muted)] font-mono">{demo.email}</span>
-            </button>
-          ))}
-        </div>
-      </div>
 
       {/* Sign up link */}
       <p className="text-center text-sm text-[var(--muted)]">

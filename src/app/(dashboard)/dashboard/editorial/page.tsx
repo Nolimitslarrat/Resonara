@@ -4,14 +4,18 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ClipboardList, ArrowRight, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Editorial Queue | Resonara" };
 
-export default async function EditorialPage() {
+export default async function EditorialPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
   if (!["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) redirect("/dashboard");
+
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
 
   const [submitted, underScreening, underReview, awaitingDecision, manuscripts] = await Promise.all([
     prisma.manuscript.count({ where: { status: "SUBMITTED" } }),
@@ -23,6 +27,7 @@ export default async function EditorialPage() {
         status: {
           in: ["SUBMITTED", "UNDER_SCREENING", "UNDER_REVIEW", "MINOR_REVISION", "MAJOR_REVISION"],
         },
+        ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
       },
       include: {
         author: { select: { name: true } },
@@ -66,11 +71,14 @@ export default async function EditorialPage() {
 
       {/* Manuscript table */}
       <div className="bg-white rounded-xl border border-[var(--border)] shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-[var(--border)] flex items-center gap-2 bg-slate-50">
-          <ClipboardList className="w-4 h-4 text-[var(--muted)]" />
-          <h2 className="text-sm font-semibold text-[var(--foreground)]">
-            Active Manuscripts ({manuscripts.length})
-          </h2>
+        <div className="px-6 py-4 border-b border-[var(--border)] flex items-center justify-between bg-slate-50">
+          <div className="flex items-center gap-2">
+            <ClipboardList className="w-4 h-4 text-[var(--muted)]" />
+            <h2 className="text-sm font-semibold text-[var(--foreground)]">
+              Active Manuscripts ({manuscripts.length})
+            </h2>
+          </div>
+          <SearchInput placeholder="Search queue by title..." />
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

@@ -1,0 +1,178 @@
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { Role } from "@prisma/client";
+import { hash } from "bcryptjs";
+
+export async function inviteUser(formData: FormData) {
+  const session = await auth();
+  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+    throw new Error("Unauthorized");
+  }
+
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const role = formData.get("role") as Role;
+  const password = formData.get("password") as string;
+  const affiliation = formData.get("affiliation") as string;
+  const designation = formData.get("designation") as string;
+  const institutionalProfile = formData.get("institutionalProfile") as string;
+  const apidProfile = formData.get("apidProfile") as string;
+
+  if (!name || !email || !role || !password) {
+    return { success: false, error: "Name, email, role, and password are required." };
+  }
+
+  if (password.length < 6) {
+    return { success: false, error: "Password must be at least 6 characters." };
+  }
+
+  if (session.user.role !== "SUPER_ADMIN" && role === "SUPER_ADMIN") {
+    return { success: false, error: "Only Super Admins can create other Super Admins." };
+  }
+
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      return { success: false, error: "A user with this email already exists." };
+    }
+
+    const hashedPassword = await hash(password, 10);
+
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        role,
+        password: hashedPassword,
+        affiliation: affiliation || null,
+        designation: designation || null,
+        institutionalProfile: institutionalProfile || null,
+        apidProfile: apidProfile || null,
+        isActive: true,
+      },
+    });
+
+    revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/journals");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to create user:", error);
+    return { success: false, error: "Failed to create user." };
+  }
+}
+
+export async function updateUserRole(userId: string, formData: FormData) {
+  const session = await auth();
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  const role = formData.get("role") as Role;
+
+  if (!role) {
+    return { success: false, error: "Role is required." };
+  }
+
+  if (userId === session.user.id) {
+    return { success: false, error: "You cannot change your own role." };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { role },
+    });
+
+    revalidatePath("/dashboard/users");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update user role:", error);
+    return { success: false, error: "Failed to update user role." };
+  }
+}
+
+export async function updateUserProfile(formData: FormData) {
+  const session = await auth();
+  if (!session?.user) {
+    throw new Error("Unauthorized");
+  }
+
+  const name = formData.get("name") as string;
+  const affiliation = formData.get("affiliation") as string;
+  const bio = formData.get("bio") as string;
+  const orcid = formData.get("orcid") as string;
+  const designation = formData.get("designation") as string;
+  const institutionalProfile = formData.get("institutionalProfile") as string;
+  const apidProfile = formData.get("apidProfile") as string;
+
+  if (!name) {
+    return { success: false, error: "Name is required." };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: {
+        name,
+        affiliation: affiliation || null,
+        bio: bio || null,
+        orcid: orcid || null,
+        designation: designation || null,
+        institutionalProfile: institutionalProfile || null,
+        apidProfile: apidProfile || null,
+      },
+    });
+
+    revalidatePath("/dashboard/settings");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update profile settings:", error);
+    return { success: false, error: "Failed to update profile." };
+  }
+}
+
+export async function updateUserAdmin(userId: string, formData: FormData) {
+  const session = await auth();
+  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+    throw new Error("Unauthorized");
+  }
+
+  const name = formData.get("name") as string;
+  const email = formData.get("email") as string;
+  const affiliation = formData.get("affiliation") as string;
+  const bio = formData.get("bio") as string;
+  const orcid = formData.get("orcid") as string;
+  const designation = formData.get("designation") as string;
+  const institutionalProfile = formData.get("institutionalProfile") as string;
+  const apidProfile = formData.get("apidProfile") as string;
+
+  if (!name || !email) {
+    return { success: false, error: "Name and email are required." };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        name,
+        email,
+        affiliation: affiliation || null,
+        bio: bio || null,
+        orcid: orcid || null,
+        designation: designation || null,
+        institutionalProfile: institutionalProfile || null,
+        apidProfile: apidProfile || null,
+      },
+    });
+
+    revalidatePath("/dashboard/users");
+    revalidatePath("/dashboard/journals");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update user by admin:", error);
+    return { success: false, error: "Failed to update user details." };
+  }
+}

@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/utils";
 
 export default async function ArticlesIndexPage() {
   const articles = await prisma.manuscript.findMany({
-    where: { status: { in: ["PUBLISHED", "ACCEPTED", "DRAFT"] } }, // Dummy logic for now
+    where: { status: "PUBLISHED" },
     include: { journal: true, author: true },
     orderBy: { createdAt: "desc" },
     take: 50
@@ -17,8 +17,8 @@ export default async function ArticlesIndexPage() {
     <div className="bg-white border border-slate-200 p-6 sm:p-10 rounded-sm min-h-[60vh]">
       <div className="flex justify-between items-end mb-6 pb-4 border-b border-slate-200">
         <div>
-          <h1 className="text-3xl font-editorial font-bold text-[var(--brand-800)] mb-2">Article Database</h1>
-          <p className="text-sm text-slate-600">Browse all published articles across Resonara journals.</p>
+          <h1 className="text-3xl font-editorial font-bold text-[var(--brand-800)] mb-2">Published Articles</h1>
+          <p className="text-sm text-slate-600">Browse article records currently marked as published.</p>
         </div>
         <div className="relative hidden sm:block">
           <input 

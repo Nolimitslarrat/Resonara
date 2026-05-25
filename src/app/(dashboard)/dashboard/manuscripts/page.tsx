@@ -2,23 +2,34 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, FileText, Search } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
 export const metadata = {
   title: "Manuscripts | Resonara",
 };
 
-export default async function ManuscriptsPage() {
+export default async function ManuscriptsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
+
   const isAdminOrEditor = session.user.role === "SUPER_ADMIN" || session.user.role === "MANAGING_EDITOR";
 
+  const baseWhere = isAdminOrEditor ? {} : { authorId: session.user.id };
+  const searchWhere = q ? {
+    OR: [
+      { title: { contains: q, mode: 'insensitive' as const } },
+      { author: { name: { contains: q, mode: 'insensitive' as const } } }
+    ]
+  } : {};
+
   const manuscripts = await prisma.manuscript.findMany({
-    where: isAdminOrEditor ? {} : { authorId: session.user.id },
+    where: { ...baseWhere, ...searchWhere },
     include: {
       author: true,
       journal: true,
@@ -44,10 +55,7 @@ export default async function ManuscriptsPage() {
 
       <div className="bg-white rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
         <div className="p-4 border-b border-[var(--border)] flex items-center justify-between bg-slate-50">
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input placeholder="Search manuscripts..." className="pl-9 bg-white" />
-          </div>
+          <SearchInput placeholder="Search manuscripts by title or author..." />
         </div>
         
         <div className="overflow-x-auto">

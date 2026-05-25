@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 
 export async function GET() {
   try {
-    const email = "admin@resonara.com";
-    const plainPassword = "Resonara@123";
+    const email = "admin@nexschoolar.com";
+    const plainPassword = "password123";
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({

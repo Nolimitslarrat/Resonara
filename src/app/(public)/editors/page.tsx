@@ -11,12 +11,12 @@ const responsibilities = [
   {
     icon: ClipboardList,
     title: "Initial Screening",
-    body: "Review new submissions for scope, formatting, and basic quality. Decide whether to desk-reject or send to peer review within 5 working days.",
+    body: "Review new submissions for scope, formatting, and basic quality. Decide whether to desk-reject or send to peer review with clear editorial reasoning.",
   },
   {
     icon: Users,
     title: "Reviewer Assignment",
-    body: "Identify and invite at least two qualified reviewers per manuscript. Monitor invitation responses and send reminders as needed.",
+    body: "Identify and invite qualified reviewers for each manuscript. Monitor invitation responses and send reminders as needed.",
   },
   {
     icon: BarChart3,
@@ -31,21 +31,21 @@ const responsibilities = [
   {
     icon: BookOpen,
     title: "Production Oversight",
-    body: "Coordinate with the production team to ensure accepted manuscripts are copyedited, typeset, and published within the target timeframe.",
+    body: "Coordinate with the production team so accepted manuscripts move through copyediting, typesetting, and publication preparation.",
   },
   {
     icon: ChevronRight,
     title: "Author Communication",
-    body: "Ensure authors receive timely, constructive feedback at every stage. All correspondence is logged automatically in the platform.",
+    body: "Give authors clear, constructive feedback and keep editorial communication organized in the platform.",
   },
 ];
 
 const standards = [
-  { label: "Desk decision", target: "≤ 5 working days" },
-  { label: "Reviewer selection", target: "≤ 3 working days post-screening" },
-  { label: "First decision", target: "≤ 45 days from submission" },
-  { label: "Revision decision", target: "≤ 21 days from revision submission" },
-  { label: "Production handoff", target: "≤ 5 days post-acceptance" },
+  { label: "Desk decision", target: "Clear scope and quality screening" },
+  { label: "Reviewer selection", target: "Relevant expertise and conflict checks" },
+  { label: "First decision", target: "Balanced editorial judgement" },
+  { label: "Revision decision", target: "Transparent author guidance" },
+  { label: "Production handoff", target: "Complete files and metadata" },
 ];
 
 export default function EditorsPage() {
@@ -96,7 +96,7 @@ export default function EditorsPage() {
       {/* Performance standards */}
       <section className="bg-white border border-[var(--border)] rounded-2xl p-8 shadow-sm">
         <h2 className="text-xl font-editorial font-bold text-[var(--brand-900)] mb-6">
-          Target Performance Standards
+          Editorial Working Principles
         </h2>
         <div className="divide-y divide-[var(--border)]">
           {standards.map((s) => (
@@ -125,3 +125,4 @@ export default function EditorsPage() {
     </div>
   );
 }
+

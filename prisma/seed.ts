@@ -132,7 +132,7 @@ async function main() {
     await prisma.manuscript.create({
       data: {
         title: data.title,
-        abstract: `This paper presents a comprehensive study on ${data.title.toLowerCase()}. The research methodology involves systematic analysis and experimental validation using state-of-the-art techniques. Our results demonstrate significant improvements over existing baseline methods.`,
+        abstract: `This manuscript record describes research on ${data.title.toLowerCase()}. The abstract should be replaced with the author-approved article summary before public release.`,
         keywords: ["research", "methodology", "analysis", "experimental"],
         status: data.status,
         authorId: author.id,

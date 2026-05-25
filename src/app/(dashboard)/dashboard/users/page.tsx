@@ -1,22 +1,33 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Users, Search, UserPlus, Mail, ShieldAlert } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Suspense } from "react";
+import { Users, Mail } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { InviteUserModal } from "./InviteUserModal";
+import { ManageRoleModal } from "./ManageRoleModal";
+import { UserSearchForm } from "./UserSearchForm";
+import { EditUserModal } from "./EditUserModal";
 
 export const metadata = {
   title: "User Management | Resonara",
 };
 
-export default async function UsersManagerPage() {
+export default async function UsersManagerPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
+  const q = searchParams.q || "";
   const session = await auth();
   if (!session?.user || session.user.role !== "SUPER_ADMIN") {
     redirect("/dashboard");
   }
 
   const users = await prisma.user.findMany({
+    where: q ? {
+      OR: [
+        { name: { contains: q, mode: "insensitive" } },
+        { email: { contains: q, mode: "insensitive" } },
+      ],
+    } : undefined,
     orderBy: { createdAt: "desc" }
   });
 
@@ -34,18 +45,14 @@ export default async function UsersManagerPage() {
           <h1 className="text-2xl font-bold text-[var(--foreground)]">User Management</h1>
           <p className="text-[var(--muted)] text-sm mt-1">Manage accounts, roles, and platform access.</p>
         </div>
-        <Button className="gap-2">
-          <UserPlus className="w-4 h-4" />
-          Invite User
-        </Button>
+        <InviteUserModal />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
         <div className="p-4 border-b border-[var(--border)] flex items-center justify-between bg-slate-50">
-          <div className="relative w-full max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input placeholder="Search users by name or email..." className="pl-9 bg-white" />
-          </div>
+          <Suspense fallback={<div className="h-10 w-64 bg-slate-100 animate-pulse rounded-lg" />}>
+            <UserSearchForm initialQuery={q} />
+          </Suspense>
         </div>
         
         <div className="overflow-x-auto">
@@ -91,11 +98,20 @@ export default async function UsersManagerPage() {
                   <td className="px-6 py-4 text-xs text-[var(--muted)]">
                     {formatDate(u.createdAt)}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <Button size="sm" variant="ghost" className="gap-1 text-[var(--muted)] hover:text-red-600">
-                      <ShieldAlert className="w-4 h-4" />
-                      Manage Role
-                    </Button>
+                  <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
+                    <EditUserModal user={{
+                      id: u.id,
+                      name: u.name,
+                      email: u.email,
+                      role: u.role,
+                      orcid: u.orcid,
+                      affiliation: u.affiliation,
+                      designation: u.designation,
+                      institutionalProfile: u.institutionalProfile,
+                      apidProfile: u.apidProfile,
+                      bio: u.bio,
+                    }} />
+                    <ManageRoleModal userId={u.id} currentRole={u.role} userName={u.name || u.email} />
                   </td>
                 </tr>
               ))}

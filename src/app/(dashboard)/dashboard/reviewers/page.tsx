@@ -2,19 +2,30 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Users, Search, Star, Fingerprint, Building2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Reviewers | Resonara" };
 
-export default async function ReviewersPage() {
+export default async function ReviewersPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
   if (!["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) redirect("/dashboard");
 
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
+
   const reviewers = await prisma.user.findMany({
-    where: { role: "REVIEWER" },
+    where: { 
+      role: "REVIEWER",
+      ...(q ? {
+        OR: [
+          { name: { contains: q, mode: 'insensitive' as const } },
+          { email: { contains: q, mode: 'insensitive' as const } }
+        ]
+      } : {})
+    },
     include: {
       _count: {
         select: { reviewerAssignments: true },
@@ -39,8 +50,7 @@ export default async function ReviewersPage() {
 
       {/* Search */}
       <div className="relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-        <Input placeholder="Search reviewers..." className="pl-9" />
+        <SearchInput placeholder="Search reviewers by name or email..." />
       </div>
 
       {/* Reviewer cards */}

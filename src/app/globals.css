@@ -3,7 +3,7 @@
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 :root {
-  /* Premium Indigo / Midnight Brand */
+  /* Indigo / Midnight Brand */
   --brand-50:  #eef2ff;
   --brand-100: #e0e7ff;
   --brand-200: #c7d2fe;
@@ -22,7 +22,7 @@
   --navy-700: #334155;
 
   /* Semantic */
-  --background:       #fafafa; /* Very light cool gray for premium feel */
+  --background:       #fafafa; /* Very light cool gray */
   --foreground:       #0f172a;
   --surface:          #ffffff;
   --surface-elevated: #ffffff;
@@ -42,7 +42,7 @@
   --status-production:  #06b6d4;
   --status-published:   #10b981;
 
-  /* Premium Shadows */
+  /* Shadows */
   --shadow-sm:  0 2px 4px 0 rgb(30 27 75 / 0.02);
   --shadow:     0 4px 6px -1px rgb(30 27 75 / 0.04), 0 2px 4px -2px rgb(30 27 75 / 0.04);
   --shadow-md:  0 10px 15px -3px rgb(30 27 75 / 0.06), 0 4px 6px -4px rgb(30 27 75 / 0.04);
@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-/* ── Premium Utilities ──────────────────────────────────────── */
+/* ── Utilities ──────────────────────────────────────── */
 .gradient-text {
   background: linear-gradient(135deg, var(--brand-500) 0%, #8b5cf6 50%, #06b6d4 100%);
   -webkit-background-clip: text;

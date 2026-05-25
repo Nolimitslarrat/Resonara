@@ -14,6 +14,7 @@ const PROTECTED_ROUTES: Record<string, Role[]> = {
   "/dashboard/doi": ["SUPER_ADMIN", "PRODUCTION"],
   "/dashboard/editorial": ["SUPER_ADMIN", "MANAGING_EDITOR"],
   "/dashboard/reviewers": ["SUPER_ADMIN", "MANAGING_EDITOR"],
+  "/dashboard/articles": ["SUPER_ADMIN", "MANAGING_EDITOR"],
 };
 
 export default auth((req) => {

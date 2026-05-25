@@ -52,9 +52,9 @@ export function Topbar({
         </button>
         {/* Breadcrumb */}
         <Breadcrumb />
-        <div className="lg:hidden font-editorial font-bold text-lg text-[var(--brand-900)]">
-          Resonara
-        </div>
+        <Link href="/" className="lg:hidden flex items-center">
+          <img src="/logo.png" alt="Resonara" className="h-10 w-auto object-contain drop-shadow-sm" />
+        </Link>
       </div>
 
       {/* Right */}

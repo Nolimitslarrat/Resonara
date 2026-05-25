@@ -33,6 +33,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Issues",         href: "/dashboard/issues",       icon: Layers,           roles: ["SUPER_ADMIN", "PRODUCTION"] },
   { label: "DOI Manager",    href: "/dashboard/doi",          icon: Hash,             roles: ["SUPER_ADMIN", "PRODUCTION"] },
   { label: "Journals",       href: "/dashboard/journals",     icon: BookOpen,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
+  { label: "Articles",       href: "/dashboard/articles",     icon: FileText,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
   { label: "Users",          href: "/dashboard/users",        icon: Shield,           roles: ["SUPER_ADMIN"] },
   { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
   { label: "Activity Logs",  href: "/dashboard/logs",         icon: Activity,         roles: ["SUPER_ADMIN"] },
@@ -74,9 +75,9 @@ export function Sidebar({ mobileOpen, setMobileOpen }: { mobileOpen?: boolean, s
     >
       {/* Logo */}
       <div className={cn("flex items-center justify-center py-10 border-b border-[var(--border)] transition-all duration-300", collapsed ? "px-2" : "px-4")}>
-        <div className={cn("relative flex items-center justify-center transition-all duration-500 hover:scale-110", collapsed ? "w-12 h-12" : "w-full h-40")}>
-          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-lg scale-150" />
-        </div>
+        <Link href="/" className={cn("relative flex items-center justify-center transition-all duration-500 hover:scale-105", collapsed ? "w-12 h-12" : "w-full h-32")}>
+          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-lg scale-110" />
+        </Link>
       </div>
 
       {/* Nav */}

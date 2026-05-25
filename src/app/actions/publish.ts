@@ -71,3 +71,61 @@ export async function publishArticle(manuscriptId: string) {
     return { success: false, error: "Failed to publish article." };
   }
 }
+
+export async function unpublishArticle(manuscriptId: string) {
+  const session = await auth();
+  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const manuscript = await prisma.manuscript.findUnique({
+      where: { id: manuscriptId },
+      include: { author: true, journal: true }
+    });
+
+    if (!manuscript) throw new Error("Manuscript not found");
+
+    // Update Manuscript status
+    await prisma.manuscript.update({
+      where: { id: manuscriptId },
+      data: {
+        status: "READY_TO_PUBLISH",
+        activityLogs: {
+          create: {
+            userId: session.user.id,
+            action: "ARTICLE_UNPUBLISHED",
+            entity: "MANUSCRIPT",
+            metadata: "Article unpublished successfully."
+          }
+        }
+      }
+    });
+
+    // Delete Article record
+    await prisma.article.deleteMany({
+      where: { manuscriptId }
+    });
+
+    // Notify Author
+    const { createNotification } = await import("@/lib/notifications");
+    await createNotification({
+      userId: manuscript.authorId,
+      type: "GENERAL",
+      title: "Article Unpublished",
+      message: `Your article "${manuscript.title}" has been unpublished from ${manuscript.journal.title}.`,
+      link: `/dashboard/manuscripts/${manuscript.id}`
+    });
+
+    revalidatePath("/dashboard");
+    revalidatePath(`/dashboard/manuscripts/${manuscriptId}`);
+    revalidatePath(`/articles/${manuscriptId}`);
+    revalidatePath("/articles");
+    revalidatePath("/dashboard/articles");
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to unpublish article:", error);
+    return { success: false, error: "Failed to unpublish article." };
+  }
+}

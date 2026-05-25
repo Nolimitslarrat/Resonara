@@ -3,20 +3,32 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Activity, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
   title: "Activity Logs | Resonara",
 };
 
-export default async function ActivityLogsPage() {
+export default async function ActivityLogsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user || session.user.role !== "SUPER_ADMIN") {
     redirect("/dashboard");
   }
 
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
+
+  const searchWhere = q ? {
+    OR: [
+      { action: { contains: q, mode: 'insensitive' as const } },
+      { entity: { contains: q, mode: 'insensitive' as const } },
+      { user: { name: { contains: q, mode: 'insensitive' as const } } }
+    ]
+  } : {};
+
   const logs = await prisma.activityLog.findMany({
+    where: searchWhere,
     include: {
       user: {
         select: { name: true, email: true }
@@ -41,10 +53,7 @@ export default async function ActivityLogsPage() {
 
       <div className="bg-white rounded-xl shadow-sm border border-[var(--border)] overflow-hidden">
         <div className="p-4 border-b border-[var(--border)] flex items-center gap-4 bg-slate-50">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <Input placeholder="Search logs..." className="pl-9 bg-white" />
-          </div>
+          <SearchInput placeholder="Search logs..." />
           <Button variant="outline" size="sm" className="gap-2 bg-white">
             <Filter className="w-4 h-4" />
             Filter

@@ -1,4 +1,4 @@
-import { BookOpen, Upload, CheckCircle2, Clock, FileText, Mail, ChevronRight } from "lucide-react";
+import { BookOpen, Upload, CheckCircle2, Clock, FileText, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -20,7 +20,7 @@ const steps = [
     title: "Register & Log In",
     icon: CheckCircle2,
     description:
-      "Create a free Resonara account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be linked in your profile settings.",
+      "Create a Resonara account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be added if available.",
   },
   {
     number: "03",
@@ -34,7 +34,7 @@ const steps = [
     title: "Track Your Submission",
     icon: Clock,
     description:
-      "Monitor the status of your manuscript in real time from your Author Dashboard. You will receive email notifications at every stage of the peer review process.",
+      "Check manuscript status from your Author Dashboard. Notifications may be sent for important workflow updates when email delivery is configured.",
   },
 ];
 
@@ -43,8 +43,8 @@ const policies = [
   { title: "Authorship", body: "All listed authors must have made a substantial contribution and approved the final manuscript." },
   { title: "Conflict of Interest", body: "Authors must disclose any financial or personal relationships that could influence the work." },
   { title: "Ethics", body: "Research involving human subjects or animals must have appropriate ethics committee approval." },
-  { title: "Open Access", body: "All articles published on Resonara are made freely available under a Creative Commons licence." },
-  { title: "Peer Review", body: "All submissions undergo double-blind peer review. Typically 2–3 reviewers are assigned per manuscript." },
+  { title: "Access Options", body: "Publication and access terms are handled according to the policy of the selected journal." },
+  { title: "Peer Review", body: "Submissions are evaluated through the journal's editorial and peer review workflow." },
 ];
 
 export default function AuthorsPage() {
@@ -119,7 +119,7 @@ export default function AuthorsPage() {
       <section className="bg-[var(--brand-900)] rounded-2xl p-10 text-center text-white">
         <h2 className="text-2xl font-editorial font-bold mb-3">Ready to publish?</h2>
         <p className="text-[var(--brand-300)] mb-6">
-          Create a free account and submit your manuscript today.
+          Create an account and start a manuscript submission.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
           <Link href="/register">
@@ -137,3 +137,4 @@ export default function AuthorsPage() {
     </div>
   );
 }
+

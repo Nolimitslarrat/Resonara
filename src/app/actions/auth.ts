@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
-import { redirect } from "next/navigation";
 import type { Role } from "@prisma/client";
 
 export async function registerUser(formData: FormData) {
@@ -11,6 +10,13 @@ export async function registerUser(formData: FormData) {
   const password = formData.get("password") as string;
   const affiliation = formData.get("affiliation") as string;
   const role = formData.get("role") as Role;
+  const designation = formData.get("designation") as string;
+  const orcid = formData.get("orcid") as string;
+  const bio = formData.get("bio") as string;
+  const expertiseRaw = formData.get("expertise") as string;
+  const expertise = expertiseRaw
+    ? expertiseRaw.split(",").map((s) => s.trim()).filter(Boolean)
+    : [];
 
   if (!name || !email || !password || !role) {
     return { success: false, error: "Missing required fields" };
@@ -24,13 +30,17 @@ export async function registerUser(formData: FormData) {
 
     const hashedPassword = await hash(password, 10);
 
-    const user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        affiliation,
+        affiliation: affiliation || null,
         role,
+        designation: designation || null,
+        orcid: orcid || null,
+        bio: bio || null,
+        expertise,
         isActive: true,
       },
     });

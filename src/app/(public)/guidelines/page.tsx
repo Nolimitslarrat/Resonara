@@ -25,7 +25,7 @@ const sections = [
   {
     id: "peer-review",
     title: "Peer Review Policy",
-    content: `Resonara operates a double-blind peer review process. Author identities are withheld from reviewers, and reviewer identities are withheld from authors. Manuscripts are assigned to a minimum of two independent expert reviewers. The Managing Editor makes all final decisions.`,
+    content: `Resonara supports a structured peer review process. Reviewer selection and editorial handling may vary by journal, manuscript type, and subject area. The Managing Editor is responsible for the final editorial decision.`,
   },
   {
     id: "ethics",
@@ -40,7 +40,7 @@ const sections = [
   {
     id: "apc",
     title: "Article Processing Charges",
-    content: `Resonara is an open-access publisher. An Article Processing Charge (APC) may apply upon acceptance. Authors in low-income countries may be eligible for a full or partial fee waiver. Contact the editorial office before submission to discuss waiver eligibility.`,
+    content: `Publication charges, access terms, and waiver options may vary by journal. Authors should review the selected journal's current policy or contact the editorial office before submission.`,
   },
 ];
 

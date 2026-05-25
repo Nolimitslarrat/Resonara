@@ -5,13 +5,14 @@ import Link from "next/link";
 import { BookOpen, Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
-import { AddJournalModal } from "./AddJournalModal";
+import { EditJournalModal } from "./EditJournalModal";
+import { SearchInput } from "@/components/ui/SearchInput";
 
 export const metadata = {
   title: "Manage Journals | Resonara",
 };
 
-export default async function JournalsManagerPage() {
+export default async function JournalsManagerPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
@@ -19,7 +20,13 @@ export default async function JournalsManagerPage() {
     redirect("/dashboard");
   }
 
+  const params = await searchParams;
+  const q = typeof params.q === 'string' ? params.q : '';
+
   const journals = await prisma.journal.findMany({
+    where: q ? {
+      title: { contains: q, mode: 'insensitive' as const }
+    } : {},
     include: {
       _count: {
         select: { manuscripts: true }
@@ -35,16 +42,23 @@ export default async function JournalsManagerPage() {
           <h1 className="text-2xl font-bold text-[var(--foreground)]">Journals</h1>
           <p className="text-[var(--muted)] text-sm mt-1">Manage platform journals and their metadata.</p>
         </div>
-        <AddJournalModal />
+        <Link href="/dashboard/journals/new">
+          <Button className="gap-2">
+            <Plus className="w-4 h-4" />
+            Add Journal
+          </Button>
+        </Link>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <SearchInput placeholder="Search journals by title..." />
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {journals.map((journal) => (
           <div key={journal.id} className="bg-white rounded-xl shadow-sm border border-[var(--border)] p-6 hover:shadow-md transition-shadow relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-              <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-[var(--brand-600)]">
-                <Edit className="w-4 h-4" />
-              </Button>
+              <EditJournalModal journal={journal} />
             </div>
             
             <div className="w-12 h-12 rounded-xl bg-[var(--brand-50)] flex items-center justify-center mb-4">
@@ -85,7 +99,12 @@ export default async function JournalsManagerPage() {
             <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-3" />
             <h3 className="font-semibold text-slate-700 mb-1">No journals yet</h3>
             <p className="text-sm text-slate-500 mb-4">Create your first journal to start accepting manuscripts.</p>
-            <AddJournalModal />
+            <Link href="/dashboard/journals/new">
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                Add Journal
+              </Button>
+            </Link>
           </div>
         )}
       </div>

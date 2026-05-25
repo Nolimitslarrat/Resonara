@@ -37,7 +37,7 @@ export async function generateMetadata(
     description: article.abstract.substring(0, 160),
     other: {
       "citation_title": article.title,
-      ...Object.fromEntries(allAuthors.map(name => ["citation_author", name])),
+      "citation_author": allAuthors,
       "citation_publication_date": publishDate.toISOString().split('T')[0],
       "citation_journal_title": article.journal.title,
       "citation_volume": article.article?.issue?.volume?.toString() || "",
@@ -61,7 +61,7 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
     }
   });
 
-  if (!article) notFound();
+  if (!article || article.status !== "PUBLISHED") notFound();
 
   // Combine authors for display
   const allAuthors = [
@@ -80,7 +80,7 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
           
           <div className="flex flex-wrap gap-3 items-center mb-6">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[var(--brand-100)] text-[var(--brand-700)] uppercase tracking-wider">
-              Open Access
+              Research Article
             </span>
             <span className="text-sm font-medium text-[var(--muted)] flex items-center gap-1.5">
               <BookOpen className="w-4 h-4" /> {article.journal.title}

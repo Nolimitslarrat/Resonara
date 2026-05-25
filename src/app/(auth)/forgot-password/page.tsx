@@ -10,17 +10,17 @@ import { Label } from "@/components/ui/label";
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     await new Promise((r) => setTimeout(r, 1500));
-    setSent(true);
+    setSubmitted(true);
     setLoading(false);
   }
 
-  if (sent) {
+  if (submitted) {
     return (
       <div className="space-y-6 animate-fade-in-up text-center">
         <div className="flex justify-center">
@@ -29,11 +29,10 @@ export default function ForgotPasswordPage() {
           </div>
         </div>
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Check your email</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Request received</h1>
           <p className="text-[var(--muted)] text-sm max-w-sm mx-auto">
-            We&apos;ve sent a password reset link to{" "}
+            If password reset email delivery is configured for this site, instructions will be sent to{" "}
             <span className="font-semibold text-[var(--foreground)]">{email}</span>.
-            Check your inbox and follow the instructions.
           </p>
         </div>
         <Link href="/login">
@@ -55,7 +54,7 @@ export default function ForgotPasswordPage() {
         </Link>
         <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Forgot password?</h1>
         <p className="text-[var(--muted)] text-sm">
-          No worries. Enter your email and we&apos;ll send you a reset link.
+          Enter your email to request password reset instructions.
         </p>
       </div>
 
@@ -65,7 +64,7 @@ export default function ForgotPasswordPage() {
           <Input
             id="email"
             type="email"
-            placeholder="you@university.edu"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

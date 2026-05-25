@@ -1,4 +1,4 @@
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +13,7 @@ const contacts = [
     icon: Mail,
     label: "General Enquiries",
     value: "info@nexschoolar.com",
-    note: "We respond within 2 business days",
+    note: "For general questions and publication enquiries",
   },
   {
     icon: Mail,
@@ -30,8 +30,8 @@ const contacts = [
   {
     icon: Clock,
     label: "Office Hours",
-    value: "Mon–Fri, 9:00–17:00 IST",
-    note: "Excluding public holidays",
+    value: "Editorial Support",
+    note: "Messages are reviewed during working hours",
   },
 ];
 
@@ -144,3 +144,4 @@ export default function ContactPage() {
     </div>
   );
 }
+
