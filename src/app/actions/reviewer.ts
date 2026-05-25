@@ -116,7 +116,7 @@ export async function submitReview(formData: FormData) {
           userId: session.user.id,
           action: "REVIEW_SUBMITTED",
           entity: "REVIEW",
-          metadata: `Recommendation: ${recommendation}`
+          metadata: { recommendation }
         }
       });
     });

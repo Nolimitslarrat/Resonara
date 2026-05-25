@@ -20,7 +20,7 @@ export async function updateManuscriptStatus(manuscriptId: string, status: any, 
             userId: session.user.id,
             action: `STATUS_UPDATED_TO_${status}`,
             entity: "MANUSCRIPT",
-            metadata: comment
+            metadata: { comment }
           }
         }
       }
@@ -81,7 +81,7 @@ export async function assignReviewer(manuscriptId: string, reviewerId: string) {
             userId: session.user.id,
             action: "REVIEWER_ASSIGNED",
             entity: "MANUSCRIPT",
-            metadata: `Assigned to Reviewer ID: ${reviewerId}`
+            metadata: { reviewerId }
           }
         }
       }

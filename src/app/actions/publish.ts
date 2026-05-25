@@ -44,7 +44,7 @@ export async function publishArticle(manuscriptId: string) {
             userId: session.user.id,
             action: "ARTICLE_PUBLISHED",
             entity: "MANUSCRIPT",
-            metadata: `Article published successfully. DOI: ${article.doi || 'Pending'}`
+            metadata: { doi: article.doi || 'Pending', note: 'Article published successfully' }
           }
         }
       }
@@ -96,7 +96,7 @@ export async function unpublishArticle(manuscriptId: string) {
             userId: session.user.id,
             action: "ARTICLE_UNPUBLISHED",
             entity: "MANUSCRIPT",
-            metadata: "Article unpublished successfully."
+            metadata: { note: 'Article unpublished successfully' }
           }
         }
       }

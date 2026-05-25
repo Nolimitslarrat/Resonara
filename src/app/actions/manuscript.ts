@@ -94,7 +94,7 @@ export async function submitManuscript(formData: FormData) {
             userId: session.user.id,
             action: "MANUSCRIPT_SUBMITTED",
             entity: "MANUSCRIPT",
-            metadata: "Initial submission"
+            metadata: { note: "Initial submission" }
           }
         }
       }
