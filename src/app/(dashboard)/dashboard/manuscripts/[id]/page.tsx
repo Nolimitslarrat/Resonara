@@ -24,6 +24,10 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
       activityLogs: {
         orderBy: { createdAt: "desc" },
         include: { user: true }
+      },
+      versions: {
+        orderBy: { version: "desc" },
+        take: 1
       }
     }
   });
@@ -98,6 +102,17 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
                   <dd className="font-semibold text-slate-900">{manuscript.author.name}</dd>
                   <dd className="text-xs text-slate-500 truncate">{manuscript.author.email}</dd>
                 </div>
+                {manuscript.versions && manuscript.versions.length > 0 && (
+                  <div className="pt-2 border-t border-slate-200">
+                    <dt className="text-slate-500 font-medium mb-1">Manuscript File</dt>
+                    <dd className="font-semibold text-[var(--brand-600)]">
+                      <a href={manuscript.versions[0].fileUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:underline">
+                        <FileText className="w-4 h-4" />
+                        <span className="truncate max-w-[180px]">{manuscript.versions[0].fileName}</span>
+                      </a>
+                    </dd>
+                  </div>
+                )}
               </dl>
             </div>
 

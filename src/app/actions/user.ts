@@ -176,3 +176,98 @@ export async function updateUserAdmin(userId: string, formData: FormData) {
     return { success: false, error: "Failed to update user details." };
   }
 }
+
+export async function softDeleteUser(userId: string) {
+  const session = await auth();
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  if (userId === session.user.id) {
+    return { success: false, error: "You cannot delete your own account." };
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data: { isActive: false },
+    });
+
+    revalidatePath("/dashboard/users");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to soft delete user:", error);
+    return { success: false, error: "Failed to delete user." };
+  }
+}
+
+export async function adminResetPassword(userId: string, newPassword?: string) {
+  const session = await auth();
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  if (!newPassword || newPassword.length < 6) {
+    return { success: false, error: "Password must be at least 6 characters." };
+  }
+
+  try {
+    const hashedPassword = await hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true, newPassword };
+  } catch (error) {
+    console.error("Failed to reset password:", error);
+    return { success: false, error: "Failed to reset password." };
+  }
+}
+
+import { compare } from "bcryptjs";
+
+export async function changeUserPassword(formData: FormData) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
+  const currentPassword = formData.get("currentPassword") as string;
+  const newPassword = formData.get("newPassword") as string;
+
+  if (!currentPassword || !newPassword) {
+    return { success: false, error: "Current and new password are required." };
+  }
+
+  if (newPassword.length < 6) {
+    return { success: false, error: "New password must be at least 6 characters." };
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+
+    if (!user || !user.password) {
+      return { success: false, error: "User not found or has no password." };
+    }
+
+    const isValid = await compare(currentPassword, user.password);
+    if (!isValid) {
+      return { success: false, error: "Incorrect current password." };
+    }
+
+    const hashedPassword = await hash(newPassword, 10);
+    await prisma.user.update({
+      where: { id: session.user.id },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to change password:", error);
+    return { success: false, error: "Failed to change password." };
+  }
+}

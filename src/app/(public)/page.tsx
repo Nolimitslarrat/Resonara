@@ -8,14 +8,44 @@ import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resonara Publishers | Research Publication Powerhouse",
-  description: "Resonara Publishers is a premier peer-reviewed scholarly publication engine. We publish high-quality research across sciences and humanities.",
-  keywords: ["Resonara", "Resonara Publishers", "Research", "Journals", "Publication Engine", "Scholarly Publishing"],
+  title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+  description:
+    "Resonara Publishers Pvt. Ltd. is a premier academic publishing platform. Submit manuscripts, track peer review progress, and publish open-access research across sciences and humanities.",
+  keywords: [
+    "Resonara Publishers",
+    "Resonara Publishers Pvt Ltd",
+    "academic publishing platform",
+    "peer reviewed journals India",
+    "manuscript submission system",
+    "open access publishing",
+    "scholarly article submission",
+    "research journal publication",
+  ],
+  alternates: {
+    canonical: "https://resonarapublishers.com",
+  },
   openGraph: {
-    title: "Resonara Publishers",
-    description: "A publication house dedicated to peer-reviewed scholarship.",
+    type: "website",
+    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    description:
+      "Submit manuscripts, manage peer review, and publish world-class research with Resonara Publishers Pvt. Ltd.",
     url: "https://resonarapublishers.com",
     siteName: "Resonara Publishers",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Resonara Publishers — Academic Publishing Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    description:
+      "Submit, review, and publish world-class research with Resonara Publishers.",
+    images: ["/og-image.png"],
   },
 };
 

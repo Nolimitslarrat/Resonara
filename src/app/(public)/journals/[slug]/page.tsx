@@ -25,12 +25,38 @@ export async function generateMetadata(props: {
   const params = await props.params;
   const journal = await prisma.journal.findUnique({
     where: { slug: params.slug },
-    select: { title: true, description: true },
+    select: {
+      title: true,
+      description: true,
+      slug: true,
+      issnPrint: true,
+      issnOnline: true,
+      createdAt: true,
+    },
   });
   if (!journal) return { title: "Not Found" };
+
+  const url = `https://resonarapublishers.com/journals/${journal.slug}`;
+  const description =
+    journal.description ||
+    `Read peer-reviewed research published in ${journal.title} by Resonara Publishers.`;
+
   return {
     title: journal.title,
-    description: journal.description || `Read the latest research in ${journal.title}`,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      title: `${journal.title} | Resonara Publishers`,
+      description,
+      siteName: "Resonara Publishers",
+    },
+    twitter: {
+      card: "summary",
+      title: `${journal.title} | Resonara Publishers`,
+      description,
+    },
   };
 }
 
@@ -63,8 +89,47 @@ export default async function JournalPage(props: {
     where: { journalId: journal.id, status: "PUBLISHED" },
   });
 
+  const journalUrl = `https://resonarapublishers.com/journals/${journal.slug}`;
+
+  const periodicalSchema = {
+    "@context": "https://schema.org",
+    "@type": "Periodical",
+    "@id": `${journalUrl}#periodical`,
+    name: journal.title,
+    description: journal.description || `Peer-reviewed journal published by Resonara Publishers.`,
+    url: journalUrl,
+    issn: [journal.issnPrint, journal.issnOnline].filter(Boolean),
+    publisher: {
+      "@type": "Organization",
+      "@id": "https://resonarapublishers.com/#organization",
+      name: "Resonara Publishers Pvt. Ltd.",
+    },
+    ...(journal.editorInChief && {
+      editor: {
+        "@type": "Person",
+        name: journal.editorInChief.name,
+      },
+    }),
+    about: journal.categories.map((cat) => ({
+      "@type": "Thing",
+      name: cat.name,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://resonarapublishers.com" },
+      { "@type": "ListItem", position: 2, name: "Journals", item: "https://resonarapublishers.com/journals" },
+      { "@type": "ListItem", position: 3, name: journal.title, item: journalUrl },
+    ],
+  };
+
   return (
     <div className="bg-[var(--background)] min-h-screen pb-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(periodicalSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* ── Journal Hero ── */}
       <div className="bg-[var(--brand-900)] text-white pt-20 pb-28 relative overflow-hidden">
         {/* decorative rings */}
@@ -522,14 +587,14 @@ export default async function JournalPage(props: {
             </div>
 
             {/* Indexing */}
-            <div className="bg-white rounded-2xl shadow-sm border border-[var(--border)] overflow-hidden">
-              <div className="px-6 py-4 border-b border-[var(--border)] bg-slate-50/60">
-                <h3 className="text-base font-editorial font-bold text-[var(--brand-900)]">
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+              <div className="px-7 py-5 border-b border-slate-100">
+                <h3 className="text-xl font-editorial font-bold text-[var(--brand-900)] tracking-tight">
                   Abstracting & Indexing
                 </h3>
               </div>
-              <div className="p-6">
-                <div className="space-y-2">
+              <div className="px-7 py-6">
+                <div className="space-y-4">
                   {[
                     "Google Scholar",
                     "CrossRef",
@@ -539,10 +604,10 @@ export default async function JournalPage(props: {
                   ].map((index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2.5 text-sm"
+                      className="flex items-center gap-3 text-[15px]"
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                      <span className="text-[var(--foreground)] font-medium">
+                      <span className="text-slate-800 font-medium tracking-tight">
                         {index}
                       </span>
                     </div>

@@ -31,10 +31,27 @@ export async function generateMetadata(
   ];
 
   const publishDate = article.article?.publishedAt || article.submittedAt || article.createdAt;
+  const articleUrl = `https://resonarapublishers.com/articles/${article.id}`;
+  const description = article.abstract.substring(0, 160);
 
   return {
     title: article.title,
-    description: article.abstract.substring(0, 160),
+    description,
+    alternates: { canonical: articleUrl },
+    openGraph: {
+      type: "article",
+      url: articleUrl,
+      title: `${article.title} | Resonara Publishers`,
+      description,
+      siteName: "Resonara Publishers",
+      publishedTime: publishDate.toISOString(),
+      authors: allAuthors,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description,
+    },
     other: {
       "citation_title": article.title,
       "citation_author": allAuthors,
@@ -43,8 +60,8 @@ export async function generateMetadata(
       "citation_volume": article.article?.issue?.volume?.toString() || "",
       "citation_issue": article.article?.issue?.issue?.toString() || "",
       "citation_issn": article.journal.issnOnline || article.journal.issnPrint || "",
-      "citation_pdf_url": `${process.env.NEXT_PUBLIC_APP_URL || ''}/api/articles/${article.id}/pdf`,
-      "citation_abstract_html_url": `${process.env.NEXT_PUBLIC_APP_URL || ''}/articles/${article.id}`,
+      "citation_pdf_url": `${articleUrl}/pdf`,
+      "citation_abstract_html_url": articleUrl,
       "citation_language": "en",
     },
   };
@@ -69,8 +86,62 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
     ...article.coAuthors.map(ca => ({ name: ca.name, affiliation: ca.affiliation, isCorresponding: ca.isCorresponding }))
   ];
 
+  const articleUrl = `https://resonarapublishers.com/articles/${article.id}`;
+  const publishDate = article.submittedAt || article.createdAt;
+
+  const scholarlyArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "@id": `${articleUrl}#article`,
+    headline: article.title,
+    name: article.title,
+    description: article.abstract.substring(0, 300),
+    url: articleUrl,
+    datePublished: publishDate.toISOString(),
+    dateModified: article.updatedAt?.toISOString() || publishDate.toISOString(),
+    inLanguage: "en",
+    author: [
+      {
+        "@type": "Person",
+        name: article.author.name,
+        ...(article.author.affiliation && { affiliation: { "@type": "Organization", name: article.author.affiliation } }),
+        ...(article.author.orcid && { identifier: { "@type": "PropertyValue", propertyID: "ORCID", value: `https://orcid.org/${article.author.orcid}` } }),
+      },
+      ...article.coAuthors.map(ca => ({
+        "@type": "Person",
+        name: ca.name,
+        ...(ca.affiliation && { affiliation: { "@type": "Organization", name: ca.affiliation } }),
+      })),
+    ],
+    isPartOf: {
+      "@type": "Periodical",
+      "@id": `https://resonarapublishers.com/journals/${article.journal.slug}#periodical`,
+      name: article.journal.title,
+      issn: [article.journal.issnPrint, article.journal.issnOnline].filter(Boolean),
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": "https://resonarapublishers.com/#organization",
+      name: "Resonara Publishers Pvt. Ltd.",
+    },
+    keywords: article.keywords?.join(", ") || "",
+    abstract: article.abstract,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://resonarapublishers.com" },
+      { "@type": "ListItem", position: 2, name: article.journal.title, item: `https://resonarapublishers.com/journals/${article.journal.slug}` },
+      { "@type": "ListItem", position: 3, name: article.title, item: articleUrl },
+    ],
+  };
+
   return (
     <div className="bg-[var(--background)] min-h-screen pb-24">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(scholarlyArticleSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {/* ── Article Header ── */}
       <div className="bg-white border-b border-[var(--border)] pt-12 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -5,7 +5,7 @@ import { User, Mail, Shield, Building2, Fingerprint, ExternalLink, X, Loader2, E
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateUserAdmin } from "@/app/actions/user";
+import { updateUserAdmin, softDeleteUser, adminResetPassword } from "@/app/actions/user";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 
@@ -156,14 +156,56 @@ export function EditUserModal({ user }: { user: UserData }) {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3 pt-3 border-t">
-                <Button type="button" variant="ghost" onClick={() => setIsOpen(false)} className="flex-1">
+              <div className="flex gap-3 pt-3 border-t flex-wrap">
+                <Button 
+                  type="button" 
+                  variant="destructive" 
+                  onClick={async () => {
+                    if (window.confirm("Are you sure you want to deactivate this user account?")) {
+                      const res = await softDeleteUser(user.id);
+                      if (res.success) {
+                        toast({ title: "User deactivated" });
+                        router.refresh();
+                        setIsOpen(false);
+                      } else {
+                        toast({ variant: "destructive", title: "Error", description: res.error });
+                      }
+                    }
+                  }} 
+                >
+                  Deactivate User
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline"
+                  className="mr-auto border-amber-200 text-amber-700 hover:bg-amber-50 hover:text-amber-800"
+                  onClick={async () => {
+                    const newPassword = window.prompt("Enter the new password for this user (minimum 6 characters):");
+                    if (newPassword === null) return; // User cancelled
+                    if (newPassword.trim().length < 6) {
+                      toast({ variant: "destructive", title: "Error", description: "Password must be at least 6 characters." });
+                      return;
+                    }
+                    if (window.confirm(`Are you sure you want to reset this user's password to: ${newPassword} ?`)) {
+                      const res = await adminResetPassword(user.id, newPassword);
+                      if (res.success) {
+                        toast({ title: "Password Reset", description: `The password has been updated successfully.` });
+                        setIsOpen(false);
+                      } else {
+                        toast({ variant: "destructive", title: "Error", description: res.error });
+                      }
+                    }
+                  }} 
+                >
+                  Reset Password
+                </Button>
+                <Button type="button" variant="ghost" onClick={() => setIsOpen(false)}>
                   Cancel
                 </Button>
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white font-bold"
+                  className="bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white font-bold"
                 >
                   {isSubmitting ? (
                     <>

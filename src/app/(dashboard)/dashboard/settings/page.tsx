@@ -8,11 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 
+import { changeUserPassword, updateUserProfile } from "@/app/actions/user";
+
 export const dynamic = "force-dynamic";
 
 export default function SettingsPage() {
   const { data: session } = useSession();
   const [saving, setSaving] = useState(false);
+  const [savingPassword, setSavingPassword] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
   const [form, setForm] = useState({
     name: session?.user?.name ?? "",
     affiliation: "",
@@ -20,12 +28,16 @@ export default function SettingsPage() {
     orcid: "",
   });
 
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSave(formData: FormData) {
     setSaving(true);
-    await new Promise((r) => setTimeout(r, 800));
+    const res = await updateUserProfile(formData);
     setSaving(false);
-    toast({ title: "Settings saved", description: "Your profile has been updated." });
+    
+    if (res.success) {
+      toast({ title: "Settings saved", description: "Your profile has been updated." });
+    } else {
+      toast({ variant: "destructive", title: "Error", description: res.error });
+    }
   }
 
   const role = session?.user?.role ?? "";
@@ -62,7 +74,7 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        <form onSubmit={handleSave} className="p-6 sm:p-8 space-y-6">
+        <form action={handleSave} className="p-6 sm:p-8 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="name" className="flex items-center gap-2">
@@ -70,9 +82,11 @@ export default function SettingsPage() {
               </Label>
               <Input
                 id="name"
+                name="name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 placeholder="Dr. Jane Smith"
+                required
               />
             </div>
             <div className="space-y-2">
@@ -92,6 +106,7 @@ export default function SettingsPage() {
               </Label>
               <Input
                 id="affiliation"
+                name="affiliation"
                 value={form.affiliation}
                 onChange={(e) => setForm({ ...form, affiliation: e.target.value })}
                 placeholder="University of Science"
@@ -103,6 +118,7 @@ export default function SettingsPage() {
               </Label>
               <Input
                 id="orcid"
+                name="orcid"
                 value={form.orcid}
                 onChange={(e) => setForm({ ...form, orcid: e.target.value })}
                 placeholder="0000-0000-0000-0000"
@@ -116,6 +132,7 @@ export default function SettingsPage() {
             </Label>
             <textarea
               id="bio"
+              name="bio"
               value={form.bio}
               onChange={(e) => setForm({ ...form, bio: e.target.value })}
               placeholder="Brief biography for your public profile..."
@@ -139,36 +156,74 @@ export default function SettingsPage() {
           <KeyRound className="w-4 h-4" /> Change Password
         </h2>
         <p className="text-sm text-[var(--muted)] mb-6">
-          Use a strong password with at least 8 characters.
+          Use a strong password with at least 6 characters.
         </p>
-        <div className="space-y-4 max-w-md">
+        <form action={async (formData) => {
+          setSavingPassword(true);
+          const currentPassword = formData.get("currentPassword") as string;
+          const newPassword = formData.get("newPassword") as string;
+          const confirmPassword = formData.get("confirmPassword") as string;
+          
+          if (newPassword !== confirmPassword) {
+            toast({ variant: "destructive", title: "Error", description: "New passwords do not match." });
+            setSavingPassword(false);
+            return;
+          }
+
+          const res = await changeUserPassword(formData);
+          if (res.success) {
+            toast({ title: "Success", description: "Your password has been updated." });
+            setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+          } else {
+            toast({ variant: "destructive", title: "Error", description: res.error });
+          }
+          setSavingPassword(false);
+        }} className="space-y-4 max-w-md">
           <div className="space-y-2">
             <Label htmlFor="current-password">Current Password</Label>
-            <Input id="current-password" type="password" placeholder="••••••••" />
+            <Input 
+              id="current-password" 
+              name="currentPassword" 
+              type="password" 
+              required
+              value={passwordForm.currentPassword}
+              onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="new-password">New Password</Label>
-            <Input id="new-password" type="password" placeholder="••••••••" />
+            <Input 
+              id="new-password" 
+              name="newPassword" 
+              type="password" 
+              required
+              minLength={6}
+              value={passwordForm.newPassword}
+              onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="confirm-password">Confirm New Password</Label>
-            <Input id="confirm-password" type="password" placeholder="••••••••" />
+            <Input 
+              id="confirm-password" 
+              name="confirmPassword" 
+              type="password" 
+              required
+              minLength={6}
+              value={passwordForm.confirmPassword}
+              onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+            />
           </div>
           <Button
+            type="submit"
             variant="outline"
             className="gap-2"
-            onClick={() =>
-              toast({
-                title: "Password update",
-                description: "Password change is not yet connected to the backend.",
-                variant: "destructive",
-              })
-            }
+            disabled={savingPassword}
           >
             <KeyRound className="w-4 h-4" />
-            Update Password
+            {savingPassword ? "Updating..." : "Update Password"}
           </Button>
-        </div>
+        </form>
       </div>
     </div>
   );

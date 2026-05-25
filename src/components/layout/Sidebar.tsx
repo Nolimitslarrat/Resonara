@@ -38,7 +38,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
   { label: "Activity Logs",  href: "/dashboard/logs",         icon: Activity,         roles: ["SUPER_ADMIN"] },
   { label: "Notifications",  href: "/dashboard/notifications",icon: Bell,             roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
-  { label: "Settings",       href: "/dashboard/settings",     icon: Settings,         roles: ["SUPER_ADMIN"] },
+  { label: "Settings",       href: "/dashboard/settings",     icon: Settings,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
 ];
 
 const ROLE_LABELS: Record<Role, string> = {

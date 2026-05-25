@@ -8,33 +8,6 @@ export const metadata = {
   description: "Get in touch with the Resonara editorial and support team.",
 };
 
-const contacts = [
-  {
-    icon: Mail,
-    label: "General Enquiries",
-    value: "info@nexschoolar.com",
-    note: "For general questions and publication enquiries",
-  },
-  {
-    icon: Mail,
-    label: "Editorial Office",
-    value: "editorial@nexschoolar.com",
-    note: "For manuscript and review queries",
-  },
-  {
-    icon: Mail,
-    label: "Technical Support",
-    value: "support@nexschoolar.com",
-    note: "For platform and account issues",
-  },
-  {
-    icon: Clock,
-    label: "Office Hours",
-    value: "Editorial Support",
-    note: "Messages are reviewed during working hours",
-  },
-];
-
 export default function ContactPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
@@ -105,31 +78,21 @@ export default function ContactPage() {
           <h2 className="text-xl font-editorial font-bold text-[var(--brand-900)]">
             Get in Touch
           </h2>
-          <div className="space-y-4">
-            {contacts.map((c) => {
-              const Icon = c.icon;
-              return (
-                <div
-                  key={c.label}
-                  className="bg-white border border-[var(--border)] rounded-xl p-5 flex gap-4 shadow-sm"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-[var(--brand-50)] flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-[var(--brand-600)]" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)] mb-1">
-                      {c.label}
-                    </p>
-                    <p className="text-sm font-semibold text-[var(--foreground)]">{c.value}</p>
-                    <p className="text-xs text-[var(--muted)] mt-0.5">{c.note}</p>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="bg-white border border-[var(--border)] rounded-xl p-6 shadow-sm space-y-4">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              For any enquiries regarding manuscript submission, peer review, or technical issues, please use the contact form to reach out to our team. We typically respond within 1-2 business days.
+            </p>
+            <div className="flex items-center gap-3 pt-2 border-t border-[var(--border)]">
+              <Clock className="w-5 h-5 text-[var(--brand-600)]" />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Working Hours</p>
+                <p className="text-sm font-semibold text-[var(--foreground)]">Monday to Friday</p>
+              </div>
+            </div>
           </div>
 
           {/* FAQ shortcut */}
-          <div className="bg-[var(--brand-50)] border border-[var(--brand-200)] rounded-xl p-5">
+          <div className="bg-[var(--brand-50)] border border-[var(--brand-200)] rounded-xl p-5 mt-6">
             <p className="text-sm font-bold text-[var(--brand-800)] mb-1">Before reaching out…</p>
             <p className="text-xs text-[var(--brand-700)] leading-relaxed">
               Check our{" "}

@@ -16,7 +16,14 @@ export default async function ReviewerAssignmentPage(props: { params: Promise<{ 
     where: { id: params.id },
     include: {
       manuscript: {
-        include: { journal: true, author: true }
+        include: { 
+          journal: true, 
+          author: true,
+          versions: {
+            orderBy: { version: "desc" },
+            take: 1
+          }
+        }
       },
       review: true
     }
@@ -36,10 +43,18 @@ export default async function ReviewerAssignmentPage(props: { params: Promise<{ 
       <div className="bg-white border border-[var(--border)] rounded-2xl shadow-sm p-8">
         <h1 className="text-2xl font-editorial font-bold text-[var(--brand-900)] leading-tight mb-4">{manuscript.title}</h1>
         
-        <div className="flex gap-4 items-center text-sm text-slate-600 mb-8 pb-6 border-b border-slate-200">
+        <div className="flex gap-4 items-center flex-wrap text-sm text-slate-600 mb-8 pb-6 border-b border-slate-200">
           <span className="flex items-center gap-1"><FileText className="w-4 h-4" /> {manuscript.journal.title}</span>
           <span>•</span>
           <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> Due: {assignment.dueDate ? formatDate(assignment.dueDate) : 'N/A'}</span>
+          {manuscript.versions && manuscript.versions.length > 0 && (
+            <>
+              <span>•</span>
+              <a href={manuscript.versions[0].fileUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 font-semibold text-[var(--brand-600)] hover:underline">
+                <FileText className="w-4 h-4" /> Download Manuscript
+              </a>
+            </>
+          )}
         </div>
 
         <div className="space-y-6 mb-10">

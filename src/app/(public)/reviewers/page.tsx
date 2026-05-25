@@ -1,5 +1,6 @@
 import { Star, Shield, Clock, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
@@ -109,11 +110,20 @@ export default function ReviewersPage() {
         </div>
       </section>
 
-      {/* Process timeline */}
+      {/* Process timeline & Flowchart */}
       <section className="bg-white border border-[var(--border)] rounded-2xl p-8 shadow-sm">
         <h2 className="text-xl font-editorial font-bold text-[var(--brand-900)] mb-6">
           Review Process Timeline
         </h2>
+        <div className="mb-10 border border-[var(--border)] rounded-xl overflow-hidden bg-slate-50 flex items-center justify-center p-4">
+          <Image 
+            src="/peer-review-flowchart.png" 
+            alt="Peer Review Process Flowchart" 
+            width={1200} 
+            height={800} 
+            className="w-full h-auto max-w-4xl mx-auto rounded-lg shadow-sm"
+          />
+        </div>
         <div className="space-y-5">
           {[
             { step: "Invitation received", note: "You receive an email with manuscript title and abstract." },

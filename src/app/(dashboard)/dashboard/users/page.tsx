@@ -22,12 +22,15 @@ export default async function UsersManagerPage(props: { searchParams: Promise<{ 
   }
 
   const users = await prisma.user.findMany({
-    where: q ? {
-      OR: [
-        { name: { contains: q, mode: "insensitive" } },
-        { email: { contains: q, mode: "insensitive" } },
-      ],
-    } : undefined,
+    where: {
+      isActive: true,
+      ...(q ? {
+        OR: [
+          { name: { contains: q, mode: "insensitive" } },
+          { email: { contains: q, mode: "insensitive" } },
+        ],
+      } : {})
+    },
     orderBy: { createdAt: "desc" }
   });
 
