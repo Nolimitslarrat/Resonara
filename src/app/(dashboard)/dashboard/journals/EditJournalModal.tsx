@@ -96,6 +96,17 @@ export function EditJournalModal({ journal }: { journal: Journal }) {
                 />
               </div>
 
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-1">Indexing Services (Optional)</label>
+                <Input 
+                  name="indexingServices"
+                  defaultValue={(journal as any).indexingServices?.join(", ") || ""}
+                  placeholder="e.g. Google Scholar, CrossRef, DOAJ"
+                  className="h-11"
+                />
+                <p className="text-xs text-slate-500 mt-1">Comma-separated list of services where this journal is indexed.</p>
+              </div>
+
               <div className="flex items-center gap-2 pt-2">
                 <input type="hidden" name="isActive" value="false" />
                 <input type="checkbox" id={`active-${journal.id}`} name="isActive" value="true" defaultChecked={journal.isActive} className="w-4 h-4 text-[var(--brand-600)]" />

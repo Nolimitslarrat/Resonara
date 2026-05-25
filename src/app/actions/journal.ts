@@ -34,6 +34,11 @@ export async function createJournal(formData: FormData) {
   const reviewType = (formData.get("reviewType") as string) || "DOUBLE_BLIND";
   const editorInChiefId = formData.get("editorInChiefId") as string;
   const editorialBoardRaw = formData.get("editorialBoard") as string;
+  const indexingServicesRaw = formData.get("indexingServices") as string;
+  
+  const indexingServices = indexingServicesRaw 
+    ? indexingServicesRaw.split(",").map(s => s.trim()).filter(Boolean)
+    : [];
   
   if (!title) {
     return { success: false, error: "Journal title is required" };
@@ -87,6 +92,7 @@ export async function createJournal(formData: FormData) {
         reviewType,
         editorInChiefId: editorInChiefId || null,
         isActive: true,
+        indexingServices,
         editorialBoard: editorialBoard.length
           ? {
               create: editorialBoard,
@@ -120,6 +126,11 @@ export async function updateJournal(id: string, formData: FormData) {
   const description = formData.get("description") as string;
   const scope = formData.get("scope") as string;
   const isActive = formData.get("isActive") === "true";
+  const indexingServicesRaw = formData.get("indexingServices") as string;
+  
+  const indexingServices = indexingServicesRaw 
+    ? indexingServicesRaw.split(",").map(s => s.trim()).filter(Boolean)
+    : [];
 
   try {
     await prisma.journal.update({
@@ -131,6 +142,7 @@ export async function updateJournal(id: string, formData: FormData) {
         description: description || null,
         scope: scope || null,
         isActive,
+        indexingServices,
       }
     });
 

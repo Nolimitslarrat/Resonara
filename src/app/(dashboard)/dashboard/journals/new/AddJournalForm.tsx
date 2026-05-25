@@ -141,6 +141,16 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Indexing Services (Optional)</label>
+        <Input 
+          name="indexingServices"
+          placeholder="e.g. Google Scholar, CrossRef, DOAJ (comma-separated)"
+          className="h-11"
+        />
+        <p className="text-xs text-slate-500 mt-1">Comma-separated list of services where this journal is indexed.</p>
+      </div>
+
       <div className="pt-2 border-t mt-6">
         <div className="flex items-center justify-between mt-4 mb-4">
           <label className="block text-sm font-bold text-slate-700">Editorial Board (Optional)</label>

@@ -165,6 +165,7 @@ model Journal {
   website         String?
   isActive        Boolean  @default(true)
   reviewType      String   @default("DOUBLE_BLIND")
+  indexingServices String[] @default([])
   editorInChiefId String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

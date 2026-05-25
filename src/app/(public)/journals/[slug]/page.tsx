@@ -587,34 +587,30 @@ export default async function JournalPage(props: {
             </div>
 
             {/* Indexing */}
-            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-              <div className="px-7 py-5 border-b border-slate-100">
-                <h3 className="text-xl font-editorial font-bold text-[var(--brand-900)] tracking-tight">
-                  Abstracting & Indexing
-                </h3>
-              </div>
-              <div className="px-7 py-6">
-                <div className="space-y-4">
-                  {[
-                    "Google Scholar",
-                    "CrossRef",
-                    "ROAD",
-                    "BASE",
-                    "WorldCat",
-                  ].map((index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 text-[15px]"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                      <span className="text-slate-800 font-medium tracking-tight">
-                        {index}
-                      </span>
-                    </div>
-                  ))}
+            {journal.indexingServices && journal.indexingServices.length > 0 && (
+              <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div className="px-7 py-5 border-b border-slate-100">
+                  <h3 className="text-xl font-editorial font-bold text-[var(--brand-900)] tracking-tight">
+                    Abstracting & Indexing
+                  </h3>
+                </div>
+                <div className="px-7 py-6">
+                  <div className="space-y-4">
+                    {journal.indexingServices.map((index: string) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 text-[15px]"
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                        <span className="text-slate-800 font-medium tracking-tight">
+                          {index}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Categories */}
             {journal.categories.length > 0 && (
