@@ -46,7 +46,13 @@ const ROLES = [
   },
 ];
 
-export function InviteUserModal() {
+export function InviteUserModal({ 
+  triggerClassName, 
+  triggerVariant = "default" 
+}: { 
+  triggerClassName?: string;
+  triggerVariant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+} = {}) {
   const router = useRouter();
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +104,11 @@ export function InviteUserModal() {
 
   return (
     <>
-      <Button onClick={handleOpen} className="gap-2 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white shadow-sm">
+      <Button 
+        onClick={handleOpen} 
+        variant={triggerVariant}
+        className={triggerClassName || "gap-2 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white shadow-sm"}
+      >
         <UserPlus className="w-4 h-4" />
         Add User
       </Button>

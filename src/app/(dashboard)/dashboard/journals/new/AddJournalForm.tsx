@@ -29,6 +29,7 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
   const [editorInChiefId, setEditorInChiefId] = useState<string>("");
   const [reviewType, setReviewType] = useState<string>("DOUBLE_BLIND");
   const [board, setBoard] = useState<BoardRow[]>([]);
+  const [reviewers, setReviewers] = useState<BoardRow[]>([]);
 
   const candidateOptions = useMemo(() => {
     return initialCandidates.map((u) => ({
@@ -45,7 +46,11 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
     const formData = new FormData(e.currentTarget);
     formData.set("editorInChiefId", editorInChiefId);
     formData.set("reviewType", reviewType);
-    formData.set("editorialBoard", JSON.stringify(board.filter((r) => r.userId)));
+    const combinedBoard = [
+      ...board.filter((r) => r.userId),
+      ...reviewers.filter((r) => r.userId)
+    ];
+    formData.set("editorialBoard", JSON.stringify(combinedBoard));
     const result = await createJournal(formData);
 
     if (result.success) {
@@ -102,9 +107,7 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
         <div>
           <div className="flex items-center justify-between mb-1">
             <label className="block text-sm font-bold text-slate-700">Editor-in-Chief</label>
-            <div className="scale-75 origin-right -mr-2">
-              <InviteUserModal />
-            </div>
+            <InviteUserModal triggerVariant="outline" triggerClassName="h-7 px-2 text-xs gap-1 text-[var(--brand-600)] border-[var(--brand-200)] hover:bg-[var(--brand-50)] shadow-none" />
           </div>
           <select
             value={editorInChiefId}
@@ -231,6 +234,68 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
                     onClick={() => setBoard((prev) => prev.filter((_, i) => i !== idx))}
                     className="h-11 w-11 rounded-lg border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-colors flex items-center justify-center"
                     aria-label="Remove member"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="pt-2 border-t mt-6">
+        <div className="flex items-center justify-between mt-4 mb-4">
+          <label className="block text-sm font-bold text-slate-700">Reviewers (Optional)</label>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-9 px-3 text-xs font-semibold"
+            onClick={() =>
+              setReviewers((prev) => [
+                ...prev,
+                { userId: "", role: "Reviewer", order: prev.length },
+              ])
+            }
+          >
+            Add Reviewer
+          </Button>
+        </div>
+
+        {reviewers.length === 0 ? (
+          <p className="text-sm text-slate-500 p-4 border border-dashed rounded-lg text-center">
+            No reviewers assigned yet. You can add them here or manage them later.
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {reviewers.map((row, idx) => (
+              <div key={idx} className="grid grid-cols-12 gap-3 items-center">
+                <div className="col-span-12 md:col-span-10">
+                  <select
+                    value={row.userId}
+                    onChange={(e) =>
+                      setReviewers((prev) => {
+                        const next = [...prev];
+                        next[idx] = { ...next[idx], userId: e.target.value };
+                        return next;
+                      })
+                    }
+                    className="w-full h-11 border border-slate-300 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)] bg-white"
+                  >
+                    <option value="">Select user</option>
+                    {candidateOptions.map((o) => (
+                      <option key={o.id} value={o.id}>
+                        {o.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-span-2 md:col-span-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setReviewers((prev) => prev.filter((_, i) => i !== idx))}
+                    className="h-11 w-11 rounded-lg border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-200 hover:bg-red-50 transition-colors flex items-center justify-center"
+                    aria-label="Remove reviewer"
                   >
                     <X className="w-5 h-5" />
                   </button>
