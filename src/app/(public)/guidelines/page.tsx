@@ -2,15 +2,15 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 export const metadata = {
-  title: "Author & Submission Guidelines | Resonara",
-  description: "Comprehensive submission guidelines, review policies, ethics standards, and formatting requirements for Resonara.",
+  title: "Author & Submission Guidelines | Resonara Publishers Pvt. Ltd.",
+  description: "Comprehensive submission guidelines, review policies, ethics standards, and formatting requirements for Resonara Publishers Pvt. Ltd..",
 };
 
 const sections = [
   {
     id: "scope",
     title: "Scope & Aims",
-    content: `Resonara publishes original research articles, systematic reviews, meta-analyses, and methodological papers across a broad range of academic disciplines. We accept submissions in English only. Submitted manuscripts must represent original work not published or under consideration elsewhere.`,
+    content: `Resonara Publishers Pvt. Ltd.publishes original research articles, systematic reviews, meta-analyses, and methodological papers across a broad range of academic disciplines. We accept submissions in English only. Submitted manuscripts must represent original work not published or under consideration elsewhere.`,
   },
   {
     id: "formatting",
@@ -25,7 +25,7 @@ const sections = [
   {
     id: "peer-review",
     title: "Peer Review Policy",
-    content: `Resonara supports a structured peer review process. Reviewer selection and editorial handling may vary by journal, manuscript type, and subject area. The Managing Editor is responsible for the final editorial decision.`,
+    content: `Resonara Publishers Pvt. Ltd.supports a structured peer review process. Reviewer selection and editorial handling may vary by journal, manuscript type, and subject area. The Managing Editor is responsible for the final editorial decision.`,
   },
   {
     id: "ethics",

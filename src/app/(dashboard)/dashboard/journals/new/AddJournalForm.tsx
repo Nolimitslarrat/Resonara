@@ -27,7 +27,6 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
   const [error, setError] = useState<string | null>(null);
   
   const [editorInChiefId, setEditorInChiefId] = useState<string>("");
-  const [reviewType, setReviewType] = useState<string>("DOUBLE_BLIND");
   const [board, setBoard] = useState<BoardRow[]>([]);
   const [reviewers, setReviewers] = useState<BoardRow[]>([]);
 
@@ -45,7 +44,6 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
 
     const formData = new FormData(e.currentTarget);
     formData.set("editorInChiefId", editorInChiefId);
-    formData.set("reviewType", reviewType);
     const combinedBoard = [
       ...board.filter((r) => r.userId),
       ...reviewers.filter((r) => r.userId)
@@ -75,7 +73,7 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">Website (Optional)</label>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Website</label>
         <Input name="website" placeholder="https://example.com/journal" />
       </div>
 
@@ -90,19 +88,60 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Abbreviation</label>
+          <Input name="abbreviation" placeholder="e.g. CTIT" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Frequency</label>
+          <Input name="frequency" placeholder="e.g. 3 Issues Per Year" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">DOI Prefix/Default</label>
+          <Input name="doi" placeholder="e.g. 10.37591/CTIT" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Publisher</label>
+          <Input name="publisher" placeholder="e.g. Resonara Publishers Pvt. Ltd." />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Starting Year</label>
+          <Input name="startingYear" placeholder="e.g. 2026" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Publication Format</label>
+          <Input name="publicationFormat" placeholder="e.g. Hybrid Open Access" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Language</label>
+          <Input name="language" placeholder="e.g. English" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Copyright Policy</label>
+          <Input name="copyrightPolicy" placeholder="e.g. CC BY-NC-ND" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Impact Factor</label>
+          <Input name="impactFactor" placeholder="e.g. 2024 : 6.058" />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Address</label>
+        <Input name="address" placeholder="e.g. Unit No 603-604, 6th Floor..." />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-1">Review Model</label>
-          <select
-            value={reviewType}
-            onChange={(e) => setReviewType(e.target.value)}
-            className="w-full h-11 border border-slate-300 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)] bg-white"
-          >
-            <option value="DOUBLE_BLIND">Double-blind</option>
-            <option value="SINGLE_BLIND">Single-blind</option>
-            <option value="OPEN">Open review</option>
-            <option value="EDITORIAL">Editorial review</option>
-          </select>
+          <Input name="reviewType" placeholder="e.g. Peer-reviewed Journal" />
         </div>
         <div>
           <div className="flex items-center justify-between mb-1">
@@ -135,7 +174,7 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">Full Description (Optional)</label>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Full Description</label>
         <textarea 
           name="description"
           rows={4}
@@ -145,7 +184,7 @@ export function AddJournalForm({ initialCandidates }: { initialCandidates: Edito
       </div>
 
       <div>
-        <label className="block text-sm font-bold text-slate-700 mb-1">Indexing Services (Optional)</label>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Indexing Services</label>
         <Input 
           name="indexingServices"
           placeholder="e.g. Google Scholar, CrossRef, DOAJ (comma-separated)"

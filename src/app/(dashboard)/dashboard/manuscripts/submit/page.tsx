@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { SubmissionWizard } from "./SubmissionWizard";
 
 export const metadata = {
-  title: "Submit Manuscript | Resonara",
+  title: "Submit Manuscript | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function SubmitManuscriptPage(props: { searchParams: Promise<{ journal?: string }> }) {

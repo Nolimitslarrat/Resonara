@@ -166,6 +166,16 @@ model Journal {
   isActive        Boolean  @default(true)
   reviewType      String   @default("DOUBLE_BLIND")
   indexingServices String[] @default([])
+  abbreviation        String?
+  frequency           String?
+  doi                 String?
+  publisher           String?
+  startingYear        String?
+  publicationFormat   String?
+  language            String?
+  copyrightPolicy     String?
+  impactFactor        String?
+  address             String?
   editorInChiefId String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -434,3 +444,18 @@ model File {
 
   @@map("files")
 }
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
+

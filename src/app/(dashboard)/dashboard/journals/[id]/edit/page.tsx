@@ -9,7 +9,7 @@ import { ChevronLeft } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Edit Journal | Resonara",
+  title: "Edit Journal | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function EditJournalPage({
@@ -82,6 +82,16 @@ export default async function EditJournalPage({
             editorInChiefId: journal.editorInChiefId,
             isActive: journal.isActive,
             indexingServices: journal.indexingServices,
+            abbreviation: journal.abbreviation,
+            frequency: journal.frequency,
+            doi: journal.doi,
+            publisher: journal.publisher,
+            startingYear: journal.startingYear,
+            publicationFormat: journal.publicationFormat,
+            language: journal.language,
+            copyrightPolicy: journal.copyrightPolicy,
+            impactFactor: journal.impactFactor,
+            address: journal.address,
             editorialBoard: journal.editorialBoard.map((m) => ({
               id: m.id,
               userId: m.userId,

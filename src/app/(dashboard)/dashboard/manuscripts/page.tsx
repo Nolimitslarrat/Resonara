@@ -8,7 +8,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Manuscripts | Resonara",
+  title: "Manuscripts | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function ManuscriptsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {

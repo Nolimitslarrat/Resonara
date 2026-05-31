@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Terms of Service | Resonara",
-  description: "Terms and conditions for using the Resonara academic publishing platform.",
+  title: "Terms of Service | Resonara Publishers Pvt. Ltd.",
+  description: "Terms and conditions for using the Resonara Publishers Pvt. Ltd.academic publishing platform.",
 };
 
 const lastUpdated = "10 May 2026";
@@ -22,11 +22,11 @@ export default function TermsPage() {
         {[
           {
             title: "1. Acceptance of Terms",
-            body: `By creating a Resonara account or using the platform, you agree to be bound by these Terms of Service. If you do not agree, do not use our services. We may update these terms from time to time; continued use after notification constitutes acceptance of the revised terms.`,
+            body: `By creating a Resonara Publishers Pvt. Ltd.account or using the platform, you agree to be bound by these Terms of Service. If you do not agree, do not use our services. We may update these terms from time to time; continued use after notification constitutes acceptance of the revised terms.`,
           },
           {
             title: "2. Eligibility",
-            body: `You must be at least 18 years old and have the legal capacity to enter into agreements to use Resonara. By registering, you represent and warrant that all information you provide is accurate and complete.`,
+            body: `You must be at least 18 years old and have the legal capacity to enter into agreements to use Resonara Publishers Pvt. Ltd.. By registering, you represent and warrant that all information you provide is accurate and complete.`,
           },
           {
             title: "3. Author Responsibilities",
@@ -46,11 +46,11 @@ export default function TermsPage() {
           },
           {
             title: "7. Disclaimer of Warranties",
-            body: `Resonara is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We do not warrant that the service will be uninterrupted, error-free, or secure. We make no representations regarding the accuracy of any content published on the platform.`,
+            body: `Resonara Publishers Pvt. Ltd.is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We do not warrant that the service will be uninterrupted, error-free, or secure. We make no representations regarding the accuracy of any content published on the platform.`,
           },
           {
             title: "8. Limitation of Liability",
-            body: `To the maximum extent permitted by applicable law, Resonara shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of or inability to use the platform, even if we have been advised of the possibility of such damages.`,
+            body: `To the maximum extent permitted by applicable law, Resonara Publishers Pvt. Ltd.shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of or inability to use the platform, even if we have been advised of the possibility of such damages.`,
           },
           {
             title: "9. Termination",
@@ -62,7 +62,7 @@ export default function TermsPage() {
           },
           {
             title: "11. Contact",
-            body: `Questions about these Terms should be directed to legal@nexschoolar.com or through our Contact page.`,
+            body: `Questions about these Terms should be directed to Info@resonarapublishers.com or through our Contact page.`,
           },
         ].map((s) => (
           <section key={s.title}>

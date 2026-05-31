@@ -8,7 +8,7 @@ import {
   LayoutDashboard, FileText, BookOpen, Users, BarChart3,
   Settings, Bell, Star, ClipboardList, Layers, Printer,
   Hash, ChevronLeft, ChevronRight, LogOut, UserCircle,
-  PenLine, Shield, Activity
+  PenLine, Shield, Activity, Mail
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Users",          href: "/dashboard/users",        icon: Shield,           roles: ["SUPER_ADMIN"] },
   { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
   { label: "Activity Logs",  href: "/dashboard/logs",         icon: Activity,         roles: ["SUPER_ADMIN"] },
+  { label: "Contacts",       href: "/dashboard/contacts",     icon: Mail,             roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
   { label: "Notifications",  href: "/dashboard/notifications",icon: Bell,             roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
   { label: "Settings",       href: "/dashboard/settings",     icon: Settings,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
 ];
@@ -76,7 +77,7 @@ export function Sidebar({ mobileOpen, setMobileOpen }: { mobileOpen?: boolean, s
       {/* Logo */}
       <div className={cn("flex items-center justify-center py-10 border-b border-[var(--border)] transition-all duration-300", collapsed ? "px-2" : "px-4")}>
         <Link href="/" className={cn("relative flex items-center justify-center transition-all duration-500 hover:scale-105", collapsed ? "w-12 h-12" : "w-full h-32")}>
-          <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-lg scale-110" />
+          <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd.Logo" className="object-contain w-full h-full drop-shadow-lg scale-110" />
         </Link>
       </div>
 

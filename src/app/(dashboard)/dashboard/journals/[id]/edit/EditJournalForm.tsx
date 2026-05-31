@@ -35,6 +35,16 @@ type JournalData = {
   isActive: boolean;
   indexingServices: string[];
   editorialBoard: BoardRow[];
+  abbreviation: string | null;
+  frequency: string | null;
+  doi: string | null;
+  publisher: string | null;
+  startingYear: string | null;
+  publicationFormat: string | null;
+  language: string | null;
+  copyrightPolicy: string | null;
+  impactFactor: string | null;
+  address: string | null;
 };
 
 export function EditJournalForm({
@@ -51,7 +61,6 @@ export function EditJournalForm({
   const [editorInChiefId, setEditorInChiefId] = useState<string>(
     journal.editorInChiefId || ""
   );
-  const [reviewType, setReviewType] = useState<string>(journal.reviewType);
   const [isActive, setIsActive] = useState<boolean>(journal.isActive);
   const [board, setBoard] = useState<BoardRow[]>(
     journal.editorialBoard.filter(r => r.role.toLowerCase() !== "reviewer")
@@ -74,7 +83,6 @@ export function EditJournalForm({
 
     const formData = new FormData(e.currentTarget);
     formData.set("editorInChiefId", editorInChiefId);
-    formData.set("reviewType", reviewType);
     formData.set("isActive", String(isActive));
     const combinedBoard = [
       ...board.filter((r) => r.userId),
@@ -145,7 +153,7 @@ export function EditJournalForm({
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-1">
-          Website (Optional)
+          Website
         </label>
         <Input
           name="website"
@@ -177,21 +185,62 @@ export function EditJournalForm({
         </div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Abbreviation</label>
+          <Input name="abbreviation" defaultValue={journal.abbreviation || ""} placeholder="e.g. CTIT" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Frequency</label>
+          <Input name="frequency" defaultValue={journal.frequency || ""} placeholder="e.g. 3 Issues Per Year" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">DOI Prefix/Default</label>
+          <Input name="doi" defaultValue={journal.doi || ""} placeholder="e.g. 10.37591/CTIT" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Publisher</label>
+          <Input name="publisher" defaultValue={journal.publisher || ""} placeholder="e.g. Resonara Publishers Pvt. Ltd." />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Starting Year</label>
+          <Input name="startingYear" defaultValue={journal.startingYear || ""} placeholder="e.g. 2026" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Publication Format</label>
+          <Input name="publicationFormat" defaultValue={journal.publicationFormat || ""} placeholder="e.g. Hybrid Open Access" />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Language</label>
+          <Input name="language" defaultValue={journal.language || ""} placeholder="e.g. English" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Copyright Policy</label>
+          <Input name="copyrightPolicy" defaultValue={journal.copyrightPolicy || ""} placeholder="e.g. CC BY-NC-ND" />
+        </div>
+        <div>
+          <label className="block text-sm font-bold text-slate-700 mb-1">Impact Factor</label>
+          <Input name="impactFactor" defaultValue={journal.impactFactor || ""} placeholder="e.g. 2024 : 6.058" />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-bold text-slate-700 mb-1">Address</label>
+        <Input name="address" defaultValue={journal.address || ""} placeholder="e.g. Unit No 603-604, 6th Floor..." />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-1">
             Review Model
           </label>
-          <select
-            value={reviewType}
-            onChange={(e) => setReviewType(e.target.value)}
-            className="w-full h-11 border border-slate-300 rounded-lg px-3 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)] bg-white"
-          >
-            <option value="DOUBLE_BLIND">Double-blind</option>
-            <option value="SINGLE_BLIND">Single-blind</option>
-            <option value="OPEN">Open review</option>
-            <option value="EDITORIAL">Editorial review</option>
-          </select>
+          <Input name="reviewType" defaultValue={journal.reviewType || ""} placeholder="e.g. Peer-reviewed Journal" className="h-11" />
         </div>
         <div>
           <div className="flex items-center justify-between mb-1">
@@ -230,7 +279,7 @@ export function EditJournalForm({
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-1">
-          Full Description (Optional)
+          Full Description
         </label>
         <textarea
           name="description"
@@ -243,7 +292,7 @@ export function EditJournalForm({
 
       <div>
         <label className="block text-sm font-bold text-slate-700 mb-1">
-          Indexing Services (Optional)
+          Indexing Services
         </label>
         <Input
           name="indexingServices"

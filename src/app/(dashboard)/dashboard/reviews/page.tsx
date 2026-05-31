@@ -8,7 +8,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { formatDate } from "@/lib/utils";
 import type { ReviewStatus } from "@prisma/client";
 
-export const metadata = { title: "My Reviews | Resonara" };
+export const metadata = { title: "My Reviews | Resonara Publishers Pvt. Ltd." };
 
 const STATUS_CONFIG: Record<ReviewStatus, { label: string; classes: string }> = {
   PENDING: { label: "Invitation Pending", classes: "bg-amber-100 text-amber-700" },

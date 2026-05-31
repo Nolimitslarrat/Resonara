@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Add New Journal | Resonara",
+  title: "Add New Journal | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function NewJournalPage() {

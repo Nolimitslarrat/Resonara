@@ -33,6 +33,16 @@ export async function createJournal(formData: FormData) {
   const website = formData.get("website") as string;
   const reviewType = (formData.get("reviewType") as string) || "DOUBLE_BLIND";
   const editorInChiefId = formData.get("editorInChiefId") as string;
+  const abbreviation = formData.get("abbreviation") as string;
+  const frequency = formData.get("frequency") as string;
+  const doi = formData.get("doi") as string;
+  const publisher = formData.get("publisher") as string;
+  const startingYear = formData.get("startingYear") as string;
+  const publicationFormat = formData.get("publicationFormat") as string;
+  const language = formData.get("language") as string;
+  const copyrightPolicy = formData.get("copyrightPolicy") as string;
+  const impactFactor = formData.get("impactFactor") as string;
+  const address = formData.get("address") as string;
   const editorialBoardRaw = formData.get("editorialBoard") as string;
   const indexingServicesRaw = formData.get("indexingServices") as string;
   
@@ -90,6 +100,16 @@ export async function createJournal(formData: FormData) {
         scope: scope || null,
         website: website || null,
         reviewType,
+        abbreviation: abbreviation || null,
+        frequency: frequency || null,
+        doi: doi || null,
+        publisher: publisher || null,
+        startingYear: startingYear || null,
+        publicationFormat: publicationFormat || null,
+        language: language || null,
+        copyrightPolicy: copyrightPolicy || null,
+        impactFactor: impactFactor || null,
+        address: address || null,
         editorInChiefId: editorInChiefId || null,
         isActive: true,
         indexingServices,
@@ -128,6 +148,16 @@ export async function updateJournal(id: string, formData: FormData) {
   const website = formData.get("website") as string;
   const reviewType = (formData.get("reviewType") as string) || "DOUBLE_BLIND";
   const editorInChiefId = formData.get("editorInChiefId") as string;
+  const abbreviation = formData.get("abbreviation") as string;
+  const frequency = formData.get("frequency") as string;
+  const doi = formData.get("doi") as string;
+  const publisher = formData.get("publisher") as string;
+  const startingYear = formData.get("startingYear") as string;
+  const publicationFormat = formData.get("publicationFormat") as string;
+  const language = formData.get("language") as string;
+  const copyrightPolicy = formData.get("copyrightPolicy") as string;
+  const impactFactor = formData.get("impactFactor") as string;
+  const address = formData.get("address") as string;
   // isActive is explicitly sent as the string "true" or "false" from our toggle
   const isActive = formData.get("isActive") === "true";
   const indexingServicesRaw = formData.get("indexingServices") as string;
@@ -180,6 +210,16 @@ export async function updateJournal(id: string, formData: FormData) {
         scope: scope || null,
         website: website || null,
         reviewType,
+        abbreviation: abbreviation || null,
+        frequency: frequency || null,
+        doi: doi || null,
+        publisher: publisher || null,
+        startingYear: startingYear || null,
+        publicationFormat: publicationFormat || null,
+        language: language || null,
+        copyrightPolicy: copyrightPolicy || null,
+        impactFactor: impactFactor || null,
+        address: address || null,
         editorInChiefId: editorInChiefId || null,
         isActive,
         indexingServices,
@@ -208,6 +248,6 @@ export async function updateJournal(id: string, formData: FormData) {
     return { success: true };
   } catch (error) {
     console.error("Failed to update journal:", error);
-    return { success: false, error: "Failed to update journal." };
+    return { success: false, error: "Failed to update journal: " + (error instanceof Error ? error.message : String(error)) };
   }
 }

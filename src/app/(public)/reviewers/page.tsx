@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "Reviewer Guidelines | Resonara",
-  description: "Guidance for peer reviewers on how to evaluate manuscripts submitted to Resonara journals.",
+  title: "Reviewer Guidelines | Resonara Publishers Pvt. Ltd.",
+  description: "Guidance for peer reviewers on how to evaluate manuscripts submitted to Resonara Publishers Pvt. Ltd.journals.",
 };
 
 const principles = [

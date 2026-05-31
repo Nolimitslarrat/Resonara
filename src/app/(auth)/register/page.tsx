@@ -129,7 +129,7 @@ export default function RegisterPage() {
           Welcome aboard!
         </h1>
         <p className="text-[var(--muted)] mb-8 leading-relaxed">
-          Your account has been created successfully. You can now sign in and start your academic journey with Resonara.
+          Your account has been created successfully. You can now sign in and start your academic journey with Resonara Publishers Pvt. Ltd..
         </p>
         <Link href="/login">
           <Button className="w-full h-12 bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white font-bold rounded-xl shadow-md">

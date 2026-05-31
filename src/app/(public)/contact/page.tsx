@@ -2,10 +2,11 @@ import { Mail, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ContactForm } from "./ContactForm";
 
 export const metadata = {
-  title: "Contact Us | Resonara",
-  description: "Get in touch with the Resonara editorial and support team.",
+  title: "Contact Us | Resonara Publishers Pvt. Ltd.",
+  description: "Get in touch with the Resonara Publishers Pvt. Ltd.editorial and support team.",
 };
 
 export default function ContactPage() {
@@ -28,49 +29,7 @@ export default function ContactPage() {
           <h2 className="text-xl font-editorial font-bold text-[var(--brand-900)] mb-6">
             Send a Message
           </h2>
-          <form className="space-y-5">
-            <div className="grid sm:grid-cols-2 gap-5">
-              <div className="space-y-2">
-                <Label htmlFor="first-name">First Name</Label>
-                <Input id="first-name" placeholder="Jane" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="last-name">Last Name</Label>
-                <Input id="last-name" placeholder="Smith" required />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contact-email">Email Address</Label>
-              <Input id="contact-email" type="email" placeholder="jane@university.edu" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="subject">Subject</Label>
-              <select
-                id="subject"
-                className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
-              >
-                <option value="">Select a topic…</option>
-                <option value="submission">Manuscript Submission</option>
-                <option value="review">Peer Review</option>
-                <option value="account">Account / Login</option>
-                <option value="technical">Technical Issue</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="message">Message</Label>
-              <textarea
-                id="message"
-                rows={5}
-                placeholder="Describe your enquiry in detail…"
-                className="w-full px-3 py-2 border border-[var(--border)] rounded-lg text-sm text-[var(--foreground)] bg-white focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)] resize-none"
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full h-11 gap-2">
-              <Mail className="w-4 h-4" /> Send Message
-            </Button>
-          </form>
+          <ContactForm />
         </div>
 
         {/* Contact details */}
@@ -82,11 +41,34 @@ export default function ContactPage() {
             <p className="text-sm text-slate-600 leading-relaxed">
               For any enquiries regarding manuscript submission, peer review, or technical issues, please use the contact form to reach out to our team. We typically respond within 1-2 business days.
             </p>
-            <div className="flex items-center gap-3 pt-2 border-t border-[var(--border)]">
-              <Clock className="w-5 h-5 text-[var(--brand-600)]" />
-              <div>
-                <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Working Hours</p>
-                <p className="text-sm font-semibold text-[var(--foreground)]">Monday to Friday</p>
+            <div className="space-y-4 pt-4 border-t border-[var(--border)]">
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-[var(--brand-600)] mt-0.5" />
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Email</p>
+                  <a href="mailto:Info@resonarapublishers.com" className="text-sm font-semibold text-[var(--brand-600)] hover:underline">Info@resonarapublishers.com</a>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-[var(--brand-600)] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Phone</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">9818499209</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-[var(--brand-600)] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Address</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">Unit No 603-604, 6th Floor, Bhutani Alphathums, Nepz Post Office, Gautam Buddha Nagar, Noida, Uttar Pradesh, India, 201305</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-[var(--brand-600)]" />
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Working Hours</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">Monday to Friday</p>
+                </div>
               </div>
             </div>
           </div>

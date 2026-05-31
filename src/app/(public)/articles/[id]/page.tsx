@@ -41,9 +41,9 @@ export async function generateMetadata(
     openGraph: {
       type: "article",
       url: articleUrl,
-      title: `${article.title} | Resonara Publishers`,
+      title: `${article.title} | Resonara Publishers Pvt. Ltd.`,
       description,
-      siteName: "Resonara Publishers",
+      siteName: "Resonara Publishers Pvt. Ltd.",
       publishedTime: publishDate.toISOString(),
       authors: allAuthors,
     },

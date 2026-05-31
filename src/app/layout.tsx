@@ -14,13 +14,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://resonarapublishers.com"),
   title: {
-    default: "Resonara Publishers — Peer-Reviewed Academic Publishing",
-    template: "%s | Resonara Publishers",
+    default: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
+    template: "%s | Resonara Publishers Pvt. Ltd.",
   },
   description:
-    "Resonara Publishers Pvt. Ltd. is a leading academic publishing platform offering peer-reviewed journals, manuscript submission, editorial workflow management, and open-access research publication.",
+    "Resonara Publishers Pvt. Ltd.is a leading academic publishing platform offering peer-reviewed journals, manuscript submission, editorial workflow management, and open-access research publication.",
   keywords: [
-    "Resonara Publishers",
+    "Resonara Publishers Pvt. Ltd.",
     "academic publishing",
     "peer review",
     "manuscript submission",
@@ -42,24 +42,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://resonarapublishers.com",
-    siteName: "Resonara Publishers",
-    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    siteName: "Resonara Publishers Pvt. Ltd.",
+    title: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
     description:
-      "Resonara Publishers Pvt. Ltd. — Empowering researchers with fast, transparent, and rigorous peer-reviewed publication services.",
+      "Resonara Publishers Pvt. Ltd.— Empowering researchers with fast, transparent, and rigorous peer-reviewed publication services.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Resonara Publishers — Academic Publishing Platform",
+        alt: "Resonara Publishers Pvt. Ltd.— Academic Publishing Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    title: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
     description:
-      "Submit, review, and publish world-class research with Resonara Publishers.",
+      "Submit, review, and publish world-class research with Resonara Publishers Pvt. Ltd..",
     images: ["/og-image.png"],
   },
   robots: {
@@ -84,7 +84,7 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": "https://resonarapublishers.com/#organization",
   name: "Resonara Publishers Pvt. Ltd.",
-  alternateName: "Resonara Publishers",
+  alternateName: "Resonara Publishers Pvt. Ltd.",
   url: "https://resonarapublishers.com",
   logo: {
     "@type": "ImageObject",
@@ -93,16 +93,21 @@ const organizationSchema = {
     height: 100,
   },
   description:
-    "Resonara Publishers Pvt. Ltd. is a peer-reviewed academic publishing platform providing manuscript submission, editorial workflow, and open-access journal publication services.",
-  foundingDate: "2024",
+    "Resonara Publishers Pvt. Ltd.is a peer-reviewed academic publishing platform providing manuscript submission, editorial workflow, and  journal publication services.",
+  foundingDate: "2026",
   address: {
     "@type": "PostalAddress",
+    streetAddress: "Unit No 603-604, 6th Floor, Bhutani Alphathums, Nepz Post Office",
+    addressLocality: "Noida",
+    addressRegion: "Uttar Pradesh",
+    postalCode: "201305",
     addressCountry: "IN",
   },
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
-    email: "contact@resonarapublishers.com",
+    telephone: "9818499209",
+    email: "Info@resonarapublishers.com",
     url: "https://resonarapublishers.com/contact",
   },
 };
@@ -112,7 +117,7 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": "https://resonarapublishers.com/#website",
   url: "https://resonarapublishers.com",
-  name: "Resonara Publishers",
+  name: "Resonara Publishers Pvt. Ltd.",
   description:
     "Peer-reviewed academic publishing — journals, manuscript submission, and editorial management.",
   publisher: {

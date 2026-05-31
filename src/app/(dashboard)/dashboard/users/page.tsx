@@ -10,7 +10,7 @@ import { UserSearchForm } from "./UserSearchForm";
 import { EditUserModal } from "./EditUserModal";
 
 export const metadata = {
-  title: "User Management | Resonara",
+  title: "User Management | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function UsersManagerPage(props: { searchParams: Promise<{ q?: string }> }) {

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Search Results | Resonara",
+  title: "Search Results | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function SearchPage(props: { searchParams: Promise<{ q?: string }> }) {

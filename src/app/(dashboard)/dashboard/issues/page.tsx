@@ -5,7 +5,7 @@ import { Layers, Plus, BookOpen, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Publication Issues | Resonara" };
+export const metadata = { title: "Publication Issues | Resonara Publishers Pvt. Ltd." };
 
 export default async function IssuesPage() {
   const session = await auth();

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Sign in to your Resonara account",
+  description: "Sign in to your Resonara Publishers Pvt. Ltd.account",
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +22,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10">
           <div className="flex items-center gap-3">
             <Link href="/" className="w-64 h-32 flex items-center justify-center transition-all duration-500 hover:scale-105">
-              <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-2xl scale-110" />
+              <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd.Logo" className="object-contain w-full h-full drop-shadow-2xl scale-110" />
             </Link>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         {/* Footer */}
         <div className="relative z-10 text-slate-500 text-xs">
-          © {new Date().getFullYear()} Resonara. All rights reserved.
+          © {new Date().getFullYear()} Resonara Publishers Pvt. Ltd.. All rights reserved.
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {/* Mobile logo */}
           <div className="flex items-center justify-center mb-8 lg:hidden">
             <Link href="/" className="w-48 h-24 flex items-center justify-center">
-              <img src="/logo.png" alt="Resonara Logo" className="object-contain w-full h-full drop-shadow-xl scale-110" />
+              <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd.Logo" className="object-contain w-full h-full drop-shadow-xl scale-110" />
             </Link>
           </div>
           {children}

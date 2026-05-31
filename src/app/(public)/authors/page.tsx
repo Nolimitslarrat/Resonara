@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
-  title: "Author Guidelines | Resonara",
-  description: "Submission guidelines, formatting requirements, and editorial policies for authors submitting to Resonara journals.",
+  title: "Author Guidelines | Resonara Publishers Pvt. Ltd.",
+  description: "Submission guidelines, formatting requirements, and editorial policies for authors submitting to Resonara Publishers Pvt. Ltd.journals.",
 };
 
 const steps = [
@@ -20,7 +20,7 @@ const steps = [
     title: "Register & Log In",
     icon: CheckCircle2,
     description:
-      "Create a Resonara account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be added if available.",
+      "Create a Resonara Publishers Pvt. Ltd.account or sign in. Select 'Author' as your role during registration. Your ORCID iD can be added if available.",
   },
   {
     number: "03",
@@ -59,7 +59,7 @@ export default function AuthorsPage() {
           Author Guidelines
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Everything you need to know about submitting and publishing your research on Resonara.
+          Everything you need to know about submitting and publishing your research on Resonara Publishers Pvt. Ltd..
         </p>
         <Link href="/dashboard/manuscripts/submit">
           <Button className="rounded-full h-11 px-8 gap-2 bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white shadow-md">

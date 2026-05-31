@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
 
 export const metadata = {
-  title: "Manage Journals | Resonara",
+  title: "Manage Journals | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function JournalsManagerPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {

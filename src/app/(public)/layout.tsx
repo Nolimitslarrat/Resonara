@@ -31,7 +31,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <nav className="hidden md:flex items-center gap-8">
               <Link href="/journals" className="text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors animated-underline py-1">Journals</Link>
               <Link href="/articles" className="text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors animated-underline py-1">Articles</Link>
-              <Link href="/guidelines" className="text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors animated-underline py-1">Information</Link>
+              <Link href="/guidelines" className="text-sm font-semibold text-slate-600 hover:text-[var(--brand-600)] transition-colors animated-underline py-1">Submission Guidelines</Link>
             </nav>
 
             {/* Right side actions */}
@@ -64,7 +64,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             <nav className="flex flex-col p-4 space-y-4">
               <Link href="/journals" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Journals</Link>
               <Link href="/articles" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Articles</Link>
-              <Link href="/guidelines" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Information</Link>
+              <Link href="/guidelines" onClick={() => setIsMenuOpen(false)} className="text-base font-semibold text-slate-600 hover:text-[var(--brand-600)] py-2 border-b border-slate-50">Submission Guidelines</Link>
+
               <div className="pt-4 flex flex-col gap-3">
                 <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                   <Button variant="outline" className="w-full justify-start gap-2 text-slate-600">
@@ -98,7 +99,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50"></div>
                   <img 
                     src="/logo.png" 
-                    alt="Resonara Logo" 
+                    alt="Resonara Publishers Pvt. Ltd.Logo" 
                     className="object-contain w-full h-full drop-shadow-2xl brightness-0 invert opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500 relative z-10" 
                   />
                 </Link>
@@ -137,7 +138,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           </div>
           
           <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500 font-medium tracking-wide">
-            <p>© {new Date().getFullYear()} Resonara Publishing. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Resonara Publishers Pvt. Ltd. All rights reserved.</p>
             <div className="flex items-center gap-2">
               <span className="flex items-center gap-1">
                 Made with ❤️ by <span className="text-white/80 font-semibold cursor-help group relative">nolimitslarrat

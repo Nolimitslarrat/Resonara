@@ -6,7 +6,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Reviewers | Resonara" };
+export const metadata = { title: "Reviewers | Resonara Publishers Pvt. Ltd." };
 
 export default async function ReviewersPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();

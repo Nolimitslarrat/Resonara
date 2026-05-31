@@ -53,7 +53,7 @@ export function Topbar({
         {/* Breadcrumb */}
         <Breadcrumb />
         <Link href="/" className="lg:hidden flex items-center">
-          <img src="/logo.png" alt="Resonara" className="h-10 w-auto object-contain drop-shadow-sm" />
+          <img src="/logo.png" alt="Resonara Publishers Pvt. Ltd." className="h-10 w-auto object-contain drop-shadow-sm" />
         </Link>
       </div>
 

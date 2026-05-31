@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { timeAgo } from "@/lib/utils";
 import Link from "next/link";
 
-export const metadata = { title: "Notifications | Resonara" };
+export const metadata = { title: "Notifications | Resonara Publishers Pvt. Ltd." };
 
 const ICON_MAP: Record<string, React.ElementType> = {
   SUBMISSION_RECEIVED: FileText,

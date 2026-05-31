@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
 
-export const metadata = { title: "Editorial Queue | Resonara" };
+export const metadata = { title: "Editorial Queue | Resonara Publishers Pvt. Ltd." };
 
 export default async function EditorialPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();

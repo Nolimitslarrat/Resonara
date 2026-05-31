@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import Link from "next/link";
 
-export const metadata = { title: "DOI Manager | Resonara" };
+export const metadata = { title: "DOI Manager | Resonara Publishers Pvt. Ltd." };
 
 export default async function DOIManagerPage() {
   const session = await auth();

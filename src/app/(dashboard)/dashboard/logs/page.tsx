@@ -7,7 +7,7 @@ import { SearchInput } from "@/components/ui/SearchInput";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = {
-  title: "Activity Logs | Resonara",
+  title: "Activity Logs | Resonara Publishers Pvt. Ltd.",
 };
 
 export default async function ActivityLogsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {

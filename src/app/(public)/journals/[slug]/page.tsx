@@ -39,7 +39,7 @@ export async function generateMetadata(props: {
   const url = `https://resonarapublishers.com/journals/${journal.slug}`;
   const description =
     journal.description ||
-    `Read peer-reviewed research published in ${journal.title} by Resonara Publishers.`;
+    `Read peer-reviewed research published in ${journal.title} by Resonara Publishers Pvt. Ltd..`;
 
   return {
     title: journal.title,
@@ -48,13 +48,13 @@ export async function generateMetadata(props: {
     openGraph: {
       type: "website",
       url,
-      title: `${journal.title} | Resonara Publishers`,
+      title: `${journal.title} | Resonara Publishers Pvt. Ltd.`,
       description,
-      siteName: "Resonara Publishers",
+      siteName: "Resonara Publishers Pvt. Ltd.",
     },
     twitter: {
       card: "summary",
-      title: `${journal.title} | Resonara Publishers`,
+      title: `${journal.title} | Resonara Publishers Pvt. Ltd.`,
       description,
     },
   };
@@ -96,7 +96,7 @@ export default async function JournalPage(props: {
     "@type": "Periodical",
     "@id": `${journalUrl}#periodical`,
     name: journal.title,
-    description: journal.description || `Peer-reviewed journal published by Resonara Publishers.`,
+    description: journal.description || `Peer-reviewed journal published by Resonara Publishers Pvt. Ltd..`,
     url: journalUrl,
     issn: [journal.issnPrint, journal.issnOnline].filter(Boolean),
     publisher: {
@@ -510,6 +510,73 @@ export default async function JournalPage(props: {
                 </div>
               </div>
             </section>
+
+            {/* Journal Information section */}
+            <section id="info" className="scroll-mt-20">
+              <div className="bg-white rounded-2xl shadow-sm border border-[var(--border)] overflow-hidden">
+                <div className="px-8 py-5 border-b border-[var(--border)] bg-slate-50/60 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-[var(--brand-100)] flex items-center justify-center">
+                    <Info className="w-4 h-4 text-[var(--brand-600)]" />
+                  </div>
+                  <h2 className="text-xl font-editorial font-bold text-[var(--brand-900)]">
+                    Journal Information
+                  </h2>
+                </div>
+                <div className="p-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+                    {[
+                      { label: "Title", value: journal.title },
+                      { label: "Abbreviation", value: journal.abbreviation },
+                      { label: "Frequency", value: journal.frequency },
+                      { label: "P-ISSN", value: journal.issnPrint },
+                      { label: "E-ISSN", value: journal.issnOnline },
+                      { label: "Publisher", value: journal.publisher || "Resonara Publishers Pvt. Ltd." },
+                      { label: "DOI", value: journal.doi },
+                      { label: "Starting Year", value: journal.startingYear },
+                      { label: "Subject", value: journal.categories.map(c => c.name).join(", ") },
+                      { label: "Publication Format", value: journal.publicationFormat },
+                      { label: "Language", value: journal.language },
+                      { label: "Copyright Policy", value: journal.copyrightPolicy },
+                      { label: "Review Type", value: journal.reviewType.replace(/_/g, " ") },
+                      { label: "Impact Factor", value: journal.impactFactor },
+                    ]
+                      .filter((item) => item.value)
+                      .map(({ label, value }) => (
+                        <div key={label}>
+                          <p className="text-sm font-semibold text-[var(--brand-700)] mb-1">{label}:</p>
+                          <p className="text-sm text-[var(--foreground)]">{value}</p>
+                        </div>
+                      ))}
+                  </div>
+
+                  {journal.indexingServices && journal.indexingServices.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-[var(--border-subtle)]">
+                      <h3 className="text-lg font-editorial font-bold text-[var(--brand-900)] mb-4">
+                        Indexing
+                      </h3>
+                      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-[var(--brand-700)]">
+                        {journal.indexingServices.map((index, i) => (
+                          <span key={index}>
+                            {index}{i < journal.indexingServices.length - 1 ? "," : ""}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {journal.address && (
+                    <div className="mt-8 pt-8 border-t border-[var(--border-subtle)]">
+                      <h3 className="text-lg font-editorial font-bold text-[var(--brand-900)] mb-2">
+                        Address:
+                      </h3>
+                      <p className="text-sm text-[var(--foreground)] leading-relaxed">
+                        {journal.address}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
           </div>
 
           {/* ── Sidebar ── */}
@@ -536,102 +603,6 @@ export default async function JournalPage(props: {
               </Link>
             </div>
 
-            {/* Journal Info */}
-            <div
-              id="info"
-              className="bg-white rounded-2xl shadow-sm border border-[var(--border)] overflow-hidden scroll-mt-20"
-            >
-              <div className="px-6 py-4 border-b border-[var(--border)] bg-slate-50/60">
-                <h3 className="text-base font-editorial font-bold text-[var(--brand-900)]">
-                  Journal Information
-                </h3>
-              </div>
-              <div className="p-6 space-y-5">
-                {[
-                  { label: "Publisher", value: "Resonara Publications" },
-                  {
-                    label: "ISSN (Print)",
-                    value: journal.issnPrint || "—",
-                  },
-                  {
-                    label: "ISSN (Online)",
-                    value: journal.issnOnline || "—",
-                  },
-                  {
-                    label: "Review Type",
-                    value: journal.reviewType.replace(/_/g, " "),
-                  },
-                  {
-                    label: "Access Type",
-                    value: "Open Access",
-                  },
-                  {
-                    label: "Frequency",
-                    value: "Continuous Publication",
-                  },
-                  {
-                    label: "Status",
-                    value: journal.isActive ? "Active" : "Inactive",
-                  },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex justify-between gap-4 text-sm">
-                    <span className="text-[var(--muted)] font-medium flex-shrink-0">
-                      {label}
-                    </span>
-                    <span className="font-semibold text-[var(--foreground)] text-right">
-                      {value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Indexing */}
-            {journal.indexingServices && journal.indexingServices.length > 0 && (
-              <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                <div className="px-7 py-5 border-b border-slate-100">
-                  <h3 className="text-xl font-editorial font-bold text-[var(--brand-900)] tracking-tight">
-                    Abstracting & Indexing
-                  </h3>
-                </div>
-                <div className="px-7 py-6">
-                  <div className="space-y-4">
-                    {journal.indexingServices.map((index: string) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-3 text-[15px]"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                        <span className="text-slate-800 font-medium tracking-tight">
-                          {index}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Categories */}
-            {journal.categories.length > 0 && (
-              <div className="bg-white rounded-2xl shadow-sm border border-[var(--border)] overflow-hidden">
-                <div className="px-6 py-4 border-b border-[var(--border)] bg-slate-50/60">
-                  <h3 className="text-base font-editorial font-bold text-[var(--brand-900)]">
-                    Subject Areas
-                  </h3>
-                </div>
-                <div className="p-6 flex flex-wrap gap-2">
-                  {journal.categories.map((cat) => (
-                    <span
-                      key={cat.id}
-                      className="text-xs bg-[var(--brand-50)] text-[var(--brand-700)] border border-[var(--brand-200)] px-3 py-1.5 rounded-full font-semibold"
-                    >
-                      {cat.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

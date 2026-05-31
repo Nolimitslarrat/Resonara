@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+  title: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
   description:
-    "Resonara Publishers Pvt. Ltd. is a premier academic publishing platform. Submit manuscripts, track peer review progress, and publish open-access research across sciences and humanities.",
+    "Resonara Publishers Pvt. Ltd.is a premier academic publishing platform. Submit manuscripts, track peer review progress, and publish open-access research across sciences and humanities.",
   keywords: [
-    "Resonara Publishers",
-    "Resonara Publishers Pvt Ltd",
+    "Resonara Publishers Pvt. Ltd.",
+    "Resonara Publishers Pvt. Ltd.Pvt Ltd",
     "academic publishing platform",
     "peer reviewed journals India",
     "manuscript submission system",
@@ -26,25 +26,25 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    title: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
     description:
       "Submit manuscripts, manage peer review, and publish world-class research with Resonara Publishers Pvt. Ltd.",
     url: "https://resonarapublishers.com",
-    siteName: "Resonara Publishers",
+    siteName: "Resonara Publishers Pvt. Ltd.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Resonara Publishers — Academic Publishing Platform",
+        alt: "Resonara Publishers Pvt. Ltd.— Academic Publishing Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Resonara Publishers — Peer-Reviewed Academic Publishing",
+    title: "Resonara Publishers Pvt. Ltd.— Peer-Reviewed Academic Publishing",
     description:
-      "Submit, review, and publish world-class research with Resonara Publishers.",
+      "Submit, review, and publish world-class research with Resonara Publishers Pvt. Ltd..",
     images: ["/og-image.png"],
   },
 };
@@ -79,7 +79,7 @@ export default async function PublicHomePage() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand-200)] to-white">With Editorial Care</span>
           </h1>
           <p className="text-lg sm:text-xl text-[var(--brand-100)] max-w-2xl mx-auto font-light leading-relaxed">
-            A publication house dedicated to peer-reviewed scholarship across the sciences and humanities.
+            A publication house dedicated to peer-reviewed scholarship across the Science, Engineering and Humanities
           </p>
 
           {/* Search Bar */}
@@ -120,6 +120,86 @@ export default async function PublicHomePage() {
                </div>
              </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Empowering Voices ── */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[var(--brand-50)] rounded-full blur-[100px] opacity-50 -mr-[400px] -mt-[400px] pointer-events-none"></div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <h2 className="text-4xl md:text-5xl font-editorial font-bold text-[var(--brand-900)]">Empowering Voices. Advancing Knowledge.</h2>
+          <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed">
+            Welcome to <span className="font-semibold text-[var(--foreground)]">Resonara Publishers Pvt. Ltd.</span>, where groundbreaking ideas meet world-class publishing. We are a premier academic and literary publishing house dedicated to amplifying the voices of researchers, educators, scientists, and authors globally.
+          </p>
+          <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed">
+            By blending rigorous editorial standards with cutting-edge digital distribution, we transform raw manuscripts into impactful publications that resonate across disciplines.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Why Partner with Resonara? ── */}
+      <section className="py-24 bg-[var(--background)] border-y border-[var(--border)] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-editorial font-bold text-[var(--brand-900)] mb-6">Why Partner with Resonara?</h2>
+            <p className="text-[var(--muted)] max-w-2xl mx-auto text-lg leading-relaxed">
+              At Resonara, we believe that every manuscript holds the potential to inspire change, spark innovation, or advance human understanding. We don't just print journals; <span className="text-[var(--brand-600)] font-semibold">we nurture intellectual property.</span>
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Global Distribution Network", desc: "Your work reaches leading global libraries, academic repositories, and major online retailers." },
+              { title: "Rigorous Editorial Excellence", desc: "Our dedicated team of editors and peer-reviewers ensures the highest standards of accuracy, academic integrity, and presentation." },
+              { title: "Author-Centric Approach", desc: "We offer tailored support at every stage—from initial manuscript evaluation and professional formatting to post-publication marketing." },
+              { title: "Diverse Publishing Models", desc: "We offer flexible publishing pathways across subscription-based, hybrid, and open-access journals." }
+            ].map((feature, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-[var(--border)] hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 rounded-xl bg-[var(--brand-50)] flex items-center justify-center mb-6">
+                  <span className="text-[var(--brand-600)] font-bold text-xl">{idx + 1}</span>
+                </div>
+                <h3 className="text-xl font-bold text-[var(--brand-900)] mb-3">{feature.title}</h3>
+                <p className="text-[var(--muted)] leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Core Publishing Area ── */}
+      <section className="py-20 bg-white relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center justify-center p-5 bg-[var(--brand-50)] rounded-full mb-8 shadow-inner border border-[var(--brand-100)]">
+            <BookOpen className="w-8 h-8 text-[var(--brand-600)]" />
+          </div>
+          <h2 className="text-sm uppercase tracking-widest font-bold text-[var(--muted)] mb-4">Our Core Publishing Area</h2>
+          <h3 className="text-4xl font-editorial font-bold text-[var(--brand-900)] mb-6">🔬 Scientific Journals</h3>
+          <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed max-w-3xl mx-auto">
+            High-impact, peer-reviewed monographs and specialized journals spanning Science, Technology, Medicine, Humanities, and Social Sciences.
+          </p>
+        </div>
+      </section>
+
+      {/* ── The Resonara Journey ── */}
+      <section className="py-24 bg-[var(--background)] border-y border-[var(--border)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-editorial font-bold text-[var(--brand-900)] text-center mb-16">The Resonara Journey: How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+            <div className="hidden md:block absolute top-8 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-transparent via-[var(--brand-200)] to-transparent"></div>
+            {[
+              { step: "Submission", desc: "Share your manuscript or proposal with our editorial board via our secure portal." },
+              { step: "Evaluation", desc: "Our experts review your work for quality, relevance, and market potential." },
+              { step: "Production", desc: "Benefit from professional copyediting, typesetting, and stunning cover designs." },
+              { step: "Distribution", desc: "Your work is published in print and digital formats, accessible worldwide." }
+            ].map((item, idx) => (
+              <div key={idx} className="relative text-center">
+                <div className="w-16 h-16 mx-auto bg-white border-2 border-[var(--brand-100)] shadow-sm rounded-full flex items-center justify-center mb-6 text-xl font-bold text-[var(--brand-600)] relative z-10">
+                  {idx + 1}
+                </div>
+                <h3 className="text-xl font-bold text-[var(--brand-900)] mb-3">{item.step}</h3>
+                <p className="text-[var(--muted)] leading-relaxed px-4">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -223,43 +303,53 @@ export default async function PublicHomePage() {
         </div>
       </section>
 
-      {/* ── Call to Action (Authors & Reviewers) ── */}
-      <section className="py-24 bg-[var(--background)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* ── Ready to Publish Your Work? (CTA) ── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
+          <h2 className="text-4xl md:text-5xl font-editorial font-bold text-[var(--brand-900)]">Ready to Publish Your Work?</h2>
+          <p className="text-lg md:text-xl text-[var(--muted)] leading-relaxed max-w-3xl mx-auto">
+            Whether you are an established academician, a first-time researcher, or an institution looking to publish conference proceedings, Resonara is your trusted literary partner. Let’s collaborate to make your words resonate across the globe.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+            <div className="bg-[var(--brand-50)] p-10 rounded-3xl border border-[var(--brand-100)] text-left hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-[var(--brand-900)] mb-4">Connect With Us</h3>
+              <p className="text-[var(--muted)] mb-8 text-lg">
+                Have questions about our publishing guidelines or timelines? Get in touch with our team today.
+              </p>
+              <div className="space-y-4 mb-8">
+                <a href="mailto:info@resonarapublishers.com" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><FileText className="w-5 h-5" /></div>
+                  info@resonarapublishers.com
+                </a>
+                <a href="tel:9818499209" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
+                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><Users className="w-5 h-5" /></div>
+                  +91 9818499209
+                </a>
+              </div>
+              <Link href="/contact">
+                <Button className="w-full bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105">
+                  Schedule a Consultation <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
             
-            {/* Author CTA */}
-            <div className="relative overflow-hidden rounded-3xl bg-[var(--brand-900)] text-white p-10 sm:p-14 shadow-2xl card-hover group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--brand-600)] rounded-full blur-3xl opacity-30 -mr-20 -mt-20 group-hover:opacity-50 transition-opacity duration-700"></div>
-              <div className="relative z-10">
-                <h3 className="text-3xl font-editorial font-bold mb-4">Publish With Us</h3>
-                <p className="text-white/80 mb-8 max-w-md text-lg leading-relaxed">
-                  Share your manuscript through a focused submission flow built around review, revision, and editorial clarity.
-                </p>
-                <Link href="/dashboard/manuscripts/submit">
-                  <Button className="bg-white text-[var(--brand-900)] hover:bg-[var(--brand-50)] rounded-full px-8 py-6 text-base font-bold shadow-lg transition-transform hover:scale-105">
-                    Submit Manuscript <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
+            <div className="bg-[var(--surface-elevated)] p-10 rounded-3xl border border-[var(--border)] text-left shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-[var(--brand-900)] mb-4">Start Your Journey</h3>
+              <p className="text-[var(--muted)] mb-8 text-lg">
+                Share your manuscript through our secure portal and track its progress through the peer-review process.
+              </p>
+              <Link href="/dashboard/manuscripts/submit">
+                <Button className="w-full bg-white border-2 border-[var(--brand-200)] text-[var(--brand-900)] hover:bg-[var(--brand-50)] rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105 mb-4">
+                  Submit Manuscript <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="ghost" className="w-full text-[var(--muted)] hover:text-[var(--brand-700)] hover:bg-transparent rounded-xl py-6 text-base font-bold transition-colors">
+                  Become a Reviewer
+                </Button>
+              </Link>
             </div>
-
-            {/* Reviewer CTA */}
-            <div className="relative overflow-hidden rounded-3xl bg-white border border-[var(--border)] p-10 sm:p-14 shadow-xl card-hover group">
-              <div className="absolute bottom-0 right-0 w-64 h-64 bg-[var(--brand-100)] rounded-full blur-3xl opacity-50 -mr-20 -mb-20 group-hover:bg-[var(--brand-200)] transition-colors duration-700"></div>
-              <div className="relative z-10">
-                <h3 className="text-3xl font-editorial font-bold text-[var(--brand-900)] mb-4">Become a Reviewer</h3>
-                <p className="text-[var(--muted)] mb-8 max-w-md text-lg leading-relaxed">
-                  Support careful scholarship with structured review tools and a clear editorial handoff.
-                </p>
-                <Link href="/register">
-                  <Button variant="outline" className="border-[var(--brand-200)] text-[var(--brand-700)] hover:bg-[var(--brand-50)] rounded-full px-8 py-6 text-base font-bold shadow-sm transition-transform hover:scale-105">
-                    Join Review Board <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-
           </div>
         </div>
       </section>

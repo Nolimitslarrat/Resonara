@@ -47,7 +47,7 @@ function LoginForm() {
       {/* Header */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Welcome back</h1>
-        <p className="text-[var(--muted)] text-sm">Sign in to your Resonara account to continue.</p>
+        <p className="text-[var(--muted)] text-sm">Sign in to your Resonara Publishers Pvt. Ltd.account to continue.</p>
       </div>
 
       {/* Error */}

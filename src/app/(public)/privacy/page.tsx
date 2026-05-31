@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Privacy Policy | Resonara",
-  description: "How Resonara collects, uses, and protects your personal data.",
+  title: "Privacy Policy | Resonara Publishers Pvt. Ltd.",
+  description: "How Resonara Publishers Pvt. Ltd.collects, uses, and protects your personal data.",
 };
 
 const lastUpdated = "10 May 2026";
@@ -24,8 +24,8 @@ export default function PrivacyPage() {
             1. Who We Are
           </h2>
           <p className="text-sm">
-            Resonara (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) operates the academic publication
-            management platform available at nexschoolar.com. This Privacy Policy explains how we
+            Resonara Publishers Pvt. Ltd.(&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) operates the academic publication
+            management platform available at resonarapublishers.com. This Privacy Policy explains how we
             collect, use, disclose, and protect information about you when you use our services.
           </p>
         </section>
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
             3. How We Use Your Information
           </h2>
           <ul className="list-disc list-inside space-y-2 text-sm pl-2">
-            <li>To operate and maintain your Resonara account.</li>
+            <li>To operate and maintain your Resonara Publishers Pvt. Ltd.account.</li>
             <li>To manage the manuscript submission and peer review workflow.</li>
             <li>To send transactional notifications about your submissions and reviews.</li>
             <li>To improve platform performance and user experience.</li>
@@ -95,8 +95,8 @@ export default function PrivacyPage() {
           </ul>
           <p className="text-sm mt-3">
             To exercise any of these rights, contact{" "}
-            <a href="mailto:privacy@nexschoolar.com" className="text-[var(--brand-600)] underline">
-              privacy@nexschoolar.com
+            <a href="mailto:Info@resonarapublishers.com" className="text-[var(--brand-600)] underline">
+              Info@resonarapublishers.com
             </a>
             .
           </p>
@@ -130,8 +130,8 @@ export default function PrivacyPage() {
           </h2>
           <p className="text-sm">
             For questions about this Privacy Policy, contact us at{" "}
-            <a href="mailto:privacy@nexschoolar.com" className="text-[var(--brand-600)] underline">
-              privacy@nexschoolar.com
+            <a href="mailto:Info@resonarapublishers.com" className="text-[var(--brand-600)] underline">
+              Info@resonarapublishers.com
             </a>{" "}
             or visit our{" "}
             <Link href="/contact" className="text-[var(--brand-600)] underline">

@@ -6,8 +6,8 @@ import { formatDate } from "@/lib/utils";
 export const dynamic = 'force-dynamic';
 
 export const metadata = {
-  title: "Special Issues | Resonara",
-  description: "Browse special thematic issues and curated collections from Resonara journals.",
+  title: "Special Issues | Resonara Publishers Pvt. Ltd.",
+  description: "Browse special thematic issues and curated collections from Resonara Publishers Pvt. Ltd.journals.",
 };
 
 export default async function SpecialIssuesPage() {
@@ -30,7 +30,7 @@ export default async function SpecialIssuesPage() {
           Special Issues
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-          Thematic collections and guest-edited special issues from across Resonara journals.
+          Thematic collections and guest-edited special issues from across Resonara Publishers Pvt. Ltd.journals.
         </p>
       </div>
 

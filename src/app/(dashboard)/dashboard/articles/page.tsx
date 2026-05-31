@@ -18,7 +18,7 @@ import Link from "next/link";
 import { ManageArticleModal } from "./ManageArticleModal";
 
 export const metadata = {
-  title: "Article Management | Resonara",
+  title: "Article Management | Resonara Publishers Pvt. Ltd.",
 };
 
 const STATUS_CONFIG: Record<
