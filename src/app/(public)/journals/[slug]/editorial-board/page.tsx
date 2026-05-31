@@ -246,7 +246,7 @@ export default async function EditorialBoardPage(props: {
                           </p>
                         )}
                         {member.user.affiliation && (
-                          <p className="text-xs text-[var(--muted)] leading-snug line-clamp-2">
+                          <p className="text-xs text-[var(--muted)] leading-snug">
                             {member.user.affiliation}
                           </p>
                         )}
