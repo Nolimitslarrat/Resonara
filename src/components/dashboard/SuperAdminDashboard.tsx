@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, BookOpen, Users, TrendingUp, Activity, ArrowUpRight, Plus, UserPlus } from "lucide-react";
+import { FileText, BookOpen, Users, TrendingUp, Activity, ArrowUpRight, Plus, UserPlus, LockKeyhole } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -53,6 +53,12 @@ export function SuperAdminDashboard({ stats, recentLogs }: Props) {
             <Button size="sm" className="gap-2">
               <UserPlus className="w-3.5 h-3.5" />
               Invite User
+            </Button>
+          </Link>
+          <Link href="/dashboard/subscriptions">
+            <Button size="sm" variant="outline" className="gap-2">
+              <LockKeyhole className="w-3.5 h-3.5" />
+              Subscription Engine
             </Button>
           </Link>
         </div>
@@ -126,7 +132,22 @@ export function SuperAdminDashboard({ stats, recentLogs }: Props) {
       </div>
 
       {/* Quick stats row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <Link href="/dashboard/subscriptions">
+          <Card className="card-hover h-full">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
+                  <LockKeyhole className="w-5 h-5 text-indigo-600" />
+                </div>
+                <div>
+                  <p className="text-base font-bold text-[var(--foreground)]">Subscription Engine</p>
+                  <p className="text-xs text-[var(--muted)]">Grant article and journal access</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
         <Card className="card-hover">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">

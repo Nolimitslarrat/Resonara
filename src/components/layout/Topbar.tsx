@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Search, Bell, Sun, Moon, ChevronRight, Menu } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useAppTheme } from "@/components/providers/ThemeProvider";
 import Link from "next/link";
 
 function Breadcrumb() {
@@ -39,7 +39,7 @@ export function Topbar({
   onMenuClick?: () => void 
 }) {
   const { data: session } = useSession();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useAppTheme();
 
   return (
     <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-[var(--border)] bg-[var(--surface-elevated)] flex-shrink-0 z-30">

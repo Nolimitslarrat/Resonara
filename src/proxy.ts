@@ -11,6 +11,8 @@ const PROTECTED_ROUTES: Record<string, Role[]> = {
   "/dashboard/analytics": ["SUPER_ADMIN"],
   "/dashboard/logs": ["SUPER_ADMIN"],
   "/dashboard/settings": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard/my-subscriptions": ["EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard/subscriptions": ["SUPER_ADMIN"],
   "/dashboard/production": ["SUPER_ADMIN"],
   "/dashboard/issues": ["SUPER_ADMIN"],
   "/dashboard/doi": ["SUPER_ADMIN"],

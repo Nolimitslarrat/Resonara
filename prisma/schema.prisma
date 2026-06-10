@@ -109,6 +109,7 @@ model User {
   uploadedFiles        File[]
   managedJournals      Journal[]             @relation("EditorInChief")
   editorialBoardMember EditorialBoard[]
+  subscriptions        SubscriptionAccess[]
 
   @@map("users")
 }
@@ -185,6 +186,7 @@ model Journal {
   manuscripts      Manuscript[]
   issues           PublicationIssue[]
   editorialBoard   EditorialBoard[]
+  subscriptions    SubscriptionAccess[]
 
   @@map("journals")
 }
@@ -375,8 +377,31 @@ model Article {
   manuscript Manuscript       @relation(fields: [manuscriptId], references: [id])
   issue      PublicationIssue? @relation(fields: [issueId], references: [id])
   production ProductionRecord?
+  subscriptions SubscriptionAccess[]
 
   @@map("articles")
+}
+
+model SubscriptionAccess {
+  id        String   @id @default(cuid())
+  userId    String
+  journalId String?
+  articleId String?
+  startsAt  DateTime
+  endsAt    DateTime
+  notes     String?  @db.Text
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  journal Journal? @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  article Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startsAt, endsAt])
+  @@index([journalId])
+  @@index([articleId])
+  @@map("subscription_access")
 }
 
 model ProductionRecord {

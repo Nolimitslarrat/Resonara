@@ -136,6 +136,7 @@ export function EditorDashboard({ stats, manuscripts }: Props) {
           </div>
         </CardContent>
       </Card>
+
     </div>
   );
 }

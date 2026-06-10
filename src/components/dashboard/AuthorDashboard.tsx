@@ -106,6 +106,7 @@ export function AuthorDashboard({ stats, manuscripts }: Props) {
           })}
         </div>
       )}
+
     </div>
   );
 }

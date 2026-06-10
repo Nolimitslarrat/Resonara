@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen, Plus, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
+import { DeleteJournalButton } from "./DeleteJournalButton";
 
 export const metadata = {
   title: "Manage Journals | Resonara Publishers Pvt. Ltd.",
@@ -56,13 +57,16 @@ export default async function JournalsManagerPage({ searchParams }: { searchPara
         {journals.map((journal) => (
           <div key={journal.id} className="bg-white rounded-xl shadow-sm border border-[var(--border)] p-6 hover:shadow-md transition-shadow relative overflow-hidden group">
             {/* Edit button — links to full edit page */}
-            <Link
-              href={`/dashboard/journals/${journal.id}/edit`}
-              className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-lg text-slate-400 hover:text-[var(--brand-600)] hover:bg-[var(--brand-50)]"
-              title="Edit journal"
-            >
-              <Edit className="w-4 h-4" />
-            </Link>
+            <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+              <Link
+                href={`/dashboard/journals/${journal.id}/edit`}
+                className="p-2 rounded-lg text-slate-400 hover:text-[var(--brand-600)] hover:bg-[var(--brand-50)]"
+                title="Edit journal"
+              >
+                <Edit className="w-4 h-4" />
+              </Link>
+              <DeleteJournalButton journalId={journal.id} journalTitle={journal.title} />
+            </div>
 
             <div className="w-12 h-12 rounded-xl bg-[var(--brand-50)] flex items-center justify-center mb-4">
               <BookOpen className="w-6 h-6 text-[var(--brand-600)]" />

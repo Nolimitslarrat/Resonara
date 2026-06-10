@@ -178,6 +178,7 @@ export function ReviewerDashboard({ stats, assignments }: Props) {
           </CardContent>
         </Card>
       )}
+
     </div>
   );
 }

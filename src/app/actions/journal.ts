@@ -251,3 +251,46 @@ export async function updateJournal(id: string, formData: FormData) {
     return { success: false, error: "Failed to update journal: " + (error instanceof Error ? error.message : String(error)) };
   }
 }
+
+export async function deleteJournal(id: string) {
+  const session = await auth();
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const journal = await prisma.journal.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: {
+            manuscripts: true,
+            issues: true,
+          },
+        },
+      },
+    });
+
+    if (!journal) {
+      return { success: false, error: "Journal not found." };
+    }
+
+    if (journal._count.manuscripts > 0 || journal._count.issues > 0) {
+      return {
+        success: false,
+        error: "This journal has manuscripts or issues. Deactivate it instead, or remove linked records first.",
+      };
+    }
+
+    await prisma.editorialBoard.deleteMany({ where: { journalId: id } });
+    await prisma.subscriptionAccess.deleteMany({ where: { journalId: id } });
+    await prisma.journal.delete({ where: { id } });
+
+    revalidatePath("/dashboard/journals");
+    revalidatePath("/journals");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to delete journal:", error);
+    return { success: false, error: "Failed to delete journal." };
+  }
+}

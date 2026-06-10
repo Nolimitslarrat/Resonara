@@ -8,7 +8,7 @@ import {
   LayoutDashboard, FileText, BookOpen, Users, BarChart3,
   Settings, Bell, ClipboardList, Layers, Printer,
   Hash, ChevronLeft, ChevronRight, LogOut,
-  Shield, Activity, Mail
+  Shield, Activity, Mail, LockKeyhole
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard",      href: "/dashboard",              icon: LayoutDashboard, roles: ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"] },
+  { label: "My Subscriptions", href: "/dashboard/my-subscriptions", icon: LockKeyhole, roles: ["EDITOR", "REVIEWER", "AUTHOR"] },
   { label: "Manuscripts",    href: "/dashboard/manuscripts",  icon: FileText,         roles: ["SUPER_ADMIN", "EDITOR"] },
   { label: "Editorial",      href: "/dashboard/editorial",    icon: ClipboardList,    roles: ["SUPER_ADMIN", "EDITOR"] },
   { label: "Reviewers",      href: "/dashboard/reviewers",    icon: Users,            roles: ["SUPER_ADMIN", "EDITOR"] },
@@ -34,6 +35,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Articles",       href: "/dashboard/articles",     icon: FileText,         roles: ["SUPER_ADMIN"] },
   { label: "Users",          href: "/dashboard/users",        icon: Shield,           roles: ["SUPER_ADMIN"] },
   { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN"] },
+  { label: "Subscriptions",  href: "/dashboard/subscriptions",icon: LockKeyhole,      roles: ["SUPER_ADMIN"] },
   { label: "Activity Logs",  href: "/dashboard/logs",         icon: Activity,         roles: ["SUPER_ADMIN"] },
   { label: "Contacts",       href: "/dashboard/contacts",     icon: Mail,             roles: ["SUPER_ADMIN"] },
   { label: "Notifications",  href: "/dashboard/notifications",icon: Bell,             roles: ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"] },
