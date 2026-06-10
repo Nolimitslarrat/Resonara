@@ -1,6 +1,7 @@
-import "dotenv/config";
-import { spawnSync } from "node:child_process";
-import { Client } from "pg";
+require("dotenv/config");
+
+const { spawnSync } = require("node:child_process");
+const { Client } = require("pg");
 
 async function migrateLegacyRoles() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -12,9 +13,9 @@ async function migrateLegacyRoles() {
   await client.connect();
 
   try {
-    await client.query(`ALTER TYPE "Role" ADD VALUE IF NOT EXISTS 'EDITOR'`);
-    await client.query(`UPDATE users SET role = 'EDITOR' WHERE role::text = 'MANAGING_EDITOR'`);
-    await client.query(`UPDATE users SET role = 'AUTHOR' WHERE role::text = 'PRODUCTION'`);
+    await client.query('ALTER TYPE "Role" ADD VALUE IF NOT EXISTS \'EDITOR\'');
+    await client.query("UPDATE users SET role = 'EDITOR' WHERE role::text = 'MANAGING_EDITOR'");
+    await client.query("UPDATE users SET role = 'AUTHOR' WHERE role::text = 'PRODUCTION'");
   } finally {
     await client.end();
   }
