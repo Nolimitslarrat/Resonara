@@ -3,11 +3,46 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { UserPlus, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
-import { assignReviewer, updateManuscriptStatus } from "@/app/actions/editor";
+import { assignEditor, assignReviewer, updateManuscriptStatus } from "@/app/actions/editor";
+import type { ManuscriptStatus, ReviewStatus } from "@prisma/client";
 
-export function EditorActions({ manuscriptId, currentStatus, reviewers, assignments }: any) {
+type Person = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+type ReviewerAssignment = {
+  reviewerId: string;
+  status: ReviewStatus;
+};
+
+type EditorAssignment = {
+  editorId: string;
+};
+
+type Props = {
+  manuscriptId: string;
+  currentStatus: ManuscriptStatus;
+  reviewers: Person[];
+  reviewerAssignments: ReviewerAssignment[];
+  editors: Person[];
+  editorAssignments: EditorAssignment[];
+  canAssignEditors: boolean;
+};
+
+export function EditorActions({
+  manuscriptId,
+  currentStatus,
+  reviewers,
+  reviewerAssignments,
+  editors,
+  editorAssignments,
+  canAssignEditors,
+}: Props) {
   const [loading, setLoading] = useState(false);
   const [selectedReviewers, setSelectedReviewers] = useState<string[]>([]);
+  const [selectedEditors, setSelectedEditors] = useState<string[]>([]);
   const [comment, setComment] = useState("");
   const [showDecision, setShowDecision] = useState(false);
 
@@ -30,13 +65,29 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
     setLoading(false);
   };
 
+  const handleEditorAssign = async () => {
+    if (selectedEditors.length === 0) return;
+    setLoading(true);
+    for (const editorId of selectedEditors) {
+      await assignEditor(manuscriptId, editorId);
+    }
+    setSelectedEditors([]);
+    setLoading(false);
+  };
+
   const toggleReviewer = (rid: string) => {
     setSelectedReviewers(prev => 
       prev.includes(rid) ? prev.filter(id => id !== rid) : [...prev, rid]
     );
   };
 
-  const handleDecision = async (status: string) => {
+  const toggleEditor = (editorId: string) => {
+    setSelectedEditors(prev =>
+      prev.includes(editorId) ? prev.filter(id => id !== editorId) : [...prev, editorId]
+    );
+  };
+
+  const handleDecision = async (status: ManuscriptStatus) => {
     setLoading(true);
     await updateManuscriptStatus(manuscriptId, status, comment);
     setShowDecision(false);
@@ -45,10 +96,45 @@ export function EditorActions({ manuscriptId, currentStatus, reviewers, assignme
 
   return (
     <div className="space-y-4 text-right">
+      {canAssignEditors && (
+        <div className="flex flex-col gap-3 items-end">
+          <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Assign Editor</p>
+          <div className="flex flex-wrap gap-2 justify-end max-w-md">
+            {editors.map((editor) => {
+              const isAssigned = editorAssignments.some((a) => a.editorId === editor.id);
+              const isSelected = selectedEditors.includes(editor.id);
+              return (
+                <button
+                  key={editor.id}
+                  disabled={isAssigned || loading}
+                  onClick={() => toggleEditor(editor.id)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                    isAssigned ? "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed" :
+                    isSelected ? "bg-purple-600 text-white border-purple-600" :
+                    "bg-white text-slate-600 border-slate-300 hover:border-purple-500"
+                  }`}
+                >
+                  {editor.name} {isAssigned && "(assigned)"}
+                </button>
+              );
+            })}
+          </div>
+          <Button
+            onClick={handleEditorAssign}
+            disabled={selectedEditors.length === 0 || loading}
+            className="gap-2 bg-purple-700 hover:bg-purple-800 text-white shadow-sm"
+          >
+            <UserPlus className="w-4 h-4" />
+            {selectedEditors.length > 1 ? `Assign ${selectedEditors.length} Editors` : "Assign Editor"}
+          </Button>
+        </div>
+      )}
+
       <div className="flex flex-col gap-3 items-end">
+        <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Assign Reviewer</p>
         <div className="flex flex-wrap gap-2 justify-end max-w-md">
-          {reviewers.map((r: any) => {
-            const isAssigned = assignments.some((a: any) => a.reviewerId === r.id);
+          {reviewers.map((r) => {
+            const isAssigned = reviewerAssignments.some((a) => a.reviewerId === r.id);
             const isSelected = selectedReviewers.includes(r.id);
             return (
               <button

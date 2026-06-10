@@ -6,7 +6,6 @@ import { SuperAdminDashboard } from "@/components/dashboard/SuperAdminDashboard"
 import { EditorDashboard } from "@/components/dashboard/EditorDashboard";
 import { ReviewerDashboard } from "@/components/dashboard/ReviewerDashboard";
 import { AuthorDashboard } from "@/components/dashboard/AuthorDashboard";
-import { ProductionDashboard } from "@/components/dashboard/ProductionDashboard";
 
 export const metadata = { title: "Dashboard" };
 
@@ -36,13 +35,18 @@ export default async function DashboardPage() {
     );
   }
 
-  if (role === "MANAGING_EDITOR") {
+  if (role === "EDITOR") {
     const [awaiting, pendingAssignment, overdue, decisionPending, manuscripts] = await Promise.all([
-      prisma.manuscript.count({ where: { status: "SUBMITTED" } }),
-      prisma.manuscript.count({ where: { status: "UNDER_SCREENING" } }),
-      prisma.reviewerAssignment.count({ where: { status: "OVERDUE" } }),
-      prisma.manuscript.count({ where: { status: "UNDER_REVIEW" } }),
-      prisma.manuscript.findMany({ take: 10, orderBy: { updatedAt: "desc" }, include: { author: { select: { name: true } }, journal: { select: { title: true } } } }),
+      prisma.manuscript.count({ where: { status: "SUBMITTED", editorAssignments: { some: { editorId: userId } } } }),
+      prisma.manuscript.count({ where: { status: "UNDER_SCREENING", editorAssignments: { some: { editorId: userId } } } }),
+      prisma.reviewerAssignment.count({ where: { status: "OVERDUE", manuscript: { editorAssignments: { some: { editorId: userId } } } } }),
+      prisma.manuscript.count({ where: { status: "UNDER_REVIEW", editorAssignments: { some: { editorId: userId } } } }),
+      prisma.manuscript.findMany({
+        where: { editorAssignments: { some: { editorId: userId } } },
+        take: 10,
+        orderBy: { updatedAt: "desc" },
+        include: { author: { select: { name: true } }, journal: { select: { title: true } } }
+      }),
     ]);
     return (
       <EditorDashboard
@@ -88,27 +92,6 @@ export default async function DashboardPage() {
       <AuthorDashboard
         stats={{ totalSubmissions, underReview, revisionsNeeded, published }}
         manuscripts={manuscripts}
-      />
-    );
-  }
-
-  if (role === "PRODUCTION") {
-    const [awaitingProduction, inCopyediting, inProofreading, readyToPublish, queue] = await Promise.all([
-      prisma.manuscript.count({ where: { status: "ACCEPTED" } }),
-      prisma.manuscript.count({ where: { status: "COPYEDITING" } }),
-      prisma.manuscript.count({ where: { status: "PROOFREADING" } }),
-      prisma.manuscript.count({ where: { status: "READY_TO_PUBLISH" } }),
-      prisma.manuscript.findMany({
-        where: { status: { in: ["ACCEPTED", "COPYEDITING", "PROOFREADING", "TYPESETTING", "READY_TO_PUBLISH"] } },
-        take: 15,
-        orderBy: { updatedAt: "asc" },
-        include: { journal: { select: { title: true } }, author: { select: { name: true } } },
-      }),
-    ]);
-    return (
-      <ProductionDashboard
-        stats={{ awaitingProduction, inCopyediting, inProofreading, readyToPublish }}
-        queue={queue}
       />
     );
   }

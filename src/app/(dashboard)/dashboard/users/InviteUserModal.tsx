@@ -10,18 +10,11 @@ import { useSession } from "next-auth/react";
 
 const ROLES = [
   {
-    value: "MANAGING_EDITOR",
-    label: "Managing Editor",
-    description: "Can manage editorial queue and assign reviewers",
+    value: "EDITOR",
+    label: "Editor",
+    description: "Can manage assigned editorial work and reviewers",
     color: "bg-purple-50 border-purple-300 text-purple-700",
     dot: "bg-purple-500",
-  },
-  {
-    value: "PRODUCTION",
-    label: "Production Editor",
-    description: "Manages production stages (copyediting, typesetting)",
-    color: "bg-cyan-50 border-cyan-300 text-cyan-700",
-    dot: "bg-cyan-500",
   },
   {
     value: "REVIEWER",
@@ -60,7 +53,7 @@ export function InviteUserModal({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPass, setShowPass] = useState(false);
-  const [selectedRole, setSelectedRole] = useState("MANAGING_EDITOR");
+  const [selectedRole, setSelectedRole] = useState("EDITOR");
 
   const filteredRoles = ROLES.filter(r => {
     if (r.value === "SUPER_ADMIN" && session?.user?.role !== "SUPER_ADMIN") {
@@ -73,7 +66,7 @@ export function InviteUserModal({
     setIsOpen(false);
     setError(null);
     setSuccess(false);
-    setSelectedRole("MANAGING_EDITOR");
+    setSelectedRole("EDITOR");
     setShowPass(false);
   };
 
@@ -150,7 +143,7 @@ export function InviteUserModal({
                   </Button>
                   <Button
                     className="flex-1 bg-[var(--brand-600)] hover:bg-[var(--brand-700)] text-white"
-                    onClick={() => { setSuccess(false); setSelectedRole("MANAGING_EDITOR"); }}
+                    onClick={() => { setSuccess(false); setSelectedRole("EDITOR"); }}
                   >
                     Add Another
                   </Button>

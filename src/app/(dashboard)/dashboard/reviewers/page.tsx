@@ -11,7 +11,7 @@ export const metadata = { title: "Reviewers | Resonara Publishers Pvt. Ltd." };
 export default async function ReviewersPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) redirect("/dashboard");
+  if (!["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) redirect("/dashboard");
 
   const params = await searchParams;
   const q = typeof params.q === 'string' ? params.q : '';

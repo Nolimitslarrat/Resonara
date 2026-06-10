@@ -15,7 +15,7 @@ export default async function ProductionManagerPage(props: { params: Promise<{ i
   const params = await props.params;
   const session = await auth();
   
-  if (!session?.user || (session.user.role !== "SUPER_ADMIN" && session.user.role !== "MANAGING_EDITOR" && session.user.role !== "PRODUCTION")) {
+  if (!session?.user || session.user.role !== "SUPER_ADMIN") {
     redirect("/dashboard");
   }
 

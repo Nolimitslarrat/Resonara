@@ -18,18 +18,25 @@ export default async function ManuscriptsPage({ searchParams }: { searchParams: 
   const params = await searchParams;
   const q = typeof params.q === 'string' ? params.q : '';
 
-  const isAdminOrEditor = session.user.role === "SUPER_ADMIN" || session.user.role === "MANAGING_EDITOR";
+  const isSuperAdmin = session.user.role === "SUPER_ADMIN";
+  const isEditor = session.user.role === "EDITOR";
+  const isAdminOrEditor = isSuperAdmin || isEditor;
 
-  const baseWhere = isAdminOrEditor ? {} : { authorId: session.user.id };
+  const baseWhere = isSuperAdmin
+    ? {}
+    : isEditor
+      ? { OR: [{ authorId: session.user.id }, { editorAssignments: { some: { editorId: session.user.id } } }] }
+      : { authorId: session.user.id };
   const searchWhere = q ? {
     OR: [
       { title: { contains: q, mode: 'insensitive' as const } },
       { author: { name: { contains: q, mode: 'insensitive' as const } } }
     ]
   } : {};
+  const where = q ? { AND: [baseWhere, searchWhere] } : baseWhere;
 
   const manuscripts = await prisma.manuscript.findMany({
-    where: { ...baseWhere, ...searchWhere },
+    where,
     include: {
       author: true,
       journal: true,

@@ -21,6 +21,10 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
       reviewerAssignments: {
         include: { reviewer: true, review: true }
       },
+      editorAssignments: {
+        include: { editor: true },
+        orderBy: { assignedAt: "desc" }
+      },
       activityLogs: {
         orderBy: { createdAt: "desc" },
         include: { user: true }
@@ -35,13 +39,18 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
   if (!manuscript) return notFound();
 
   // Basic access control: Only Author or Editors/Admins can view
-  const isEditor = ["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role);
+  const isSuperAdmin = session.user.role === "SUPER_ADMIN";
+  const isAssignedEditor = manuscript.editorAssignments.some((assignment) => assignment.editorId === session.user.id);
+  const isEditor = isSuperAdmin || (session.user.role === "EDITOR" && isAssignedEditor);
   const isAuthor = manuscript.authorId === session.user.id;
   
   if (!isEditor && !isAuthor) return notFound();
 
   const availableReviewers = isEditor 
     ? await prisma.user.findMany({ where: { role: "REVIEWER", isActive: true } })
+    : [];
+  const availableEditors = isSuperAdmin
+    ? await prisma.user.findMany({ where: { role: "EDITOR", isActive: true }, orderBy: { name: "asc" } })
     : [];
 
   return (
@@ -63,7 +72,15 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
           </div>
           
           {isEditor && (
-            <EditorActions manuscriptId={manuscript.id} currentStatus={manuscript.status} reviewers={availableReviewers} assignments={manuscript.reviewerAssignments} />
+            <EditorActions
+              manuscriptId={manuscript.id}
+              currentStatus={manuscript.status}
+              reviewers={availableReviewers}
+              reviewerAssignments={manuscript.reviewerAssignments}
+              editors={availableEditors}
+              editorAssignments={manuscript.editorAssignments}
+              canAssignEditors={isSuperAdmin}
+            />
           )}
         </div>
 
@@ -135,6 +152,20 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
                           <span className="text-xs font-bold text-emerald-600">Score: {assignment.review.score}/100</span>
                         )}
                       </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isEditor && manuscript.editorAssignments.length > 0 && (
+              <div className="bg-white rounded-xl border border-[var(--border)] p-5 shadow-sm">
+                <h3 className="text-sm font-bold text-[var(--brand-900)] mb-4 flex items-center gap-2"><Users className="w-4 h-4 text-[var(--brand-600)]" /> Assigned Editors</h3>
+                <div className="space-y-3">
+                  {manuscript.editorAssignments.map(assignment => (
+                    <div key={assignment.id} className="border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                      <p className="text-sm font-semibold text-slate-800">{assignment.editor.name}</p>
+                      <p className="text-xs text-slate-500 truncate">{assignment.editor.email}</p>
                     </div>
                   ))}
                 </div>

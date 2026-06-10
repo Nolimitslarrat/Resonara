@@ -3,18 +3,23 @@ import { NextResponse } from "next/server";
 import type { Role } from "@prisma/client";
 
 const PROTECTED_ROUTES: Record<string, Role[]> = {
-  "/dashboard": ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"],
-  "/dashboard/journals": ["SUPER_ADMIN", "MANAGING_EDITOR"],
+  "/dashboard/manuscripts/submit": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard/manuscripts": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard/reviews": ["SUPER_ADMIN", "EDITOR", "REVIEWER"],
+  "/dashboard/journals": ["SUPER_ADMIN", "EDITOR"],
   "/dashboard/users": ["SUPER_ADMIN"],
-  "/dashboard/analytics": ["SUPER_ADMIN", "MANAGING_EDITOR"],
+  "/dashboard/analytics": ["SUPER_ADMIN", "EDITOR"],
   "/dashboard/logs": ["SUPER_ADMIN"],
-  "/dashboard/settings": ["SUPER_ADMIN"],
-  "/dashboard/production": ["SUPER_ADMIN", "PRODUCTION"],
-  "/dashboard/issues": ["SUPER_ADMIN", "PRODUCTION"],
-  "/dashboard/doi": ["SUPER_ADMIN", "PRODUCTION"],
-  "/dashboard/editorial": ["SUPER_ADMIN", "MANAGING_EDITOR"],
-  "/dashboard/reviewers": ["SUPER_ADMIN", "MANAGING_EDITOR"],
-  "/dashboard/articles": ["SUPER_ADMIN", "MANAGING_EDITOR"],
+  "/dashboard/settings": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard/production": ["SUPER_ADMIN"],
+  "/dashboard/issues": ["SUPER_ADMIN"],
+  "/dashboard/doi": ["SUPER_ADMIN"],
+  "/dashboard/editorial": ["SUPER_ADMIN", "EDITOR"],
+  "/dashboard/reviewers": ["SUPER_ADMIN", "EDITOR"],
+  "/dashboard/articles": ["SUPER_ADMIN", "EDITOR"],
+  "/dashboard/contacts": ["SUPER_ADMIN", "EDITOR"],
+  "/dashboard/notifications": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
+  "/dashboard": ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"],
 };
 
 export default auth((req) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, Clock, CheckCircle2, Mail, ArrowRight, Calendar } from "lucide-react";
+import { Star, Clock, CheckCircle2, Mail, ArrowRight, Calendar, PenLine } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -30,9 +30,17 @@ export function ReviewerDashboard({ stats, assignments }: Props) {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--foreground)]">Reviewer Dashboard</h1>
-        <p className="text-[var(--muted)] text-sm mt-1">Manage your review invitations and active assignments.</p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--foreground)]">Reviewer Dashboard</h1>
+          <p className="text-[var(--muted)] text-sm mt-1">Manage your review invitations and active assignments.</p>
+        </div>
+        <Link href="/dashboard/manuscripts/submit">
+          <Button className="gap-2">
+            <PenLine className="w-4 h-4" />
+            Submit Manuscript
+          </Button>
+        </Link>
       </div>
 
       {/* Stats */}

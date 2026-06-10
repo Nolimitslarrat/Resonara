@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import {
   LayoutDashboard, FileText, BookOpen, Users, BarChart3,
-  Settings, Bell, Star, ClipboardList, Layers, Printer,
-  Hash, ChevronLeft, ChevronRight, LogOut, UserCircle,
-  PenLine, Shield, Activity, Mail
+  Settings, Bell, ClipboardList, Layers, Printer,
+  Hash, ChevronLeft, ChevronRight, LogOut,
+  Shield, Activity, Mail
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -23,39 +23,35 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Dashboard",      href: "/dashboard",              icon: LayoutDashboard, roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
-  { label: "Manuscripts",    href: "/dashboard/manuscripts",  icon: FileText,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "AUTHOR"] },
-  { label: "Submit",         href: "/dashboard/manuscripts/submit", icon: PenLine,   roles: ["AUTHOR"] },
-  { label: "My Reviews",     href: "/dashboard/reviews",      icon: Star,             roles: ["REVIEWER"] },
-  { label: "Editorial",      href: "/dashboard/editorial",    icon: ClipboardList,    roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
-  { label: "Reviewers",      href: "/dashboard/reviewers",    icon: Users,            roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
-  { label: "Production",     href: "/dashboard/production",   icon: Printer,          roles: ["SUPER_ADMIN", "PRODUCTION"] },
-  { label: "Issues",         href: "/dashboard/issues",       icon: Layers,           roles: ["SUPER_ADMIN", "PRODUCTION"] },
-  { label: "DOI Manager",    href: "/dashboard/doi",          icon: Hash,             roles: ["SUPER_ADMIN", "PRODUCTION"] },
-  { label: "Journals",       href: "/dashboard/journals",     icon: BookOpen,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
-  { label: "Articles",       href: "/dashboard/articles",     icon: FileText,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
+  { label: "Dashboard",      href: "/dashboard",              icon: LayoutDashboard, roles: ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"] },
+  { label: "Manuscripts",    href: "/dashboard/manuscripts",  icon: FileText,         roles: ["SUPER_ADMIN", "EDITOR"] },
+  { label: "Editorial",      href: "/dashboard/editorial",    icon: ClipboardList,    roles: ["SUPER_ADMIN", "EDITOR"] },
+  { label: "Reviewers",      href: "/dashboard/reviewers",    icon: Users,            roles: ["SUPER_ADMIN", "EDITOR"] },
+  { label: "Production",     href: "/dashboard/production",   icon: Printer,          roles: ["SUPER_ADMIN"] },
+  { label: "Issues",         href: "/dashboard/issues",       icon: Layers,           roles: ["SUPER_ADMIN"] },
+  { label: "DOI Manager",    href: "/dashboard/doi",          icon: Hash,             roles: ["SUPER_ADMIN"] },
+  { label: "Journals",       href: "/dashboard/journals",     icon: BookOpen,         roles: ["SUPER_ADMIN", "EDITOR"] },
+  { label: "Articles",       href: "/dashboard/articles",     icon: FileText,         roles: ["SUPER_ADMIN", "EDITOR"] },
   { label: "Users",          href: "/dashboard/users",        icon: Shield,           roles: ["SUPER_ADMIN"] },
-  { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
+  { label: "Analytics",      href: "/dashboard/analytics",    icon: BarChart3,        roles: ["SUPER_ADMIN", "EDITOR"] },
   { label: "Activity Logs",  href: "/dashboard/logs",         icon: Activity,         roles: ["SUPER_ADMIN"] },
-  { label: "Contacts",       href: "/dashboard/contacts",     icon: Mail,             roles: ["SUPER_ADMIN", "MANAGING_EDITOR"] },
-  { label: "Notifications",  href: "/dashboard/notifications",icon: Bell,             roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
-  { label: "Settings",       href: "/dashboard/settings",     icon: Settings,         roles: ["SUPER_ADMIN", "MANAGING_EDITOR", "REVIEWER", "AUTHOR", "PRODUCTION"] },
+  { label: "Contacts",       href: "/dashboard/contacts",     icon: Mail,             roles: ["SUPER_ADMIN", "EDITOR"] },
+  { label: "Notifications",  href: "/dashboard/notifications",icon: Bell,             roles: ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"] },
+  { label: "Settings",       href: "/dashboard/settings",     icon: Settings,         roles: ["SUPER_ADMIN", "EDITOR", "REVIEWER", "AUTHOR"] },
 ];
 
 const ROLE_LABELS: Record<Role, string> = {
   SUPER_ADMIN: "Super Admin",
-  MANAGING_EDITOR: "Managing Editor",
-  REVIEWER: "Reviewer",
   AUTHOR: "Author",
-  PRODUCTION: "Production",
+  EDITOR: "Editor",
+  REVIEWER: "Reviewer",
 };
 
 const ROLE_COLORS: Record<Role, string> = {
   SUPER_ADMIN: "bg-[var(--brand-600)]",
-  MANAGING_EDITOR: "bg-purple-600",
-  REVIEWER: "bg-amber-500",
   AUTHOR: "bg-emerald-600",
-  PRODUCTION: "bg-cyan-600",
+  EDITOR: "bg-purple-600",
+  REVIEWER: "bg-amber-500",
 };
 
 export function Sidebar({ mobileOpen, setMobileOpen }: { mobileOpen?: boolean, setMobileOpen?: (open: boolean) => void }) {

@@ -8,6 +8,7 @@ import { InviteUserModal } from "./InviteUserModal";
 import { ManageRoleModal } from "./ManageRoleModal";
 import { UserSearchForm } from "./UserSearchForm";
 import { EditUserModal } from "./EditUserModal";
+import { DeleteUserButton } from "./DeleteUserButton";
 
 export const metadata = {
   title: "User Management | Resonara Publishers Pvt. Ltd.",
@@ -115,6 +116,7 @@ export default async function UsersManagerPage(props: { searchParams: Promise<{ 
                       bio: u.bio,
                     }} />
                     <ManageRoleModal userId={u.id} currentRole={u.role} userName={u.name || u.email} />
+                    <DeleteUserButton userId={u.id} userName={u.name || u.email} />
                   </td>
                 </tr>
               ))}

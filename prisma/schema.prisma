@@ -8,10 +8,9 @@ datasource db {
 
 enum Role {
   SUPER_ADMIN
-  MANAGING_EDITOR
-  REVIEWER
   AUTHOR
-  PRODUCTION
+  EDITOR
+  REVIEWER
 }
 
 enum ManuscriptStatus {
@@ -103,6 +102,7 @@ model User {
   sessions             Session[]
   manuscripts          Manuscript[]          @relation("AuthorManuscripts")
   reviewerAssignments  ReviewerAssignment[]  @relation("ReviewerAssignments")
+  editorAssignments    EditorAssignment[]    @relation("EditorAssignments")
   editorialDecisions   EditorialDecision[]   @relation("EditorDecisions")
   notifications        Notification[]
   activityLogs         ActivityLog[]
@@ -226,6 +226,7 @@ model Manuscript {
   versions           ManuscriptVersion[]
   coAuthors          CoAuthor[]
   reviewerAssignments ReviewerAssignment[]
+  editorAssignments   EditorAssignment[]
   editorialDecisions EditorialDecision[]
   article            Article?
   activityLogs       ActivityLog[]
@@ -262,6 +263,20 @@ model CoAuthor {
   manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
 
   @@map("co_authors")
+}
+
+model EditorAssignment {
+  id           String   @id @default(cuid())
+  manuscriptId String
+  editorId     String
+  assignedById String
+  assignedAt   DateTime @default(now())
+
+  manuscript Manuscript @relation(fields: [manuscriptId], references: [id], onDelete: Cascade)
+  editor     User       @relation("EditorAssignments", fields: [editorId], references: [id])
+
+  @@unique([manuscriptId, editorId])
+  @@map("editor_assignments")
 }
 
 model ReviewerAssignment {
@@ -458,4 +473,3 @@ model ContactMessage {
 
   @@map("contact_messages")
 }
-

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: "Editor Guidelines | Resonara Publishers Pvt. Ltd.",
-  description: "Responsibilities, workflows, and best practices for Managing Editors on the Resonara Publishers Pvt. Ltd.platform.",
+  description: "Responsibilities, workflows, and best practices for Editors on the Resonara Publishers Pvt. Ltd.platform.",
 };
 
 const responsibilities = [
@@ -60,7 +60,7 @@ export default function EditorsPage() {
           Editor Guidelines
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          Your role as a Managing Editor is central to maintaining the quality and integrity of Resonara Publishers Pvt. Ltd.journals.
+          Your role as an Editor is central to maintaining the quality and integrity of Resonara Publishers Pvt. Ltd.journals.
         </p>
         <Link href="/login">
           <Button className="rounded-full h-11 px-8 gap-2 bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white shadow-md">

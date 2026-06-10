@@ -14,7 +14,7 @@ export default async function JournalsManagerPage({ searchParams }: { searchPara
   const session = await auth();
   if (!session?.user) redirect("/login");
 
-  if (session.user.role !== "SUPER_ADMIN" && session.user.role !== "MANAGING_EDITOR") {
+  if (session.user.role !== "SUPER_ADMIN" && session.user.role !== "EDITOR") {
     redirect("/dashboard");
   }
 

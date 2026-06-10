@@ -43,10 +43,9 @@ export default function SettingsClient({ user }: { user: PrismaUser | null }) {
 
   const ROLE_LABELS: Record<string, string> = {
     SUPER_ADMIN: "Super Administrator",
-    MANAGING_EDITOR: "Managing Editor",
-    REVIEWER: "Peer Reviewer",
     AUTHOR: "Author",
-    PRODUCTION: "Production Staff",
+    EDITOR: "Editor",
+    REVIEWER: "Reviewer",
   };
 
   return (

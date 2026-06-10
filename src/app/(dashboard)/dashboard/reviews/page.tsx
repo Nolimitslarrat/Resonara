@@ -21,7 +21,7 @@ const STATUS_CONFIG: Record<ReviewStatus, { label: string; classes: string }> = 
 export default async function ReviewsListPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (session.user.role !== "REVIEWER") redirect("/dashboard");
+  if (!["EDITOR", "REVIEWER"].includes(session.user.role)) redirect("/dashboard");
 
   const params = await searchParams;
   const q = typeof params.q === 'string' ? params.q : '';

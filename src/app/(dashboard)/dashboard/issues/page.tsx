@@ -1,24 +1,31 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Layers, Plus, BookOpen, Calendar } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Layers, BookOpen, Calendar } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import { IssueManager } from "./IssueManager";
 
 export const metadata = { title: "Publication Issues | Resonara Publishers Pvt. Ltd." };
 
 export default async function IssuesPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "PRODUCTION"].includes(session.user.role)) redirect("/dashboard");
+  if (session.user.role !== "SUPER_ADMIN") redirect("/dashboard");
 
-  const issues = await prisma.publicationIssue.findMany({
-    include: {
-      journal: { select: { title: true, slug: true } },
-      _count: { select: { articles: true } },
-    },
-    orderBy: [{ year: "desc" }, { volume: "desc" }, { issue: "desc" }],
-  });
+  const [issues, journals] = await Promise.all([
+    prisma.publicationIssue.findMany({
+      include: {
+        journal: { select: { title: true, slug: true } },
+        _count: { select: { articles: true } },
+      },
+      orderBy: [{ year: "desc" }, { volume: "desc" }, { issue: "desc" }],
+    }),
+    prisma.journal.findMany({
+      where: { isActive: true },
+      select: { id: true, title: true },
+      orderBy: { title: "asc" },
+    }),
+  ]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-fade-in-up pb-12">
@@ -29,9 +36,7 @@ export default async function IssuesPage() {
             Manage journal volumes and issues for publishing.
           </p>
         </div>
-        <Button className="gap-2">
-          <Plus className="w-4 h-4" /> Create Issue
-        </Button>
+        <IssueManager journals={journals} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -42,9 +47,7 @@ export default async function IssuesPage() {
             <p className="text-sm text-slate-500 mt-1 mb-5">
               Create your first publication issue to start assigning articles.
             </p>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" /> Create Issue
-            </Button>
+            <IssueManager journals={journals} />
           </div>
         ) : (
           issues.map((issue) => (
@@ -87,6 +90,23 @@ export default async function IssuesPage() {
                 {issue.publishedAt && (
                   <span>Published {formatDate(issue.publishedAt)}</span>
                 )}
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-[var(--border)] flex justify-end">
+                <IssueManager
+                  mode="edit"
+                  journals={journals}
+                  issue={{
+                    id: issue.id,
+                    journalId: issue.journalId,
+                    volume: issue.volume,
+                    issue: issue.issue,
+                    year: issue.year,
+                    title: issue.title,
+                    coverImage: issue.coverImage,
+                    status: issue.status,
+                  }}
+                />
               </div>
             </div>
           ))

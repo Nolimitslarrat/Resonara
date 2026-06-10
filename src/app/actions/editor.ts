@@ -3,10 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import type { ManuscriptStatus } from "@prisma/client";
 
-export async function updateManuscriptStatus(manuscriptId: string, status: any, comment: string) {
+export async function updateManuscriptStatus(manuscriptId: string, status: ManuscriptStatus, comment: string) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 
@@ -52,9 +53,62 @@ export async function updateManuscriptStatus(manuscriptId: string, status: any, 
   }
 }
 
+export async function assignEditor(manuscriptId: string, editorId: string) {
+  const session = await auth();
+  if (!session || session.user.role !== "SUPER_ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const editor = await prisma.user.findFirst({
+      where: { id: editorId, role: "EDITOR", isActive: true },
+      select: { id: true },
+    });
+
+    if (!editor) {
+      return { success: false, error: "Selected editor is not active or does not exist." };
+    }
+
+    await prisma.editorAssignment.create({
+      data: {
+        manuscriptId,
+        editorId,
+        assignedById: session.user.id,
+      },
+    });
+
+    await prisma.activityLog.create({
+      data: {
+        userId: session.user.id,
+        action: "EDITOR_ASSIGNED",
+        entity: "MANUSCRIPT",
+        manuscriptId,
+        metadata: { editorId },
+      },
+    });
+
+    const { createNotification } = await import("@/lib/notifications");
+    await createNotification({
+      userId: editorId,
+      type: "GENERAL",
+      title: "New Editorial Assignment",
+      message: "A manuscript has been assigned to you for editorial handling.",
+      link: `/dashboard/manuscripts/${manuscriptId}`,
+    });
+
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/manuscripts");
+    revalidatePath(`/dashboard/manuscripts/${manuscriptId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to assign editor", error);
+    return { success: false, error: "Failed to assign editor. They might already be assigned." };
+  }
+}
+
 export async function assignReviewer(manuscriptId: string, reviewerId: string) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 

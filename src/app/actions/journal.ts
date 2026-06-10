@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export async function getEditorialCandidates() {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 
@@ -21,7 +21,7 @@ export async function getEditorialCandidates() {
 
 export async function createJournal(formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 
@@ -136,7 +136,7 @@ export async function createJournal(formData: FormData) {
 
 export async function updateJournal(id: string, formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 

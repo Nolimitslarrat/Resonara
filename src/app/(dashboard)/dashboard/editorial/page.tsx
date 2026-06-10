@@ -12,20 +12,25 @@ export const metadata = { title: "Editorial Queue | Resonara Publishers Pvt. Ltd
 export default async function EditorialPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) redirect("/dashboard");
+  if (!["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) redirect("/dashboard");
 
   const params = await searchParams;
   const q = typeof params.q === 'string' ? params.q : '';
+  const assignmentScope = session.user.role === "SUPER_ADMIN"
+    ? {}
+    : { editorAssignments: { some: { editorId: session.user.id } } };
+  const activeStatuses = ["SUBMITTED", "UNDER_SCREENING", "UNDER_REVIEW", "MINOR_REVISION", "MAJOR_REVISION"] as const;
 
   const [submitted, underScreening, underReview, awaitingDecision, manuscripts] = await Promise.all([
-    prisma.manuscript.count({ where: { status: "SUBMITTED" } }),
-    prisma.manuscript.count({ where: { status: "UNDER_SCREENING" } }),
-    prisma.manuscript.count({ where: { status: "UNDER_REVIEW" } }),
-    prisma.manuscript.count({ where: { status: { in: ["MINOR_REVISION", "MAJOR_REVISION"] } } }),
+    prisma.manuscript.count({ where: { ...assignmentScope, status: "SUBMITTED" } }),
+    prisma.manuscript.count({ where: { ...assignmentScope, status: "UNDER_SCREENING" } }),
+    prisma.manuscript.count({ where: { ...assignmentScope, status: "UNDER_REVIEW" } }),
+    prisma.manuscript.count({ where: { ...assignmentScope, status: { in: ["MINOR_REVISION", "MAJOR_REVISION"] } } }),
     prisma.manuscript.findMany({
       where: {
+        ...assignmentScope,
         status: {
-          in: ["SUBMITTED", "UNDER_SCREENING", "UNDER_REVIEW", "MINOR_REVISION", "MAJOR_REVISION"],
+          in: [...activeStatuses],
         },
         ...(q ? { title: { contains: q, mode: "insensitive" as const } } : {}),
       },

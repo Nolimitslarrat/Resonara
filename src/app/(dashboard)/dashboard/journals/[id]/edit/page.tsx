@@ -20,7 +20,7 @@ export default async function EditJournalPage({
   const session = await auth();
   if (
     !session?.user ||
-    !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)
+    !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)
   ) {
     redirect("/dashboard");
   }

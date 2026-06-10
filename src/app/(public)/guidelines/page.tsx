@@ -25,7 +25,7 @@ const sections = [
   {
     id: "peer-review",
     title: "Peer Review Policy",
-    content: `Resonara Publishers Pvt. Ltd.supports a structured peer review process. Reviewer selection and editorial handling may vary by journal, manuscript type, and subject area. The Managing Editor is responsible for the final editorial decision.`,
+    content: `Resonara Publishers Pvt. Ltd.supports a structured peer review process. Reviewer selection and editorial handling may vary by journal, manuscript type, and subject area. The Editor is responsible for the final editorial decision.`,
   },
   {
     id: "ethics",

@@ -6,9 +6,11 @@ import { revalidatePath } from "next/cache";
 import { Role } from "@prisma/client";
 import { hash } from "bcryptjs";
 
+const ASSIGNABLE_ROLES: Role[] = ["SUPER_ADMIN", "AUTHOR", "EDITOR", "REVIEWER"];
+
 export async function inviteUser(formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 
@@ -23,6 +25,10 @@ export async function inviteUser(formData: FormData) {
 
   if (!name || !email || !role || !password) {
     return { success: false, error: "Name, email, role, and password are required." };
+  }
+
+  if (!ASSIGNABLE_ROLES.includes(role)) {
+    return { success: false, error: "Invalid role selected." };
   }
 
   if (password.length < 6) {
@@ -74,6 +80,10 @@ export async function updateUserRole(userId: string, formData: FormData) {
 
   if (!role) {
     return { success: false, error: "Role is required." };
+  }
+
+  if (!ASSIGNABLE_ROLES.includes(role)) {
+    return { success: false, error: "Invalid role selected." };
   }
 
   if (userId === session.user.id) {
@@ -136,7 +146,7 @@ export async function updateUserProfile(formData: FormData) {
 
 export async function updateUserAdmin(userId: string, formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
     throw new Error("Unauthorized");
   }
 

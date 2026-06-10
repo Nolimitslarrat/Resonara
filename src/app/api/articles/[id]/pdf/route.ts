@@ -20,7 +20,7 @@ export async function GET(
   if (!article) return notFound();
 
   // Prefer PDF URL from Article record, fallback to latest manuscript version
-  let fileUrl = article.article?.pdfUrl || article.versions[0]?.fileUrl;
+  const fileUrl = article.article?.pdfUrl || article.versions[0]?.fileUrl;
 
   if (!fileUrl) return notFound();
 

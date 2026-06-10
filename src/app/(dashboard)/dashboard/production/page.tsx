@@ -11,7 +11,7 @@ export const metadata = { title: "Production Queue | Resonara Publishers Pvt. Lt
 export default async function ProductionQueuePage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "PRODUCTION", "MANAGING_EDITOR"].includes(session.user.role)) {
+  if (session.user.role !== "SUPER_ADMIN") {
     redirect("/dashboard");
   }
 

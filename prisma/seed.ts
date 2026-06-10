@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { Role, ManuscriptStatus } from "@prisma/client";
+import { ManuscriptStatus } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/prisma";
 
@@ -30,7 +30,7 @@ async function main() {
       name: "Dr. Rebecca Osei",
       email: "editor@nexschoolar.com",
       password,
-      role: "MANAGING_EDITOR",
+      role: "EDITOR",
       affiliation: "University of Science",
       orcid: "0000-0001-1234-5678",
     },
@@ -60,18 +60,6 @@ async function main() {
       role: "AUTHOR",
       affiliation: "University of Lagos",
       orcid: "0000-0003-9012-3456",
-    },
-  });
-
-  const production = await prisma.user.upsert({
-    where: { email: "production@nexschoolar.com" },
-    update: {},
-    create: {
-      name: "Sarah Mitchell",
-      email: "production@nexschoolar.com",
-      password,
-      role: "PRODUCTION",
-      affiliation: "NexScholar Editorial",
     },
   });
 
@@ -158,10 +146,9 @@ async function main() {
   console.log("✅ Seed complete!");
   console.log("\n📧 Demo accounts (password: password123):");
   console.log("  admin@nexschoolar.com     → Super Admin");
-  console.log("  editor@nexschoolar.com    → Managing Editor");
+  console.log("  editor@nexschoolar.com    -> Editor");
   console.log("  reviewer@nexschoolar.com  → Reviewer");
   console.log("  author@nexschoolar.com    → Author");
-  console.log("  production@nexschoolar.com → Production");
 }
 
 main()

@@ -11,7 +11,7 @@ export const metadata = { title: "DOI Manager | Resonara Publishers Pvt. Ltd." }
 export default async function DOIManagerPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "PRODUCTION"].includes(session.user.role)) redirect("/dashboard");
+  if (session.user.role !== "SUPER_ADMIN") redirect("/dashboard");
 
   const articles = await prisma.article.findMany({
     include: {

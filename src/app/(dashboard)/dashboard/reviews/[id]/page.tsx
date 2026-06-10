@@ -10,7 +10,7 @@ export default async function ReviewerAssignmentPage(props: { params: Promise<{ 
   const params = await props.params;
   const session = await auth();
   
-  if (!session?.user || session.user.role !== "REVIEWER") return notFound();
+  if (!session?.user || !["EDITOR", "REVIEWER"].includes(session.user.role)) return notFound();
 
   const assignment = await prisma.reviewerAssignment.findUnique({
     where: { id: params.id },

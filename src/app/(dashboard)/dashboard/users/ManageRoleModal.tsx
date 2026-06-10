@@ -64,8 +64,7 @@ export function ManageRoleModal({ userId, currentRole, userName }: { userId: str
                 >
                   <option value="AUTHOR">Author</option>
                   <option value="REVIEWER">Reviewer</option>
-                  <option value="MANAGING_EDITOR">Managing Editor</option>
-                  <option value="PRODUCTION">Production</option>
+                  <option value="EDITOR">Editor</option>
                   <option value="SUPER_ADMIN">Super Admin</option>
                 </select>
               </div>
