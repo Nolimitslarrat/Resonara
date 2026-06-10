@@ -11,7 +11,7 @@ export const metadata = {
 
 export default async function NewJournalPage() {
   const session = await auth();
-  if (!session?.user || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
+  if (!session?.user || session.user.role !== "SUPER_ADMIN") {
     redirect("/dashboard");
   }
 

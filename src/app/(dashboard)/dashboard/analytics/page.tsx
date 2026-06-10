@@ -8,7 +8,7 @@ export const metadata = { title: "Analytics | Resonara Publishers Pvt. Ltd." };
 export default async function AnalyticsPage() {
   const session = await auth();
   if (!session?.user) redirect("/login");
-  if (!["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) redirect("/dashboard");
+  if (session.user.role !== "SUPER_ADMIN") redirect("/dashboard");
 
   const [
     totalManuscripts,

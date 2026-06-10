@@ -69,7 +69,7 @@ export default async function ArticlesManagerPage(props: {
   const session = await auth();
   if (
     !session?.user ||
-    !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)
+    session.user.role !== "SUPER_ADMIN"
   ) {
     redirect("/dashboard");
   }

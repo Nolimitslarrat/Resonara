@@ -80,6 +80,7 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
               editors={availableEditors}
               editorAssignments={manuscript.editorAssignments}
               canAssignEditors={isSuperAdmin}
+              canPublish={isSuperAdmin}
             />
           )}
         </div>

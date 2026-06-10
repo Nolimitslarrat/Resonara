@@ -15,6 +15,7 @@ const eslintConfig = defineConfig([
     "replace.js",
     "replace_case.js",
     "test-update.ts",
+    "prisma/deploy.cjs",
   ]),
   {
     rules: {

@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 
 export async function publishArticle(manuscriptId: string) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
+  if (!session || session.user.role !== "SUPER_ADMIN") {
     throw new Error("Unauthorized");
   }
 
@@ -74,7 +74,7 @@ export async function publishArticle(manuscriptId: string) {
 
 export async function unpublishArticle(manuscriptId: string) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
+  if (!session || session.user.role !== "SUPER_ADMIN") {
     throw new Error("Unauthorized");
   }
 

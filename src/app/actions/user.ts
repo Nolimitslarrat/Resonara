@@ -10,7 +10,7 @@ const ASSIGNABLE_ROLES: Role[] = ["SUPER_ADMIN", "AUTHOR", "EDITOR", "REVIEWER"]
 
 export async function inviteUser(formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
+  if (!session || session.user.role !== "SUPER_ADMIN") {
     throw new Error("Unauthorized");
   }
 
@@ -146,7 +146,7 @@ export async function updateUserProfile(formData: FormData) {
 
 export async function updateUserAdmin(userId: string, formData: FormData) {
   const session = await auth();
-  if (!session || !["SUPER_ADMIN", "EDITOR"].includes(session.user.role)) {
+  if (!session || session.user.role !== "SUPER_ADMIN") {
     throw new Error("Unauthorized");
   }
 

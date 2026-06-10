@@ -29,6 +29,7 @@ type Props = {
   editors: Person[];
   editorAssignments: EditorAssignment[];
   canAssignEditors: boolean;
+  canPublish: boolean;
 };
 
 export function EditorActions({
@@ -39,6 +40,7 @@ export function EditorActions({
   editors,
   editorAssignments,
   canAssignEditors,
+  canPublish,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [selectedReviewers, setSelectedReviewers] = useState<string[]>([]);
@@ -186,7 +188,7 @@ export function EditorActions({
             Record Decision
           </Button>
         )}
-        {currentStatus === "ACCEPTED" && (
+        {canPublish && currentStatus === "ACCEPTED" && (
           <Button onClick={handlePublish} disabled={loading} className="bg-blue-700 hover:bg-blue-800 text-white gap-2">
             <CheckCircle2 className="w-4 h-4" /> Publish Article
           </Button>
