@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getNumericId } from "@/lib/utils";
 
 export async function submitManuscript(formData: FormData) {
   const session = await auth();
@@ -107,7 +108,7 @@ export async function submitManuscript(formData: FormData) {
       type: "SUBMISSION_RECEIVED",
       title: "Manuscript Submitted",
       message: `Your manuscript "${title}" has been successfully submitted and is now under screening.`,
-      link: `/dashboard/manuscripts/${manuscript.id}`
+      link: `/dashboard/manuscripts/${getNumericId(manuscript.id)}`
     });
 
     // Notify Admins/Editors
@@ -115,7 +116,7 @@ export async function submitManuscript(formData: FormData) {
       type: "SUBMISSION_RECEIVED",
       title: "New Submission",
       message: `A new manuscript "${title}" has been submitted to your journal.`,
-      link: `/dashboard/manuscripts/${manuscript.id}`
+      link: `/dashboard/manuscripts/${getNumericId(manuscript.id)}`
     });
 
     revalidatePath("/dashboard");

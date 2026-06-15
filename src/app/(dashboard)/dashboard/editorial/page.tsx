@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ClipboardList, ArrowRight, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
-import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, formatDate, getNumericId } from "@/lib/utils";
 
 export const metadata = { title: "Editorial Queue | Resonara Publishers Pvt. Ltd." };
 
@@ -115,7 +115,7 @@ export default async function EditorialPage({ searchParams }: { searchParams: Pr
                         {m.title}
                       </p>
                       <p className="text-xs text-[var(--muted)] mt-0.5 font-mono">
-                        {m.id.slice(0, 8).toUpperCase()}
+                        {getNumericId(m.id)}
                       </p>
                     </td>
                     <td className="px-6 py-4 text-[var(--muted)] text-sm">{m.author.name}</td>
@@ -144,7 +144,7 @@ export default async function EditorialPage({ searchParams }: { searchParams: Pr
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <Link href={`/dashboard/manuscripts/${m.id}`}>
+                      <Link href={`/dashboard/manuscripts/${getNumericId(m.id)}`}>
                         <Button size="sm" variant="ghost" className="gap-1 text-[var(--brand-600)]">
                           Manage <ArrowRight className="w-3.5 h-3.5" />
                         </Button>

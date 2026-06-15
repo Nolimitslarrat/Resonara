@@ -46,13 +46,6 @@ export default async function JournalsIndexPage(props: {
           }}
         />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 text-[var(--brand-300)] text-xs font-bold uppercase tracking-widest mb-4">
-            <BookOpen className="w-3.5 h-3.5" />
-            Resonara Publishers Pvt. Ltd.Journals
-          </div>
-          <h1 className="text-5xl font-editorial font-bold mb-4 leading-tight">
-            Journals A–Z
-          </h1>
           <p className="text-[var(--brand-200)] max-w-xl mx-auto text-base mb-10">
             Browse our collection of peer-reviewed academic journals spanning
             multiple disciplines.

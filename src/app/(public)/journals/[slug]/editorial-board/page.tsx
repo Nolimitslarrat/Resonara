@@ -119,10 +119,14 @@ export default async function EditorialBoardPage(props: {
               </span>
             </div>
             <div className="p-8 flex flex-col sm:flex-row gap-6 items-start">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--brand-100)] to-[var(--brand-200)] flex items-center justify-center flex-shrink-0 shadow-inner">
-                <span className="text-2xl font-editorial font-bold text-[var(--brand-700)]">
-                  {journal.editorInChief.name?.charAt(0).toUpperCase()}
-                </span>
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--brand-100)] to-[var(--brand-200)] flex items-center justify-center flex-shrink-0 shadow-inner overflow-hidden">
+                {journal.editorInChief.image ? (
+                  <img src={journal.editorInChief.image} alt={journal.editorInChief.name || "Editor"} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl font-editorial font-bold text-[var(--brand-700)]">
+                    {journal.editorInChief.name?.charAt(0).toUpperCase()}
+                  </span>
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-2xl font-editorial font-bold text-[var(--brand-900)] mb-1">
@@ -161,7 +165,7 @@ export default async function EditorialBoardPage(props: {
                       className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-600)] hover:text-[var(--brand-800)] transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5" />
-                      Contact
+                      {journal.editorInChief.email}
                     </a>
                   )}
                   {journal.editorInChief.orcid && (
@@ -231,10 +235,14 @@ export default async function EditorialBoardPage(props: {
                     className="bg-white rounded-2xl border border-[var(--border)] shadow-sm hover:shadow-md transition-shadow p-6 group"
                   >
                     <div className="flex items-start gap-4">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--brand-100)] to-[var(--brand-200)] flex items-center justify-center flex-shrink-0 shadow-inner group-hover:from-[var(--brand-200)] group-hover:to-[var(--brand-300)] transition-all">
-                        <span className="text-xl font-editorial font-bold text-[var(--brand-700)]">
-                          {member.user.name?.charAt(0).toUpperCase()}
-                        </span>
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--brand-100)] to-[var(--brand-200)] flex items-center justify-center flex-shrink-0 shadow-inner group-hover:from-[var(--brand-200)] group-hover:to-[var(--brand-300)] transition-all overflow-hidden">
+                        {member.user.image ? (
+                          <img src={member.user.image} alt={member.user.name || "Board Member"} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-xl font-editorial font-bold text-[var(--brand-700)]">
+                            {member.user.name?.charAt(0).toUpperCase()}
+                          </span>
+                        )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-bold text-[var(--brand-900)] text-base leading-tight mb-0.5 truncate">
@@ -271,7 +279,15 @@ export default async function EditorialBoardPage(props: {
                       </div>
                     )}
 
-                    <div className="mt-4 pt-4 border-t border-[var(--border)] flex gap-3">
+                    <div className="mt-4 pt-4 border-t border-[var(--border)] flex flex-wrap gap-3">
+                      {member.user.email && (
+                        <a
+                          href={`mailto:${member.user.email}`}
+                          className="text-[10px] font-bold text-[var(--brand-600)] hover:text-[var(--brand-800)] flex items-center gap-1 transition-colors"
+                        >
+                          <Mail className="w-3 h-3" /> {member.user.email}
+                        </a>
+                      )}
                       {member.user.orcid && (
                         <a
                           href={`https://orcid.org/${member.user.orcid}`}

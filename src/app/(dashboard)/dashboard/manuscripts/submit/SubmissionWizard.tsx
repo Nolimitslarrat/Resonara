@@ -74,7 +74,8 @@ export function SubmissionWizard({ journals, categories, defaultJournalId }: Pro
     const result = await submitManuscript(formData);
     
     if (result.success) {
-      router.push(`/dashboard/manuscripts/${result.manuscriptId}/success`);
+      const { getNumericId } = await import("@/lib/utils");
+      router.push(`/dashboard/manuscripts/${getNumericId(result.manuscriptId as string)}/success`);
     } else {
       setIsSubmitting(false);
       alert("Error submitting manuscript: " + result.error);

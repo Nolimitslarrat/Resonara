@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { ChevronLeft, FileText, CheckCircle2, XCircle, Users, Clock } from "lucide-react";
-import { formatDate, getStatusLabel, getStatusClass } from "@/lib/utils";
+import { formatDate, getStatusLabel, getStatusClass, getNumericId } from "@/lib/utils";
 import { EditorActions } from "./EditorActions";
 
 export default async function ManuscriptDetailPage(props: { params: Promise<{ id: string }> }) {
@@ -12,29 +12,46 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
   
   if (!session?.user) return notFound();
 
-  const manuscript = await prisma.manuscript.findUnique({
-    where: { id: params.id },
-    include: {
-      author: true,
-      journal: true,
-      coAuthors: true,
-      reviewerAssignments: {
-        include: { reviewer: true, review: true }
-      },
-      editorAssignments: {
-        include: { editor: true },
-        orderBy: { assignedAt: "desc" }
-      },
-      activityLogs: {
-        orderBy: { createdAt: "desc" },
-        include: { user: true }
-      },
-      versions: {
-        orderBy: { version: "desc" },
-        take: 1
-      }
+  const include = {
+    author: true,
+    journal: true,
+    coAuthors: true,
+    reviewerAssignments: {
+      include: { reviewer: true, review: true }
+    },
+    editorAssignments: {
+      include: { editor: true },
+      orderBy: { assignedAt: "desc" as const }
+    },
+    activityLogs: {
+      orderBy: { createdAt: "desc" as const },
+      include: { user: true }
+    },
+    versions: {
+      orderBy: { version: "desc" as const },
+      take: 1
     }
+  };
+
+  // Try direct CUID lookup first; fall back to numeric-id hash lookup
+  let manuscript = await prisma.manuscript.findUnique({
+    where: { id: params.id },
+    include,
   });
+
+  if (!manuscript) {
+    // params.id might be a numeric hash — scan and match
+    const all = await prisma.manuscript.findMany({
+      select: { id: true },
+    });
+    const matched = all.find((m) => getNumericId(m.id) === params.id);
+    if (matched) {
+      manuscript = await prisma.manuscript.findUnique({
+        where: { id: matched.id },
+        include,
+      });
+    }
+  }
 
   if (!manuscript) return notFound();
 
@@ -66,7 +83,7 @@ export default async function ManuscriptDetailPage(props: { params: Promise<{ id
               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusClass(manuscript.status)}`}>
                 {getStatusLabel(manuscript.status)}
               </span>
-              <span className="text-sm font-medium text-[var(--muted)]">ID: {manuscript.id.slice(0, 8).toUpperCase()}</span>
+              <span className="text-sm font-medium text-[var(--muted)]">ID: {getNumericId(manuscript.id)}</span>
             </div>
             <h1 className="text-3xl font-editorial font-bold text-[var(--brand-900)] leading-tight">{manuscript.title}</h1>
           </div>

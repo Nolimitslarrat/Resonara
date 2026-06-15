@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 export const dynamic = 'force-dynamic';
 
-import { Search, ArrowRight, BookOpen, FileText, Users, ShieldCheck, ChevronRight } from "lucide-react";
+import { Search, ArrowRight, BookOpen, FileText, Users, ShieldCheck, ChevronRight, Mail, Phone } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
@@ -312,26 +312,23 @@ export default async function PublicHomePage() {
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-            <div className="bg-[var(--brand-50)] p-10 rounded-3xl border border-[var(--brand-100)] text-left hover:shadow-md transition-shadow">
-              <h3 className="text-2xl font-bold text-[var(--brand-900)] mb-4">Connect With Us</h3>
-              <p className="text-[var(--muted)] mb-8 text-lg">
-                Have questions about our publishing guidelines or timelines? Get in touch with our team today.
-              </p>
-              <div className="space-y-4 mb-8">
-                <a href="mailto:info@resonarapublishers.com" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><FileText className="w-5 h-5" /></div>
-                  info@resonarapublishers.com
-                </a>
-                <a href="tel:9818499209" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
-                  <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><Users className="w-5 h-5" /></div>
-                  +91 9818499209
-                </a>
+            <div className="bg-[var(--brand-50)] p-10 rounded-3xl border border-[var(--brand-100)] text-left hover:shadow-md transition-shadow flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold text-[var(--brand-900)] mb-4">Connect With Us</h3>
+                <p className="text-[var(--muted)] mb-8 text-lg">
+                  Have questions about our publishing guidelines or timelines? Get in touch with our team today.
+                </p>
+                <div className="space-y-4 mb-8">
+                  <a href="mailto:info@resonarapublishers.com" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><Mail className="w-5 h-5" /></div>
+                    info@resonarapublishers.com
+                  </a>
+                  <a href="tel:9818499209" className="flex items-center gap-3 text-[var(--brand-700)] hover:text-[var(--brand-900)] font-semibold transition-colors">
+                    <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"><Phone className="w-5 h-5" /></div>
+                    +91 9818499209
+                  </a>
+                </div>
               </div>
-              <Link href="/contact">
-                <Button className="w-full bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105">
-                  Schedule a Consultation <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
             </div>
             
             <div className="bg-[var(--surface-elevated)] p-10 rounded-3xl border border-[var(--border)] text-left shadow-sm hover:shadow-md transition-shadow">
@@ -339,16 +336,18 @@ export default async function PublicHomePage() {
               <p className="text-[var(--muted)] mb-8 text-lg">
                 Share your manuscript through our secure portal and track its progress through the peer-review process.
               </p>
-              <Link href="/dashboard/manuscripts/submit">
-                <Button className="w-full bg-white border-2 border-[var(--brand-200)] text-[var(--brand-900)] hover:bg-[var(--brand-50)] rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105 mb-4">
-                  Submit Manuscript <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button variant="ghost" className="w-full text-[var(--muted)] hover:text-[var(--brand-700)] hover:bg-transparent rounded-xl py-6 text-base font-bold transition-colors">
-                  Become a Reviewer
-                </Button>
-              </Link>
+              <div className="flex flex-col gap-4">
+                <Link href="/dashboard/manuscripts/submit">
+                  <Button className="w-full bg-white border-2 border-[var(--brand-200)] text-[var(--brand-900)] hover:bg-[var(--brand-50)] rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105">
+                    Submit Manuscript <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/register">
+                  <Button className="w-full bg-[var(--brand-900)] hover:bg-[var(--brand-800)] text-white rounded-xl py-6 text-base font-bold shadow-sm transition-transform hover:scale-105">
+                    Become a Reviewer <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

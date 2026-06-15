@@ -219,6 +219,16 @@ export function InviteUserModal({
                   </div>
                 </div>
 
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-1 text-xs">Profile Photo (Optional)</label>
+                  <Input
+                    name="imageFile"
+                    type="file"
+                    accept="image/*"
+                    className="file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[var(--brand-50)] file:text-[var(--brand-700)] hover:file:bg-[var(--brand-100)] text-xs h-11 pt-2.5"
+                  />
+                </div>
+
                 {/* Password */}
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-1">Set Password *</label>

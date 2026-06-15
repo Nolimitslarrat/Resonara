@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/ui/SearchInput";
-import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, formatDate, getNumericId } from "@/lib/utils";
 
 export const metadata = {
   title: "Manuscripts | Resonara Publishers Pvt. Ltd.",
@@ -86,7 +86,7 @@ export default async function ManuscriptsPage({ searchParams }: { searchParams: 
                 <tr key={m.id} className="hover:bg-[var(--surface)] transition-colors">
                   <td className="px-6 py-4">
                     <p className="font-semibold text-[var(--foreground)] line-clamp-1 max-w-[300px]">{m.title}</p>
-                    <p className="text-xs text-[var(--muted)] mt-1">{m.id.split("-")[0].toUpperCase()}</p>
+                    <p className="text-xs text-[var(--muted)] mt-1">{getNumericId(m.id)}</p>
                   </td>
                   <td className="px-6 py-4 text-[var(--muted)] text-sm">{m.author.name}</td>
                   <td className="px-6 py-4 text-[var(--muted)] text-sm">{m.journal.title}</td>
@@ -97,7 +97,7 @@ export default async function ManuscriptsPage({ searchParams }: { searchParams: 
                   </td>
                   <td className="px-6 py-4 text-xs text-[var(--muted)]">{formatDate(m.updatedAt)}</td>
                   <td className="px-6 py-4 text-right">
-                    <Link href={`/dashboard/manuscripts/${m.id}`}>
+                    <Link href={`/dashboard/manuscripts/${getNumericId(m.id)}`}>
                       <Button size="sm" variant="ghost" className="gap-1 text-[var(--brand-600)]">
                         View <ArrowRight className="w-3.5 h-3.5" />
                       </Button>

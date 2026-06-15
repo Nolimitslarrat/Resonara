@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { getNumericId } from "@/lib/utils";
 import type { ManuscriptStatus } from "@prisma/client";
 
 export async function updateManuscriptStatus(manuscriptId: string, status: ManuscriptStatus, comment: string) {
@@ -40,7 +41,7 @@ export async function updateManuscriptStatus(manuscriptId: string, status: Manus
         type: "GENERAL",
         title: "Manuscript Status Updated",
         message: `The status of your manuscript "${manuscript.title}" has been updated to: ${status.replace(/_/g, ' ')}.`,
-        link: `/dashboard/manuscripts/${manuscriptId}`
+        link: `/dashboard/manuscripts/${getNumericId(manuscriptId)}`
       });
     }
 
@@ -93,7 +94,7 @@ export async function assignEditor(manuscriptId: string, editorId: string) {
       type: "GENERAL",
       title: "New Editorial Assignment",
       message: "A manuscript has been assigned to you for editorial handling.",
-      link: `/dashboard/manuscripts/${manuscriptId}`,
+      link: `/dashboard/manuscripts/${getNumericId(manuscriptId)}`,
     });
 
     revalidatePath("/dashboard");

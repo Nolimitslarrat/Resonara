@@ -4,15 +4,22 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Search, Bell, Sun, Moon, ChevronRight, Menu } from "lucide-react";
 import { useAppTheme } from "@/components/providers/ThemeProvider";
+import { getNumericId } from "@/lib/utils";
 import Link from "next/link";
 
 function Breadcrumb() {
   const pathname = usePathname();
   const parts = pathname.split("/").filter(Boolean);
-  const crumbs = parts.map((part, i) => ({
-    label: part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " "),
-    href: "/" + parts.slice(0, i + 1).join("/"),
-  }));
+  const crumbs = parts.map((part, i) => {
+    let label = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " ");
+    if (part.length >= 20 && /^[a-zA-Z0-9_]+$/.test(part)) {
+      label = `#${getNumericId(part)}`;
+    }
+    return {
+      label,
+      href: "/" + parts.slice(0, i + 1).join("/"),
+    };
+  });
   return (
     <nav className="hidden md:flex items-center gap-1 text-sm">
       {crumbs.map((crumb, i) => (

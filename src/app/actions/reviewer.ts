@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { getNumericId } from "@/lib/utils";
 
 export async function acceptReview(assignmentId: string) {
   const session = await auth();
@@ -26,7 +27,7 @@ export async function acceptReview(assignmentId: string) {
         type: "REVIEW_ACCEPTED",
         title: "Review Invitation Accepted",
         message: `${assignment.reviewer.name} has accepted the invitation to review "${assignment.manuscript.title}".`,
-        link: `/dashboard/manuscripts/${assignment.manuscriptId}`
+        link: `/dashboard/manuscripts/${getNumericId(assignment.manuscriptId)}`
       });
     }
 
@@ -59,7 +60,7 @@ export async function declineReview(assignmentId: string) {
         type: "REVIEW_DECLINED",
         title: "Review Invitation Declined",
         message: `${assignment.reviewer.name} has declined the invitation to review "${assignment.manuscript.title}".`,
-        link: `/dashboard/manuscripts/${assignment.manuscriptId}`
+        link: `/dashboard/manuscripts/${getNumericId(assignment.manuscriptId)}`
       });
     }
 
@@ -133,7 +134,7 @@ export async function submitReview(formData: FormData) {
         type: "REVIEW_COMPLETED",
         title: "Review Submitted",
         message: `${fullAssignment.reviewer.name} has submitted their review for "${fullAssignment.manuscript.title}".`,
-        link: `/dashboard/manuscripts/${fullAssignment.manuscriptId}`
+        link: `/dashboard/manuscripts/${getNumericId(fullAssignment.manuscriptId)}`
       });
     }
 

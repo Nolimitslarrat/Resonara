@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { ChevronLeft, CheckCircle2, FileText, Rocket, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getStatusLabel, getStatusClass } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, getNumericId } from "@/lib/utils";
 import { updateManuscriptStatus } from "@/app/actions/editor";
 
 export const metadata = {
@@ -19,7 +19,7 @@ export default async function ProductionManagerPage(props: { params: Promise<{ i
     redirect("/dashboard");
   }
 
-  const manuscript = await prisma.manuscript.findUnique({
+  let manuscript = await prisma.manuscript.findUnique({
     where: { id: params.id },
     include: {
       journal: true,
@@ -27,6 +27,17 @@ export default async function ProductionManagerPage(props: { params: Promise<{ i
       coAuthors: true
     }
   });
+
+  if (!manuscript) {
+    const allManuscripts = await prisma.manuscript.findMany({
+      include: {
+        journal: true,
+        author: true,
+        coAuthors: true
+      }
+    });
+    manuscript = allManuscripts.find((m) => getNumericId(m.id) === params.id) || null;
+  }
 
   if (!manuscript) return notFound();
 
@@ -43,7 +54,7 @@ export default async function ProductionManagerPage(props: { params: Promise<{ i
             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusClass(manuscript.status)}`}>
               {getStatusLabel(manuscript.status)}
             </span>
-            <span className="text-xs font-mono text-[var(--muted)]">ID: {manuscript.id}</span>
+            <span className="text-xs font-mono text-[var(--muted)]">ID: {getNumericId(manuscript.id)}</span>
           </div>
           
           <h1 className="text-2xl sm:text-3xl font-editorial font-bold text-[var(--foreground)] mb-3 leading-tight">

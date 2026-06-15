@@ -7,6 +7,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function getNumericId(id: string): string {
+  if (!id) return "";
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const positiveHash = Math.abs(hash);
+  return String(positiveHash).padStart(8, "0").slice(0, 8);
+}
+
 export function formatDate(date: Date | string | null | undefined, fmt = "MMM d, yyyy") {
   if (!date) return "—";
   return format(new Date(date), fmt);

@@ -35,14 +35,49 @@ export function SubscriptionEngine({
   const [accessType, setAccessType] = useState("ARTICLE");
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [formKey, setFormKey] = useState(0);
 
   async function handleCreate(formData: FormData) {
+    const userId = formData.get("userId");
+    const articleId = formData.get("articleId");
+    const journalId = formData.get("journalId");
+
+    if (!userId) {
+      setMessage("Please select a subscriber.");
+      return;
+    }
+
+    if (accessType === "ARTICLE") {
+      if (articles.length === 0) {
+        setMessage("No articles available to grant access.");
+        return;
+      }
+      if (!articleId) {
+        setMessage("Please select an article.");
+        return;
+      }
+    } else {
+      if (journals.length === 0) {
+        setMessage("No journals available to grant access.");
+        return;
+      }
+      if (!journalId) {
+        setMessage("Please select a journal.");
+        return;
+      }
+    }
+
     setPending(true);
     setMessage(null);
     formData.set("accessType", accessType);
     const result = await createSubscriptionAccess(formData);
     setPending(false);
-    setMessage(result.success ? "Subscription access granted." : result.error || "Failed to grant access.");
+    if (result.success) {
+      setMessage("Subscription access granted.");
+      setFormKey((prev) => prev + 1);
+    } else {
+      setMessage(result.error || "Failed to grant access.");
+    }
   }
 
   async function handleRevoke(id: string) {
@@ -51,6 +86,20 @@ export function SubscriptionEngine({
     const result = await revokeSubscriptionAccess(id);
     setPending(false);
     if (!result.success) alert(result.error || "Failed to revoke access.");
+  }
+
+  async function handleToggleActive(sub: SubscriptionItem) {
+    const formData = new FormData();
+    formData.set("startsAt", new Date(sub.startsAt).toISOString().slice(0, 10));
+    formData.set("endsAt", new Date(sub.endsAt).toISOString().slice(0, 10));
+    formData.set("isActive", (!sub.isActive).toString());
+    formData.set("notes", sub.notes || "");
+    setPending(true);
+    const result = await updateSubscriptionAccess(sub.id, formData);
+    setPending(false);
+    if (!result.success) {
+      alert(result.error || "Failed to update status.");
+    }
   }
 
   async function handleQuickExtend(id: string, startsAt: Date, days: number) {
@@ -69,7 +118,7 @@ export function SubscriptionEngine({
 
   return (
     <div className="space-y-8">
-      <form action={handleCreate} className="bg-white rounded-xl border border-[var(--border)] shadow-sm p-6 space-y-5">
+      <form key={formKey} action={handleCreate} className="bg-white rounded-xl border border-[var(--border)] shadow-sm p-6 space-y-5">
         <div className="flex items-center justify-between gap-4">
           <div>
             <h2 className="text-base font-bold text-[var(--foreground)]">Grant Subscription Access</h2>
@@ -190,11 +239,18 @@ export function SubscriptionEngine({
                         {sub.isActive && !expired ? "ACTIVE" : "INACTIVE"}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button size="sm" variant="outline" disabled={pending} onClick={() => handleQuickExtend(sub.id, sub.startsAt, 30)}>30d</Button>
-                        <Button size="sm" variant="outline" disabled={pending} onClick={() => handleQuickExtend(sub.id, sub.startsAt, 365)}>1y</Button>
-                        <Button size="sm" variant="ghost" disabled={pending} onClick={() => handleRevoke(sub.id)} className="text-red-600 hover:bg-red-50">
+                     <td className="px-6 py-4 text-right">
+                      <div className="flex justify-end gap-3 items-center">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={pending}
+                          onClick={() => handleToggleActive(sub)}
+                          className={sub.isActive ? "text-amber-600 border-amber-200 hover:bg-amber-50 h-8 text-xs" : "text-emerald-600 border-emerald-200 hover:bg-emerald-50 h-8 text-xs"}
+                        >
+                          {sub.isActive ? "Deactivate" : "Activate"}
+                        </Button>
+                        <Button size="sm" variant="ghost" disabled={pending} onClick={() => handleRevoke(sub.id)} className="text-red-600 hover:bg-red-50 h-8 w-8 p-0 flex items-center justify-center">
                           <XCircle className="w-4 h-4" />
                         </Button>
                       </div>

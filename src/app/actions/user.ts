@@ -23,6 +23,18 @@ export async function inviteUser(formData: FormData) {
   const institutionalProfile = formData.get("institutionalProfile") as string;
   const apidProfile = formData.get("apidProfile") as string;
 
+  const file = formData.get("imageFile") as File | null;
+  let image = undefined;
+  if (file && file.size > 0) {
+    try {
+      const { saveFileLocally } = await import("@/lib/storage");
+      const uploadedFileInfo = await saveFileLocally(file);
+      image = uploadedFileInfo.url;
+    } catch (e) {
+      console.error("Invite user image upload error", e);
+    }
+  }
+
   if (!name || !email || !role || !password) {
     return { success: false, error: "Name, email, role, and password are required." };
   }
@@ -58,6 +70,7 @@ export async function inviteUser(formData: FormData) {
         institutionalProfile: institutionalProfile || null,
         apidProfile: apidProfile || null,
         isActive: true,
+        ...(image && { image }),
       },
     });
 
@@ -118,6 +131,18 @@ export async function updateUserProfile(formData: FormData) {
   const institutionalProfile = formData.get("institutionalProfile") as string;
   const apidProfile = formData.get("apidProfile") as string;
 
+  const file = formData.get("imageFile") as File | null;
+  let image = undefined;
+  if (file && file.size > 0) {
+    try {
+      const { saveFileLocally } = await import("@/lib/storage");
+      const uploadedFileInfo = await saveFileLocally(file);
+      image = uploadedFileInfo.url;
+    } catch (e) {
+      console.error("Profile image upload error", e);
+    }
+  }
+
   if (!name) {
     return { success: false, error: "Name is required." };
   }
@@ -133,6 +158,7 @@ export async function updateUserProfile(formData: FormData) {
         designation: designation || null,
         institutionalProfile: institutionalProfile || null,
         apidProfile: apidProfile || null,
+        ...(image && { image }),
       },
     });
 
@@ -159,6 +185,18 @@ export async function updateUserAdmin(userId: string, formData: FormData) {
   const institutionalProfile = formData.get("institutionalProfile") as string;
   const apidProfile = formData.get("apidProfile") as string;
 
+  const file = formData.get("imageFile") as File | null;
+  let image = undefined;
+  if (file && file.size > 0) {
+    try {
+      const { saveFileLocally } = await import("@/lib/storage");
+      const uploadedFileInfo = await saveFileLocally(file);
+      image = uploadedFileInfo.url;
+    } catch (e) {
+      console.error("Admin user image upload error", e);
+    }
+  }
+
   if (!name || !email) {
     return { success: false, error: "Name and email are required." };
   }
@@ -175,6 +213,7 @@ export async function updateUserAdmin(userId: string, formData: FormData) {
         designation: designation || null,
         institutionalProfile: institutionalProfile || null,
         apidProfile: apidProfile || null,
+        ...(image && { image }),
       },
     });
 

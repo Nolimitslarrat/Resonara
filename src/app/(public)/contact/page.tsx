@@ -52,8 +52,8 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-[var(--brand-600)] mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Phone</p>
-                  <p className="text-sm font-semibold text-[var(--foreground)]">9818499209</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Phone &amp; WhatsApp</p>
+                  <a href="tel:+918602264005" className="text-sm font-semibold text-[var(--foreground)] hover:text-[var(--brand-600)] transition-colors">+91 8602264005</a>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -67,7 +67,7 @@ export default function ContactPage() {
                 <Clock className="w-5 h-5 text-[var(--brand-600)]" />
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-[var(--muted)]">Working Hours</p>
-                  <p className="text-sm font-semibold text-[var(--foreground)]">Monday to Friday</p>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">Monday to Saturday</p>
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { getNumericId } from "@/lib/utils";
 
 export async function publishArticle(manuscriptId: string) {
   const session = await auth();
@@ -57,7 +58,7 @@ export async function publishArticle(manuscriptId: string) {
       type: "ARTICLE_PUBLISHED",
       title: "Article Published!",
       message: `Congratulations! Your article "${manuscript.title}" has been officially published in ${manuscript.journal.title}.`,
-      link: `/articles/${manuscript.id}`
+      link: `/articles/${getNumericId(manuscript.id)}`
     });
 
     revalidatePath("/dashboard");
@@ -114,7 +115,7 @@ export async function unpublishArticle(manuscriptId: string) {
       type: "GENERAL",
       title: "Article Unpublished",
       message: `Your article "${manuscript.title}" has been unpublished from ${manuscript.journal.title}.`,
-      link: `/dashboard/manuscripts/${manuscript.id}`
+      link: `/dashboard/manuscripts/${getNumericId(manuscript.id)}`
     });
 
     revalidatePath("/dashboard");

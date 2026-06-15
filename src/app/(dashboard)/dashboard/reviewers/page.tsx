@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Users, Search, Star, Fingerprint, Building2 } from "lucide-react";
+import { Users, Star, Fingerprint, Building2 } from "lucide-react";
 import { SearchInput } from "@/components/ui/SearchInput";
-import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
+import { DeleteUserButton } from "@/app/(dashboard)/dashboard/users/DeleteUserButton";
 
 export const metadata = { title: "Reviewers | Resonara Publishers Pvt. Ltd." };
 
@@ -35,6 +35,7 @@ export default async function ReviewersPage({ searchParams }: { searchParams: Pr
   });
 
   const activeCount = reviewers.filter((r) => r.isActive).length;
+  const isSuperAdmin = session.user.role === "SUPER_ADMIN";
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 animate-fade-in-up pb-12">
@@ -122,6 +123,9 @@ export default async function ReviewersPage({ searchParams }: { searchParams: Pr
 
               <div className="mt-4 pt-4 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--muted)]">
                 <span>Joined {formatDate(reviewer.createdAt)}</span>
+                {isSuperAdmin && (
+                  <DeleteUserButton userId={reviewer.id} userName={reviewer.name ?? reviewer.email} />
+                )}
               </div>
             </div>
           ))

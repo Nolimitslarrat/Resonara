@@ -4,7 +4,7 @@ import { FileText, Eye, AlertCircle, Globe, Plus, ArrowRight } from "lucide-reac
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getStatusLabel, getStatusClass, timeAgo } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, timeAgo, getNumericId } from "@/lib/utils";
 import type { ManuscriptStatus } from "@prisma/client";
 
 interface Manuscript {
@@ -93,7 +93,7 @@ export function AuthorDashboard({ stats, manuscripts }: Props) {
                         <span className="text-[10px] md:text-xs text-[var(--muted)]">Updated {timeAgo(m.updatedAt)}</span>
                       </div>
                     </div>
-                    <Link href={`/dashboard/manuscripts/${m.id}`} className="w-full md:w-auto">
+                    <Link href={`/dashboard/manuscripts/${getNumericId(m.id)}`} className="w-full md:w-auto">
                       <Button size="sm" variant={isRevision ? "default" : "outline"} className="gap-1 w-full md:w-auto flex-shrink-0">
                         {isRevision ? "Action Required" : "View Details"}
                         <ArrowRight className="w-3.5 h-3.5" />

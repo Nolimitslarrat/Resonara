@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Printer, ArrowRight, Clock, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getStatusLabel, getStatusClass, formatDate } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, formatDate, getNumericId } from "@/lib/utils";
 
 export const metadata = { title: "Production Queue | Resonara Publishers Pvt. Ltd." };
 
@@ -104,7 +104,7 @@ export default async function ProductionQueuePage() {
                         {m.title}
                       </p>
                       <p className="text-xs font-mono text-[var(--muted)] mt-0.5">
-                        {m.id.slice(0, 8).toUpperCase()}
+                        {getNumericId(m.id)}
                       </p>
                     </td>
                     <td className="px-6 py-4 text-[var(--muted)] text-sm">{m.author.name}</td>

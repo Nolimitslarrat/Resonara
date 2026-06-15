@@ -46,8 +46,8 @@ function LoginForm() {
     <div className="space-y-8 animate-fade-in-up">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Welcome back</h1>
-        <p className="text-[var(--muted)] text-sm">Sign in to your Resonara Publishers Pvt. Ltd.account to continue.</p>
+        <h1 className="text-2xl font-bold tracking-tight text-[var(--foreground)]">Welcome</h1>
+        <p className="text-[var(--muted)] text-sm">Sign in to your Resonara Publishers Pvt. Ltd. account to continue.</p>
       </div>
 
       {/* Error */}
@@ -91,12 +91,13 @@ function LoginForm() {
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
               autoComplete="current-password"
-              className="pr-10"
+              className="pr-10 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden [&::-webkit-credentials-auto-fill-button]:hidden"
             />
             <button
               type="button"
               onClick={() => setShowPass(!showPass)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+              tabIndex={-1}
             >
               {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>

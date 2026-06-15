@@ -4,7 +4,7 @@ import { FileText, Clock, AlertTriangle, CheckCircle2, ArrowRight, PenLine } fro
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getStatusLabel, getStatusClass, timeAgo } from "@/lib/utils";
+import { getStatusLabel, getStatusClass, timeAgo, getNumericId } from "@/lib/utils";
 import type { ManuscriptStatus } from "@prisma/client";
 
 interface Manuscript {
@@ -117,7 +117,7 @@ export function EditorDashboard({ stats, manuscripts }: Props) {
                 ) : manuscripts.map((m) => (
                   <tr key={m.id} className="hover:bg-[var(--surface)] transition-colors cursor-pointer">
                     <td className="px-6 py-4">
-                      <Link href={`/dashboard/manuscripts/${m.id}`} className="font-medium text-[var(--foreground)] hover:text-[var(--brand-600)] line-clamp-1 max-w-[250px] block">
+                      <Link href={`/dashboard/manuscripts/${getNumericId(m.id)}`} className="font-medium text-[var(--foreground)] hover:text-[var(--brand-600)] line-clamp-1 max-w-[250px] block">
                         {m.title}
                       </Link>
                     </td>

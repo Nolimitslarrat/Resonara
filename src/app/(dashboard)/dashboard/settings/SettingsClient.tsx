@@ -158,6 +158,19 @@ export default function SettingsClient({ user }: { user: PrismaUser | null }) {
                 placeholder="https://apid.org/profile/..."
               />
             </div>
+            <div className="space-y-2 sm:col-span-2">
+              <Label htmlFor="imageFile" className="flex items-center gap-2">
+                <User className="w-3.5 h-3.5" /> Profile Photo (Optional)
+              </Label>
+              <Input
+                id="imageFile"
+                name="imageFile"
+                type="file"
+                accept="image/*"
+                className="file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[var(--brand-50)] file:text-[var(--brand-700)] hover:file:bg-[var(--brand-100)]"
+              />
+              <p className="text-xs text-[var(--muted)]">Upload a square image for best results (Max 2MB).</p>
+            </div>
           </div>
 
           <div className="space-y-2">

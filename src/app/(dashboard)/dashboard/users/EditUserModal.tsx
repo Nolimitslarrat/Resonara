@@ -144,6 +144,17 @@ export function EditUserModal({ user }: { user: UserData }) {
               </div>
 
               <div className="space-y-1">
+                <Label htmlFor="imageFile" className="text-xs font-bold">Profile Photo (Optional)</Label>
+                <Input
+                  id="imageFile"
+                  name="imageFile"
+                  type="file"
+                  accept="image/*"
+                  className="file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[var(--brand-50)] file:text-[var(--brand-700)] hover:file:bg-[var(--brand-100)] text-xs h-10 pt-2"
+                />
+              </div>
+
+              <div className="space-y-1">
                 <Label htmlFor="bio" className="text-xs font-bold">Biography (Optional)</Label>
                 <textarea
                   id="bio"
