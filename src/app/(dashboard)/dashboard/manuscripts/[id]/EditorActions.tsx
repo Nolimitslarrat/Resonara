@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { UserPlus, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
 import { assignEditor, assignReviewer, updateManuscriptStatus } from "@/app/actions/editor";
 import type { ManuscriptStatus, ReviewStatus } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 type Person = {
   id: string;
@@ -42,6 +43,7 @@ export function EditorActions({
   canAssignEditors,
   canPublish,
 }: Props) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [selectedReviewers, setSelectedReviewers] = useState<string[]>([]);
   const [selectedEditors, setSelectedEditors] = useState<string[]>([]);
@@ -61,20 +63,28 @@ export function EditorActions({
     if (selectedReviewers.length === 0) return;
     setLoading(true);
     for (const rid of selectedReviewers) {
-      await assignReviewer(manuscriptId, rid);
+      const res = await assignReviewer(manuscriptId, rid);
+      if (!res.success) {
+        alert(res.error || "Failed to assign reviewer");
+      }
     }
     setSelectedReviewers([]);
     setLoading(false);
+    router.refresh();
   };
 
   const handleEditorAssign = async () => {
     if (selectedEditors.length === 0) return;
     setLoading(true);
     for (const editorId of selectedEditors) {
-      await assignEditor(manuscriptId, editorId);
+      const res = await assignEditor(manuscriptId, editorId);
+      if (!res.success) {
+        alert(res.error || "Failed to assign editor");
+      }
     }
     setSelectedEditors([]);
     setLoading(false);
+    router.refresh();
   };
 
   const toggleReviewer = (rid: string) => {
@@ -91,9 +101,13 @@ export function EditorActions({
 
   const handleDecision = async (status: ManuscriptStatus) => {
     setLoading(true);
-    await updateManuscriptStatus(manuscriptId, status, comment);
+    const res = await updateManuscriptStatus(manuscriptId, status, comment);
+    if (!res.success) {
+      alert(res.error || "Failed to record decision");
+    }
     setShowDecision(false);
     setLoading(false);
+    router.refresh();
   };
 
   return (

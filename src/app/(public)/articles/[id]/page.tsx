@@ -3,10 +3,11 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = 'force-dynamic';
 
 import Link from "next/link";
-import { ChevronLeft, Download, FileText, Share2, Quote, BookOpen } from "lucide-react";
+import { ChevronLeft, Download, FileText, Share2, BookOpen } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { Metadata, ResolvingMetadata } from "next";
+import ShareButton from "@/components/article/ShareButton";
 
 export async function generateMetadata(
   props: { params: Promise<{ id: string }> },
@@ -194,12 +195,7 @@ export default async function ArticlePage(props: { params: Promise<{ id: string 
                 <Download className="w-5 h-5 mr-2" /> Download PDF
               </Button>
             </Link>
-            <Button variant="outline" className="border-[var(--border)] text-[var(--brand-700)] hover:bg-[var(--brand-50)] rounded-full px-6 py-6 font-semibold shadow-sm">
-              <Quote className="w-5 h-5 mr-2" /> Cite
-            </Button>
-            <Button variant="outline" className="border-[var(--border)] text-[var(--brand-700)] hover:bg-[var(--brand-50)] rounded-full px-6 py-6 font-semibold shadow-sm">
-              <Share2 className="w-5 h-5 mr-2" /> Share
-            </Button>
+            <ShareButton title={article.title} url={`https://resonarapublishers.com/articles/${article.id}`} />
           </div>
         </div>
       </div>

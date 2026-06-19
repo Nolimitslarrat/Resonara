@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BookOpen, Calendar, Printer, ShieldCheck, CreditCard, Building2, HelpCircle, Check, ArrowRight } from "lucide-react";
+import { BookOpen, Calendar, Printer, ShieldCheck, CreditCard, Building2, Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -100,8 +100,8 @@ export default function SubscriptionsPage() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                     <div>
                       <span className="text-sm font-semibold text-slate-500 uppercase tracking-wider">Annual Price</span>
-                      <div className="text-4xl sm:text-5xl font-editorial font-bold text-[var(--brand-900)] mt-1">
-                        Rs. 3,500<span className="text-lg font-sans font-normal text-slate-500"> / year</span>
+                      <div className="text-4xl sm:text-5xl font-sans font-bold text-[var(--brand-900)] mt-1 tracking-tight">
+                        INR. 3,500<span className="text-lg font-sans font-normal text-slate-500"> / year</span>
                       </div>
                     </div>
                     
@@ -201,37 +201,7 @@ export default function SubscriptionsPage() {
         </div>
       </section>
 
-      {/* ── FAQ Section ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 space-y-4">
-            <HelpCircle className="w-10 h-10 text-[var(--brand-500)] mx-auto" />
-            <h3 className="text-3xl font-editorial font-bold text-[var(--brand-900)]">Subscription FAQs</h3>
-          </div>
 
-          <div className="space-y-6">
-            {[
-              {
-                q: "How can I obtain a GST Invoice for my institutional purchase?",
-                a: "Please email your institution name, GSTIN, and registration details to info@resonarapublishers.com. Our accounts department will generate and share a formal tax invoice with you."
-              },
-              {
-                q: "When are the bi-annual print issues dispatched?",
-                a: "Dispatches occur twice a year, typically in June and December. Subscribers receive a tracking code via email as soon as the speed post leaves our warehouse."
-              },
-              {
-                q: "Can we request multi-year institutional subscriptions?",
-                a: "Yes, we support multi-year subscription plans (3-year and 5-year terms) at discounted rates. Contact our subscription team to receive a custom proposal."
-              }
-            ].map((faq, idx) => (
-              <div key={idx} className="bg-slate-50 border border-slate-200 p-6 rounded-2xl">
-                <h5 className="font-bold text-[var(--brand-900)] text-base mb-2">{faq.q}</h5>
-                <p className="text-slate-600 text-sm leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

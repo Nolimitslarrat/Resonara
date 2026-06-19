@@ -125,13 +125,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
             <div className="md:col-span-4 space-y-6">
               <div className="flex items-center">
-                <Link href="/" className="relative w-80 h-40 flex items-center justify-center bg-white/5 rounded-3xl p-6 backdrop-blur-xl border border-white/10 shadow-[inner_0_2px_10px_rgba(255,255,255,0.05)] hover:bg-white/10 transition-all duration-500 group overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50"></div>
-                  <img 
-                    src="/logo.png" 
-                    alt="Resonara Publishers Pvt. Ltd.Logo" 
-                    className="object-contain w-full h-full drop-shadow-2xl brightness-0 invert opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500 relative z-10" 
-                  />
+                <Link href="/" className="flex items-center group">
+                  <div className="relative h-20 w-56 md:h-32 md:w-80 flex items-center justify-center transition-all duration-500 group-hover:scale-105">
+                    <img 
+                      src="/logo.png" 
+                      alt="Resonara Publishers Pvt. Ltd." 
+                      className="object-contain w-full h-full filter drop-shadow-md scale-110 md:scale-110" 
+                    />
+                  </div>
                 </Link>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed max-w-sm">

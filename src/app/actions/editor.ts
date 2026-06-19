@@ -153,6 +153,8 @@ export async function assignReviewer(manuscriptId: string, reviewerId: string) {
     });
 
     revalidatePath("/dashboard");
+    revalidatePath("/dashboard/manuscripts");
+    revalidatePath(`/dashboard/manuscripts/${manuscriptId}`);
     return { success: true };
   } catch (error) {
     console.error("Failed to assign reviewer", error);

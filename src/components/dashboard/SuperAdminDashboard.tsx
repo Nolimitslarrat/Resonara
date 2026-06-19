@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, BookOpen, Users, TrendingUp, Activity, ArrowUpRight, Plus, UserPlus, LockKeyhole } from "lucide-react";
+import { FileText, BookOpen, Users, TrendingUp, ArrowUpRight, Plus, UserPlus, LockKeyhole } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -72,33 +72,8 @@ export function SuperAdminDashboard({ stats, recentLogs }: Props) {
         <StatCard title="Published Articles" value={stats.publishedArticles} icon={TrendingUp} trend="+18% this month" color="bg-emerald-600" />
       </div>
 
-      {/* Charts + Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart placeholder */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base">Submission Trends</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-52 flex items-end gap-2 px-2">
-              {["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"].map((m, i) => {
-                const h = [40,55,35,70,85,60,90,75,80,65,95,88][i];
-                return (
-                  <div key={m} className="flex-1 flex flex-col items-center gap-1">
-                    <div
-                      className="w-full rounded-t-lg bg-[var(--brand-600)] opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
-                      style={{ height: `${h * 1.8}px` }}
-                      title={`${m}: ${h} submissions`}
-                    />
-                    <span className="text-[10px] text-[var(--muted)]">{m.slice(0,1)}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Activity Feed */}
+      {/* Recent Activity */}
+      <div className="max-w-3xl">
         <Card>
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
@@ -126,64 +101,6 @@ export function SuperAdminDashboard({ stats, recentLogs }: Props) {
                   </div>
                 ))
               )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick stats row */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        <Link href="/dashboard/subscriptions">
-          <Card className="card-hover h-full">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
-                  <LockKeyhole className="w-5 h-5 text-indigo-600" />
-                </div>
-                <div>
-                  <p className="text-base font-bold text-[var(--foreground)]">Subscription Engine</p>
-                  <p className="text-xs text-[var(--muted)]">Grant article and journal access</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-        <Card className="card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                <Activity className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-[var(--foreground)]">94%</p>
-                <p className="text-xs text-[var(--muted)]">Reviewer acceptance rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-emerald-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-[var(--foreground)]">28%</p>
-                <p className="text-xs text-[var(--muted)]">Acceptance rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="card-hover">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                <FileText className="w-5 h-5 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-[var(--foreground)]">18d</p>
-                <p className="text-xs text-[var(--muted)]">Avg. review turnaround</p>
-              </div>
             </div>
           </CardContent>
         </Card>

@@ -252,7 +252,7 @@ export async function updateJournal(id: string, formData: FormData) {
   }
 }
 
-export async function deleteJournal(id: string) {
+export async function deleteJournal(id: string, forceDelete = false) {
   const session = await auth();
   if (!session || session.user.role !== "SUPER_ADMIN") {
     throw new Error("Unauthorized");
@@ -275,16 +275,69 @@ export async function deleteJournal(id: string) {
       return { success: false, error: "Journal not found." };
     }
 
-    if (journal._count.manuscripts > 0 || journal._count.issues > 0) {
+    const hasLinkedRecords =
+      journal._count.manuscripts > 0 || journal._count.issues > 0;
+
+    if (hasLinkedRecords && !forceDelete) {
       return {
         success: false,
-        error: "This journal has manuscripts or issues. Deactivate it instead, or remove linked records first.",
+        error: `This journal has ${journal._count.manuscripts} article(s) and ${journal._count.issues} issue(s) linked to it. Enable "Delete associated articles" to remove everything.`,
+        hasLinkedRecords: true,
+        manuscriptCount: journal._count.manuscripts,
+        issueCount: journal._count.issues,
       };
     }
 
-    await prisma.editorialBoard.deleteMany({ where: { journalId: id } });
-    await prisma.subscriptionAccess.deleteMany({ where: { journalId: id } });
-    await prisma.journal.delete({ where: { id } });
+    // Cascade-delete everything inside a single transaction for atomicity
+    await prisma.$transaction(async (tx) => {
+      if (hasLinkedRecords) {
+        // Fetch all manuscript ids for this journal
+        const manuscripts = await tx.manuscript.findMany({
+          where: { journalId: id },
+          select: { id: true },
+        });
+        const manuscriptIds = manuscripts.map((m) => m.id);
+
+        if (manuscriptIds.length > 0) {
+          // Fetch article IDs linked to these manuscripts
+          const articleRecords = await tx.article.findMany({
+            where: { manuscriptId: { in: manuscriptIds } },
+            select: { id: true },
+          });
+          const articleIds = articleRecords.map((a) => a.id);
+
+          // Delete child records of manuscripts
+          await tx.review.deleteMany({
+            where: { manuscriptId: { in: manuscriptIds } },
+          });
+          await tx.coAuthor.deleteMany({
+            where: { manuscriptId: { in: manuscriptIds } },
+          });
+          // Delete subscription access rows tied to articles
+          if (articleIds.length > 0) {
+            await tx.subscriptionAccess.deleteMany({
+              where: { articleId: { in: articleIds } },
+            });
+          }
+          // Delete published article records linked to manuscripts
+          await tx.article.deleteMany({
+            where: { manuscriptId: { in: manuscriptIds } },
+          });
+          // Finally delete the manuscripts themselves
+          await tx.manuscript.deleteMany({
+            where: { journalId: id },
+          });
+        }
+
+        // Delete issues
+        await tx.issue.deleteMany({ where: { journalId: id } });
+      }
+
+      // Always clean up these before deleting the journal
+      await tx.editorialBoard.deleteMany({ where: { journalId: id } });
+      await tx.subscriptionAccess.deleteMany({ where: { journalId: id } });
+      await tx.journal.delete({ where: { id } });
+    });
 
     revalidatePath("/dashboard/journals");
     revalidatePath("/journals");
